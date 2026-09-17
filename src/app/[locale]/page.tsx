@@ -1,12 +1,10 @@
 import { isLocale, locales, type Locale } from "@/lib/i18n/locales";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { Hero } from "@/components/villa/Hero";
-import { Concept } from "@/components/villa/Concept";
-import { Amenities } from "@/components/villa/Amenities";
-import { Gallery } from "@/components/villa/Gallery";
-import { Rooms } from "@/components/villa/Rooms";
-import { Contact } from "@/components/villa/Contact";
+import { LevelsTour } from "@/components/villa/LevelsTour";
+import { UnderConstruction } from "@/components/villa/UnderConstruction";
 import { notFound } from "next/navigation";
+import { CONTACT } from "@/lib/contact";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -27,9 +25,9 @@ export default async function HomePage({
     name: "Villa Elk",
     description: dict.meta.description,
     url: `https://www.villaelk.com/${locale}`,
-    email: "villaelkkech@gmail.com",
-    telephone: "+212632809000",
-    image: "https://www.villaelk.com/images/villa-elk/pool-rooftop-sunset.jpg",
+    email: CONTACT.email,
+    telephone: `+${CONTACT.whatsapp}`,
+    image: "https://www.villaelk.com/images/villa-elk/pool-terrace-sunset.jpg",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Golf Argan Resort, extension, Villa 2",
@@ -54,11 +52,8 @@ export default async function HomePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(lodgingSchema) }}
       />
       <Hero dict={dict} />
-      <Concept dict={dict} />
-      <Rooms dict={dict} />
-      <Amenities dict={dict} />
-      <Gallery dict={dict} />
-      <Contact dict={dict} />
+      <LevelsTour dict={dict} />
+      <UnderConstruction dict={dict} />
     </>
   );
 }

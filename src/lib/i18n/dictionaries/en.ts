@@ -17,6 +17,8 @@ export const en = {
   hero: {
     eyebrow: "Golf Argan · Agdal · Marrakech",
     title: "Villa Elk",
+    threshold: "Step across the threshold.",
+    scroll: "Enter",
     subtitle:
       "A modern, clean-lined city villa spread across three levels, in the heart of Marrakech's Agdal district.",
     cta: "Discover the villa",
@@ -32,18 +34,46 @@ export const en = {
       { value: "03", label: "Levels" },
     ],
   },
+  tour: {
+    eyebrow: "The villa",
+    title: "Level by level",
+    levelLabel: "Level",
+    levels: [
+      {
+        code: "0",
+        name: "Ground floor",
+        title: "Live",
+        body: "Past the threshold, the lounges and dining room open straight onto the terrace and the private pool.",
+        spaces: ["Moroccan salon", "Lounge & fireplace", "Dining room", "Pool & terrace", "Barbecue corner"],
+      },
+      {
+        code: "−1",
+        name: "Lower level",
+        title: "Restore",
+        body: "Below, sheltered from the heat: the hammam, a gym opening onto a bamboo patio, and the cinema room.",
+        spaces: ["Hammam", "Gym", "Cinema room"],
+      },
+      {
+        code: "+1",
+        name: "Upper floor",
+        title: "Sleep",
+        body: "Upstairs, four bedrooms welcome up to ten guests, with marble bathrooms.",
+        spaces: ["4 bedrooms", "Marble bathrooms", "Up to 10 guests"],
+      },
+    ],
+  },
   amenities: {
     eyebrow: "Amenities",
     title: "What the villa offers",
     items: {
-      piscine: "Private rooftop pool",
+      piscine: "Private pool & terrace",
       hammam: "Hammam & spa",
       jardin: "Landscaped garden",
       gym: "Gym",
       cinema: "Private home cinema",
       parking: "Secure parking",
       climatisation: "Full air conditioning",
-      barbecue: "Rooftop barbecue corner",
+      barbecue: "Terrace barbecue corner",
     },
   },
   gallery: {
@@ -70,6 +100,15 @@ export const en = {
     name: "Fatima-Zahra",
     whatsappCta: "Message on WhatsApp",
     emailCta: "Send an email",
+  },
+  building: {
+    eyebrow: "Site under construction",
+    title: "More is on its way",
+    body: "Online booking, the gallery, amenities and practical information are being prepared. In the meantime, write to us directly: we reply within 24 hours.",
+  },
+  theme: {
+    toDark: "Switch to dark mode",
+    toLight: "Switch to light mode",
   },
   footer: {
     description: "Villa Elk — Golf Argan Resort, Agdal, Marrakech.",

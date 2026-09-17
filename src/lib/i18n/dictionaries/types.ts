@@ -14,6 +14,8 @@ export interface Dictionary {
   hero: {
     eyebrow: string;
     title: string;
+    threshold: string;
+    scroll: string;
     subtitle: string;
     cta: string;
     bookCta: string;
@@ -23,6 +25,12 @@ export interface Dictionary {
     title: string;
     body: string;
     stats: { value: string; label: string }[];
+  };
+  tour: {
+    eyebrow: string;
+    title: string;
+    levelLabel: string;
+    levels: { code: string; name: string; title: string; body: string; spaces: string[] }[];
   };
   amenities: {
     eyebrow: string;
@@ -57,6 +65,15 @@ export interface Dictionary {
     name: string;
     whatsappCta: string;
     emailCta: string;
+  };
+  building: {
+    eyebrow: string;
+    title: string;
+    body: string;
+  };
+  theme: {
+    toDark: string;
+    toLight: string;
   };
   footer: {
     description: string;

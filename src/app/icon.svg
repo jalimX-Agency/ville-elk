@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Villa Elk">
+  <title>Villa Elk</title>
+  <rect width="200" height="200" rx="44" fill="#B4684A"/>
+  <g transform="translate(26.0 26.0) scale(0.74)" fill="#FBF7F1">
+    <path fill-rule="evenodd" d="M 28 190 L 28 80 L 46 80 L 46 57.1 L 64 57.1 L 64 38.8 L 79 38.8 L 79 25 L 89.5 25 C 93 23 97 18.5 100 12 C 103 18.5 107 23 110.5 25 L 121 25 L 121 38.8 L 136 38.8 L 136 57.1 L 154 57.1 L 154 80 L 172 80 L 172 190 Z M 67 190 L 67 93.8 C 67 80 97 62 100 57.1 C 103 62 133 80 133 93.8 L 133 190 Z"/>
+    <path d="M 100 89.2 C 96 100 85.5 108 85 121 C 84.6 132 95 138 100 144.2 C 105 138 115.4 132 115 121 C 114.5 108 104 100 100 89.2 Z"/>
+  </g>
+</svg>

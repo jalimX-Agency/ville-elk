@@ -17,6 +17,8 @@ export const es = {
   hero: {
     eyebrow: "Golf Argan · Agdal · Marrakech",
     title: "Villa Elk",
+    threshold: "Cruce el umbral.",
+    scroll: "Entrar",
     subtitle:
       "Una villa urbana de arquitectura moderna y depurada, distribuida en tres niveles, en el corazón del barrio turístico de Agdal.",
     cta: "Descubrir la villa",
@@ -32,11 +34,39 @@ export const es = {
       { value: "03", label: "Niveles" },
     ],
   },
+  tour: {
+    eyebrow: "La villa",
+    title: "Nivel a nivel",
+    levelLabel: "Nivel",
+    levels: [
+      {
+        code: "0",
+        name: "Planta baja",
+        title: "Vivir",
+        body: "Cruzado el umbral, los salones y el comedor se abren directamente a la terraza y a la piscina privada.",
+        spaces: ["Salón marroquí", "Salón y chimenea", "Comedor", "Piscina y terraza", "Rincón de barbacoa"],
+      },
+      {
+        code: "−1",
+        name: "Nivel inferior",
+        title: "Recuperarse",
+        body: "Abajo, al resguardo del calor: el hammam, un gimnasio abierto a un patio de bambú y la sala de cine.",
+        spaces: ["Hammam", "Gimnasio", "Sala de cine"],
+      },
+      {
+        code: "+1",
+        name: "Planta alta",
+        title: "Descansar",
+        body: "Arriba, cuatro dormitorios acogen hasta diez huéspedes, con baños de mármol.",
+        spaces: ["4 dormitorios", "Baños de mármol", "Hasta 10 huéspedes"],
+      },
+    ],
+  },
   amenities: {
     eyebrow: "Servicios",
     title: "Lo que ofrece la villa",
     items: {
-      piscine: "Piscina privada en la azotea",
+      piscine: "Piscina privada y terraza",
       hammam: "Hammam y spa",
       jardin: "Jardín paisajístico",
       gym: "Gimnasio",
@@ -70,6 +100,15 @@ export const es = {
     name: "Fatima-Zahra",
     whatsappCta: "Escribir por WhatsApp",
     emailCta: "Enviar un email",
+  },
+  building: {
+    eyebrow: "Sitio en construcción",
+    title: "Pronto habrá más",
+    body: "La reserva en línea, la galería, los servicios y la información práctica están en preparación. Mientras tanto, escríbanos directamente: respondemos en menos de 24 horas.",
+  },
+  theme: {
+    toDark: "Cambiar a modo oscuro",
+    toLight: "Cambiar a modo claro",
   },
   footer: {
     description: "Villa Elk — Golf Argan Resort, Agdal, Marrakech.",

@@ -7,16 +7,14 @@ import { Menu, X } from "lucide-react";
 import { locales, localeNames, type Locale } from "@/lib/i18n/locales";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 import { cn } from "@/lib/utils";
-
-const sections = [
-  { href: "#concept", key: "home" as const },
-  { href: "#chambres", key: "rooms" as const },
-  { href: "#galerie", key: "gallery" as const },
-  { href: "#prestations", key: "amenities" as const },
-  { href: "#contact", key: "contact" as const },
-];
+import { Logo } from "@/components/brand/Logo";
 
 export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+  // Only sections that exist while the site is being built.
+  const sections = [
+    { href: "#niveaux", label: dict.tour.eyebrow },
+    { href: "#bientot", label: dict.nav.contact },
+  ];
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -41,14 +39,14 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
       )}
     >
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-6">
-        <Link href={`/${locale}`} className="heading-display text-lg tracking-tight text-foreground">
-          Villa Elk
+        <Link href={`/${locale}`} aria-label="Villa Elk" className="shrink-0">
+          <Logo variant="horizontal" hairline className="w-[150px] sm:w-[178px]" />
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
           {sections.map((s) => (
             <a key={s.href} href={s.href} className="eyebrow text-foreground/70 hover:text-primary">
-              {dict.nav[s.key]}
+              {s.label}
             </a>
           ))}
         </nav>
@@ -69,7 +67,7 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
               </Link>
             ))}
           </div>
-          <a href="#contact" className="btn-primary hidden lg:inline-flex">
+          <a href="#bientot" className="btn-primary hidden lg:inline-flex">
             {dict.nav.bookNow}
           </a>
           <button
@@ -91,7 +89,7 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
               onClick={() => setOpen(false)}
               className="heading-display text-3xl text-foreground"
             >
-              {dict.nav[s.key]}
+              {s.label}
             </a>
           ))}
           <div className="flex gap-3 pt-4">
