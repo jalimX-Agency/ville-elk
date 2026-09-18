@@ -89,7 +89,6 @@ const AMENITIES: Amenity[] = [
       },
     },
   },
-  // No photograph yet — the list shows these as type until the shoot lands.
   {
     id: "cinema",
     order: 5,
@@ -100,7 +99,15 @@ const AMENITIES: Amenity[] = [
       es: "Sala de cine privada",
       ar: "قاعة سينما خاصة",
     },
-    image: null,
+    image: {
+      src: "/images/villa-elk/cinema-lounge-red.jpg",
+      alt: {
+        fr: "La salle de cinéma et sa banquette de velours",
+        en: "The cinema room and its velvet daybed",
+        es: "La sala de cine y su diván de terciopelo",
+        ar: "قاعة السينما وأريكتها المخملية",
+      },
+    },
   },
   {
     id: "parking",
@@ -112,8 +119,17 @@ const AMENITIES: Amenity[] = [
       es: "Garaje interior seguro",
       ar: "مرآب داخلي آمن",
     },
-    image: null,
+    image: {
+      src: "/images/villa-elk/garage.jpg",
+      alt: {
+        fr: "Le garage couvert à l'entrée de la villa",
+        en: "The covered garage at the villa entrance",
+        es: "El garaje cubierto en la entrada de la villa",
+        ar: "المرآب المغطى عند مدخل الفيلا",
+      },
+    },
   },
+  // No photograph yet — these show as type until the shoot lands.
   {
     id: "barbecue",
     order: 7,
