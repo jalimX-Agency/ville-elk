@@ -65,16 +65,6 @@ export const fr = {
   amenities: {
     eyebrow: "Prestations",
     title: "Ce que la villa réserve",
-    items: {
-      piscine: "Piscine privée & terrasse",
-      hammam: "Hammam & spa",
-      jardin: "Jardin paysager",
-      gym: "Salle de sport",
-      cinema: "Salle de cinéma privée",
-      parking: "Parking sécurisé",
-      climatisation: "Climatisation intégrale",
-      barbecue: "Coin barbecue sur la terrasse",
-    },
   },
   gallery: {
     eyebrow: "Visite",

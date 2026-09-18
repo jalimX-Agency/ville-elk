@@ -65,16 +65,6 @@ export const ar = {
   amenities: {
     eyebrow: "الخدمات",
     title: "ما تقدمه الفيلا",
-    items: {
-      piscine: "مسبح خاص وتراس",
-      hammam: "حمام مغربي وسبا",
-      jardin: "حديقة منسقة",
-      gym: "قاعة رياضية",
-      cinema: "قاعة سينما خاصة",
-      parking: "موقف سيارات آمن",
-      climatisation: "تكييف هواء شامل",
-      barbecue: "ركن للشواء على التراس",
-    },
   },
   gallery: {
     eyebrow: "جولة داخل الفيلا",

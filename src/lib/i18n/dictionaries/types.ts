@@ -35,16 +35,6 @@ export interface Dictionary {
   amenities: {
     eyebrow: string;
     title: string;
-    items: {
-      piscine: string;
-      hammam: string;
-      jardin: string;
-      gym: string;
-      cinema: string;
-      parking: string;
-      climatisation: string;
-      barbecue: string;
-    };
   };
   gallery: {
     eyebrow: string;
