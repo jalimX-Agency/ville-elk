@@ -27,12 +27,12 @@ type Size = { w: number; h: number; rtl: boolean };
 
 function restLayout({ w, h, rtl }: Size) {
   const wide = w >= 900;
-  let gateH = wide ? h * 0.72 : h * 0.46;
-  gateH = Math.min(gateH, (w * (wide ? 0.42 : 0.74)) * (GATE_H / 144));
+  let gateH = wide ? h * 0.72 : h * 0.34;
+  gateH = Math.min(gateH, (w * (wide ? 0.42 : 0.78)) * (GATE_H / 144));
   const s0 = gateH / GATE_H;
   // Copy sits on the reading-start side; the gate takes the other side.
   const cx = wide ? w * (rtl ? 0.36 : 0.64) : w * 0.5;
-  const baseY = wide ? h * 0.9 : h * 0.6;
+  const baseY = wide ? h * 0.9 : h * 0.44;
   const px = cx;
   const py = baseY - (BASE_Y - ORIGIN.y) * s0;
   const kEnd =
@@ -84,17 +84,29 @@ export function Hero({ dict }: { dict: Dictionary }) {
   useIsoLayoutEffect(() => apply(scrollYProgress.get()), [apply, scrollYProgress]);
   useMotionValueEvent(scrollYProgress, "change", apply);
 
-  const imageScale = useTransform(scrollYProgress, [0, OPEN_BY], reduce ? [1, 1] : [1.18, 1]);
+  // A portrait photo in a portrait viewport leaves nothing to pan, so on phones the
+  // image starts zoomed from its bottom edge — that puts the terrace in the gate —
+  // and unwinds to the full frame as the gate opens.
+  const narrow = size.w < 900;
+  const imageScale = useTransform(scrollYProgress, (p) => {
+    if (reduce) return 1;
+    const from = narrow ? 1.9 : 1.18;
+    const t = Math.min(1, Math.max(0, p / OPEN_BY));
+    return from + (1 - from) * (t * t * (3 - 2 * t));
+  });
   const lineOpacity = useTransform(scrollYProgress, [0, 0.32], reduce ? [1, 1] : [1, 0]);
 
   return (
     <section
       ref={sectionRef}
       aria-labelledby="hero-title"
-      className={reduce ? "relative h-[100svh]" : "relative h-[240vh]"}
+      className={reduce ? "relative h-[100svh]" : "relative h-[170vh] lg:h-[240vh]"}
     >
       <div ref={stageRef} className="sticky top-0 h-[100svh] overflow-hidden">
-        <motion.div style={{ scale: imageScale }} className="absolute inset-0">
+        <motion.div
+          style={{ scale: imageScale, transformOrigin: narrow ? "50% 100%" : "50% 50%" }}
+          className="absolute inset-0"
+        >
           <Image
             src="/images/villa-elk/pool-terrace-sunset.jpg"
             alt=""
@@ -161,18 +173,18 @@ function HeroCopy({
     <>
       <motion.div
         style={{ opacity, y }}
-        className="absolute inset-x-0 bottom-0 px-6 pb-10 lg:inset-y-0 lg:end-auto lg:flex lg:w-[46%] lg:flex-col lg:justify-end lg:pb-[10vh] lg:ps-[5vw]"
+        className="absolute inset-x-0 bottom-0 px-6 pb-28 lg:inset-y-0 lg:end-auto lg:flex lg:w-[46%] lg:flex-col lg:justify-end lg:pb-[10vh] lg:ps-[5vw]"
       >
         <h1 id="hero-title" className="max-w-xl">
           <span className="eyebrow block text-primary">
             {dict.hero.title} — {dict.hero.eyebrow}
           </span>
-          <span className="heading-display mt-5 block text-[clamp(2.9rem,6.6vw,6.75rem)] text-foreground">
+          <span className="heading-display mt-4 block text-[clamp(2rem,8.5vw,6.75rem)] text-foreground lg:mt-5">
             {dict.hero.threshold}
           </span>
         </h1>
-        <p className="body-copy mt-6 max-w-md text-base sm:text-lg">{dict.hero.subtitle}</p>
-        <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+        <p className="body-copy mt-4 max-w-md text-sm sm:text-base lg:mt-6 lg:text-lg">{dict.hero.subtitle}</p>
+        <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-4 lg:mt-8">
           <a href="#bientot" className="btn-primary">
             {dict.hero.bookCta}
           </a>

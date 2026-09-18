@@ -71,9 +71,11 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
             {dict.nav.bookNow}
           </a>
           <button
-            className="lg:hidden"
+            className="-me-2.5 grid h-11 w-11 place-items-center lg:hidden"
             onClick={() => setOpen(!open)}
             aria-label="Menu"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -81,7 +83,7 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
       </div>
 
       {open && (
-        <div className="fixed inset-0 top-20 flex flex-col items-center justify-center gap-8 bg-background/98 backdrop-blur-xl lg:hidden">
+        <div id="mobile-menu" className="fixed inset-0 top-20 flex flex-col items-center justify-center gap-8 bg-background/98 backdrop-blur-xl lg:hidden">
           {sections.map((s) => (
             <a
               key={s.href}
@@ -92,6 +94,9 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
               {s.label}
             </a>
           ))}
+          <a href="#bientot" onClick={() => setOpen(false)} className="btn-primary mt-2">
+            {dict.nav.bookNow}
+          </a>
           <div className="flex gap-3 pt-4">
             {locales.map((l) => (
               <Link

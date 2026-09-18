@@ -94,7 +94,7 @@ body {
   color: var(--primary-foreground);
 }
 
-@layer utilities {
+@layer components {
   .heading-display {
     font-family: var(--display-face);
     font-weight: 400;
@@ -109,10 +109,17 @@ body {
 
   .eyebrow {
     font-family: var(--mono-face);
-    font-size: 0.7rem;
+    /* Never below 12px: mono caps at 11px read as noise on a phone */
+    font-size: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
+  }
+  @media (min-width: 1024px) {
+    .eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.24em;
+    }
   }
   :root[dir="rtl"] .eyebrow {
     font-size: 0.8rem;
