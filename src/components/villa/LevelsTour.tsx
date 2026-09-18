@@ -5,7 +5,6 @@ import Image from "next/image";
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
 import { GATE_OUTLINE, GATE_SILHOUETTE } from "@/components/brand/logo-paths";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
-import { cn } from "@/lib/utils";
 
 type Shot = { src: string; alt: string };
 
@@ -32,14 +31,7 @@ export function LevelsTour({ dict }: { dict: Dictionary }) {
   const reduce = useReducedMotion();
   return (
     <section id="niveaux" aria-labelledby="tour-title" className="relative">
-      {!reduce && (
-        <div className="hidden lg:block">
-          <PinnedTour dict={dict} />
-        </div>
-      )}
-      <div className={cn(!reduce && "lg:hidden")}>
-        <StackedTour dict={dict} />
-      </div>
+      {reduce ? <StackedTour dict={dict} /> : <PinnedTour dict={dict} />}
     </section>
   );
 }
@@ -64,93 +56,108 @@ function PinnedTour({ dict }: { dict: Dictionary }) {
   // Going up, the new floor rises in from below; going down, it drops in from above.
   const wipeFrom = dir > 0 ? "inset(100% 0 0 0)" : "inset(0 0 100% 0)";
 
+  const images = (
+    <>
+      <div className="absolute inset-y-0 end-0 w-[82%] overflow-hidden bg-muted">
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={shots.main.src}
+            initial={{ clipPath: wipeFrom }}
+            animate={{ clipPath: "inset(0% 0 0% 0)" }}
+            transition={{ duration: 0.9, ease: EASE }}
+            className="absolute inset-0"
+          >
+            <Image src={`/images/villa-elk/${shots.main.src}`} alt={shots.main.alt} fill sizes="(max-width: 1024px) 80vw, 45vw" className="object-cover" />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      <div className="absolute bottom-0 start-0 z-10 aspect-[4/5] w-[30%] overflow-hidden border-[5px] border-background bg-muted lg:bottom-[-4vh] lg:w-[34%] lg:border-[6px]">
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={shots.detail.src}
+            initial={{ clipPath: wipeFrom }}
+            animate={{ clipPath: "inset(0% 0 0% 0)" }}
+            transition={{ duration: 0.9, delay: 0.12, ease: EASE }}
+            className="absolute inset-0"
+          >
+            <Image src={`/images/villa-elk/${shots.detail.src}`} alt={shots.detail.alt} fill sizes="(max-width: 1024px) 30vw, 20vw" className="object-cover" />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </>
+  );
+
+  const copy = (
+    <AnimatePresence initial={false} mode="popLayout">
+      <motion.div
+        key={level.code}
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -16 }}
+        transition={{ duration: 0.55, ease: EASE }}
+      >
+        <p className="eyebrow text-muted-foreground">
+          {dict.tour.levelLabel} {level.code} — {level.name}
+        </p>
+        <h3 className="heading-display mt-2 text-3xl text-foreground sm:text-4xl lg:mt-3 lg:text-5xl">{level.title}</h3>
+        <p className="body-copy mt-3 max-w-md text-sm sm:text-base lg:mt-4 lg:text-lg">{level.body}</p>
+        <ul className="mt-4 flex max-w-md flex-wrap gap-x-4 gap-y-2 lg:mt-6 lg:gap-x-5">
+          {level.spaces.map((s) => (
+            <li key={s} className="eyebrow flex items-center gap-2 text-foreground/80">
+              <span className="h-1 w-1 rotate-45 bg-accent" aria-hidden="true" />
+              {s}
+            </li>
+          ))}
+        </ul>
+      </motion.div>
+    </AnimatePresence>
+  );
+
+  const numeral = (
+    <AnimatePresence initial={false} mode="popLayout">
+      <motion.span
+        key={level.code}
+        initial={{ opacity: 0, y: dir > 0 ? 40 : -40 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: dir > 0 ? -40 : 40 }}
+        transition={{ duration: 0.6, ease: EASE }}
+        className="heading-display absolute bottom-0 start-0 leading-[0.8] text-primary tabular-nums text-[clamp(3.5rem,16vw,12rem)] lg:text-[clamp(7rem,21vh,12rem)]"
+        aria-hidden="true"
+      >
+        {level.code}
+      </motion.span>
+    </AnimatePresence>
+  );
+
   return (
-    <div ref={ref} style={{ height: `${levels.length * 100 + 40}vh` }}>
+    <div
+      ref={ref}
+      style={{ ["--levels" as string]: levels.length }}
+      className="h-[calc(var(--levels)*88svh)] lg:h-[calc(var(--levels)*100vh+40vh)]"
+    >
       <div className="sticky top-0 h-[100svh] overflow-hidden">
-        <div className="mx-auto grid h-full max-w-[1400px] grid-cols-12 gap-x-8 px-[5vw] pb-[8vh] pt-[14vh]">
-          {/* Copy column */}
-          <div className="col-span-5 flex flex-col">
+        {/* Phone: stacked column. Desktop: copy left, images right. */}
+        <div className="flex h-full flex-col px-6 pb-8 pt-20 lg:mx-auto lg:grid lg:max-w-[1400px] lg:grid-cols-12 lg:gap-x-8 lg:px-[5vw] lg:pb-[8vh] lg:pt-[14vh]">
+          <div className="flex min-h-0 flex-1 flex-col lg:col-span-5 lg:flex-none">
             <p className="eyebrow text-primary">{dict.tour.eyebrow}</p>
-            <h2 id="tour-title" className="heading-display mt-3 text-4xl text-foreground">
+            <h2 id="tour-title" className="heading-display mt-2 text-2xl text-foreground sm:text-3xl lg:mt-3 lg:text-4xl">
               {dict.tour.title}
             </h2>
 
-            <div className="mt-auto flex items-end gap-8">
-              {/* Sized for the widest code ("−1") so the numeral never runs into the diagram */}
-              <div className="relative h-[clamp(7rem,21vh,12rem)] w-[clamp(9rem,27vh,15rem)] shrink-0">
-                <AnimatePresence initial={false} mode="popLayout">
-                  <motion.span
-                    key={level.code}
-                    initial={{ opacity: 0, y: dir > 0 ? 40 : -40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: dir > 0 ? -40 : 40 }}
-                    transition={{ duration: 0.6, ease: EASE }}
-                    className="heading-display absolute bottom-0 start-0 text-[clamp(7rem,21vh,12rem)] leading-[0.8] text-primary tabular-nums"
-                    aria-hidden="true"
-                  >
-                    {level.code}
-                  </motion.span>
-                </AnimatePresence>
+            {/* Images sit between the heading and the copy on a phone */}
+            <div className="relative mt-5 min-h-0 flex-1 lg:hidden">{images}</div>
+
+            <div className="mt-6 flex items-end gap-5 lg:mt-auto lg:gap-8">
+              <div className="relative h-[clamp(3.5rem,16vw,12rem)] w-[clamp(4.5rem,21vw,15rem)] shrink-0 lg:h-[clamp(7rem,21vh,12rem)] lg:w-[clamp(9rem,27vh,15rem)]">
+                {numeral}
               </div>
-              <LevelDiagram codes={levels.map((l) => l.code)} active={level.code} className="h-[22vh] w-auto" />
+              <LevelDiagram codes={levels.map((l) => l.code)} active={level.code} className="h-16 w-auto sm:h-20 lg:h-[22vh]" />
             </div>
 
-            <div className="relative mt-10 min-h-[15.5rem]">
-              <AnimatePresence initial={false} mode="popLayout">
-                <motion.div
-                  key={level.code}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.55, ease: EASE }}
-                >
-                  <p className="eyebrow text-muted-foreground">
-                    {dict.tour.levelLabel} {level.code} — {level.name}
-                  </p>
-                  <h3 className="heading-display mt-3 text-5xl text-foreground">{level.title}</h3>
-                  <p className="body-copy mt-4 max-w-md text-lg">{level.body}</p>
-                  <ul className="mt-6 flex max-w-md flex-wrap gap-x-5 gap-y-2">
-                    {level.spaces.map((s) => (
-                      <li key={s} className="eyebrow flex items-center gap-2 text-foreground/80">
-                        <span className="h-1 w-1 rotate-45 bg-accent" aria-hidden="true" />
-                        {s}
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+            <div className="relative mt-5 lg:mt-10 lg:min-h-[15.5rem]">{copy}</div>
           </div>
 
-          {/* Image column: tall frame with an offset detail shot */}
-          <div className="relative col-span-7 col-start-6">
-            <div className="absolute inset-y-0 end-0 w-[82%] overflow-hidden bg-muted">
-              <AnimatePresence initial={false}>
-                <motion.div
-                  key={shots.main.src}
-                  initial={{ clipPath: wipeFrom }}
-                  animate={{ clipPath: "inset(0% 0 0% 0)" }}
-                  transition={{ duration: 0.9, ease: EASE }}
-                  className="absolute inset-0"
-                >
-                  <Image src={`/images/villa-elk/${shots.main.src}`} alt={shots.main.alt} fill sizes="45vw" className="object-cover" />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-            <div className="absolute bottom-[-4vh] start-0 z-10 aspect-[4/5] w-[34%] overflow-hidden border-[6px] border-background bg-muted">
-              <AnimatePresence initial={false}>
-                <motion.div
-                  key={shots.detail.src}
-                  initial={{ clipPath: wipeFrom }}
-                  animate={{ clipPath: "inset(0% 0 0% 0)" }}
-                  transition={{ duration: 0.9, delay: 0.12, ease: EASE }}
-                  className="absolute inset-0"
-                >
-                  <Image src={`/images/villa-elk/${shots.detail.src}`} alt={shots.detail.alt} fill sizes="20vw" className="object-cover" />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
+          <div className="relative hidden lg:col-span-7 lg:col-start-6 lg:block">{images}</div>
         </div>
       </div>
     </div>
@@ -162,7 +169,7 @@ function StackedTour({ dict }: { dict: Dictionary }) {
   return (
     <div className="mx-auto max-w-3xl px-6 py-24">
       <p className="eyebrow text-primary">{dict.tour.eyebrow}</p>
-      <h2 className="heading-display mt-3 text-4xl text-foreground sm:text-5xl">{dict.tour.title}</h2>
+      <h2 id="tour-title" className="heading-display mt-3 text-4xl text-foreground sm:text-5xl">{dict.tour.title}</h2>
       <ol className="mt-14 flex flex-col gap-20">
         {levels.map((level, i) => (
           <li key={level.code}>
