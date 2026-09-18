@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
 import { GATE_OUTLINE, GATE_SILHOUETTE } from "@/components/brand/logo-paths";
@@ -29,10 +29,133 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function LevelsTour({ dict }: { dict: Dictionary }) {
   const reduce = useReducedMotion();
+  if (reduce) {
+    return (
+      <section id="niveaux" aria-labelledby="tour-title" className="relative">
+        <StackedTour dict={dict} />
+      </section>
+    );
+  }
   return (
     <section id="niveaux" aria-labelledby="tour-title" className="relative">
-      {reduce ? <StackedTour dict={dict} /> : <PinnedTour dict={dict} />}
+      {/* Phones swipe through the levels; pinning the page under a finger reads as a stuck screen. */}
+      <div className="lg:hidden">
+        <SwipeTour dict={dict} />
+      </div>
+      <div className="hidden lg:block">
+        <PinnedTour dict={dict} />
+      </div>
     </section>
+  );
+}
+
+function SwipeTour({ dict }: { dict: Dictionary }) {
+  const levels = dict.tour.levels;
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  // IntersectionObserver rather than scroll maths: no rAF, and correct in RTL.
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const cards = Array.from(track.children);
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(cards.indexOf(entry.target));
+        });
+      },
+      { root: track, threshold: 0.6 },
+    );
+    cards.forEach((c) => io.observe(c));
+    return () => io.disconnect();
+  }, [levels.length]);
+
+  const goTo = (i: number) => {
+    const card = trackRef.current?.children[i] as HTMLElement | undefined;
+    card?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
+
+  return (
+    <div className="py-20">
+      <div className="flex items-end justify-between gap-4 px-6">
+        <div>
+          <p className="eyebrow text-primary">{dict.tour.eyebrow}</p>
+          <h2 id="tour-title" className="heading-display mt-2 text-3xl text-foreground sm:text-4xl">
+            {dict.tour.title}
+          </h2>
+        </div>
+        <div className="flex shrink-0 gap-1">
+          {levels.map((l, i) => (
+            <button
+              key={l.code}
+              type="button"
+              onClick={() => goTo(i)}
+              aria-label={`${dict.tour.levelLabel} ${l.code} — ${l.name}`}
+              aria-current={i === active}
+              className="grid h-11 w-8 place-items-center"
+            >
+              <span
+                className={
+                  "block h-1.5 w-1.5 rotate-45 transition-colors " +
+                  (i === active ? "bg-primary" : "bg-border")
+                }
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div
+        ref={trackRef}
+        className="mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-6 pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {levels.map((lvl, i) => (
+          <article key={lvl.code} className="w-[84vw] max-w-[420px] shrink-0 snap-center">
+            {/* Each card carries its own floor marker, so nothing can fall out of sync */}
+            <div className="flex items-end gap-4">
+              <span className="heading-display text-[clamp(3rem,14vw,5rem)] leading-[0.8] text-primary tabular-nums" aria-hidden="true">
+                {lvl.code}
+              </span>
+              <LevelDiagram codes={levels.map((l) => l.code)} active={lvl.code} className="h-14 w-auto sm:h-16" />
+            </div>
+
+            <div className="relative mt-5 aspect-[4/5] overflow-hidden bg-muted">
+              <Image
+                src={`/images/villa-elk/${SHOTS[i].main.src}`}
+                alt={SHOTS[i].main.alt}
+                fill
+                sizes="84vw"
+                className="object-cover"
+              />
+              <div className="absolute bottom-0 start-0 aspect-[4/5] w-[34%] overflow-hidden border-[5px] border-background bg-muted">
+                <Image
+                  src={`/images/villa-elk/${SHOTS[i].detail.src}`}
+                  alt={SHOTS[i].detail.alt}
+                  fill
+                  sizes="30vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+
+            <p className="eyebrow mt-5 text-muted-foreground">
+              {dict.tour.levelLabel} {lvl.code} — {lvl.name}
+            </p>
+            <h3 className="heading-display mt-2 text-3xl text-foreground">{lvl.title}</h3>
+            <p className="body-copy mt-3 text-sm sm:text-base">{lvl.body}</p>
+            <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+              {lvl.spaces.map((sp) => (
+                <li key={sp} className="eyebrow flex items-center gap-2 text-foreground/80">
+                  <span className="h-1 w-1 rotate-45 bg-accent" aria-hidden="true" />
+                  {sp}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -140,12 +263,9 @@ function PinnedTour({ dict }: { dict: Dictionary }) {
         <div className="flex h-full flex-col px-6 pb-8 pt-20 lg:mx-auto lg:grid lg:max-w-[1400px] lg:grid-cols-12 lg:gap-x-8 lg:px-[5vw] lg:pb-[8vh] lg:pt-[14vh]">
           <div className="flex min-h-0 flex-1 flex-col lg:col-span-5 lg:flex-none">
             <p className="eyebrow text-primary">{dict.tour.eyebrow}</p>
-            <h2 id="tour-title" className="heading-display mt-2 text-2xl text-foreground sm:text-3xl lg:mt-3 lg:text-4xl">
+            <h2 className="heading-display mt-2 text-2xl text-foreground sm:text-3xl lg:mt-3 lg:text-4xl">
               {dict.tour.title}
             </h2>
-
-            {/* Images sit between the heading and the copy on a phone */}
-            <div className="relative mt-5 min-h-0 flex-1 lg:hidden">{images}</div>
 
             <div className="mt-6 flex items-end gap-5 lg:mt-auto lg:gap-8">
               <div className="relative h-[clamp(3.5rem,16vw,12rem)] w-[clamp(4.5rem,21vw,15rem)] shrink-0 lg:h-[clamp(7rem,21vh,12rem)] lg:w-[clamp(9rem,27vh,15rem)]">
