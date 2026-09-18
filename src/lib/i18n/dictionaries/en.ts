@@ -4,11 +4,11 @@ export const en = {
   meta: {
     title: "Villa Elk — Luxury Villa at Golf Argan, Marrakech",
     description:
-      "Villa Elk, a contemporary 4-bedroom villa across 3 levels at Golf Argan Resort, Agdal, Marrakech. Private pool, hammam, home cinema — sleeps up to 10 guests.",
+      "Villa Elk, a contemporary villa with three suites and a bedroom across 3 levels at Golf Argan Resort, Agdal, Marrakech. Private pool, hammam, home cinema — sleeps up to 10 guests.",
   },
   nav: {
     home: "Home",
-    rooms: "Rooms",
+    rooms: "Suites",
     gallery: "Gallery",
     amenities: "Amenities",
     contact: "Contact",
@@ -43,8 +43,8 @@ export const en = {
         code: "0",
         name: "Ground floor",
         title: "Live",
-        body: "Past the threshold, the lounges and dining room open straight onto the terrace and the private pool.",
-        spaces: ["Moroccan salon", "Lounge & fireplace", "Dining room", "Pool & terrace", "Barbecue corner"],
+        body: "Past the threshold: a double living room, European and Moroccan, the dining room and kitchen, a bedroom with its own bathroom — and the terrace opening onto the pool.",
+        spaces: ["European & Moroccan living rooms", "Dining room", "Kitchen", "Bedroom with bathroom", "Pool & terrace", "Barbecue corner", "Secure indoor garage", "Small garden"],
       },
       {
         code: "−1",
@@ -57,8 +57,8 @@ export const en = {
         code: "+1",
         name: "Upper floor",
         title: "Sleep",
-        body: "Upstairs, four bedrooms welcome up to ten guests, with marble bathrooms.",
-        spaces: ["4 bedrooms", "Marble bathrooms", "Up to 10 guests"],
+        body: "Upstairs, three suites including a large master suite, with bathrooms in large-format Italian tile.",
+        spaces: ["Master suite", "Two suites", "Large-format Italian tile", "Up to 10 guests"],
       },
     ],
   },

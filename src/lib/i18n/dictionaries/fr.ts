@@ -4,11 +4,11 @@ export const fr = {
   meta: {
     title: "Villa Elk — Villa de luxe à Golf Argan, Marrakech",
     description:
-      "Villa Elk, villa contemporaine de 4 chambres sur 3 niveaux à Golf Argan Resort, quartier Agdal, Marrakech. Piscine privée, hammam, cinéma privé — jusqu'à 10 invités.",
+      "Villa Elk, villa contemporaine de trois suites et une chambre sur 3 niveaux à Golf Argan Resort, quartier Agdal, Marrakech. Piscine privée, hammam, cinéma privé — jusqu'à 10 invités.",
   },
   nav: {
     home: "Accueil",
-    rooms: "Chambres",
+    rooms: "Suites",
     gallery: "Galerie",
     amenities: "Prestations",
     contact: "Contact",
@@ -43,8 +43,8 @@ export const fr = {
         code: "0",
         name: "Rez-de-chaussée",
         title: "Vivre",
-        body: "Le seuil franchi, les salons et la salle à manger s'ouvrent de plain-pied sur la terrasse et la piscine privée.",
-        spaces: ["Salon marocain", "Salon & cheminée", "Salle à manger", "Piscine & terrasse", "Coin barbecue"],
+        body: "Le seuil franchi : un double séjour, européen et marocain, la salle à manger et la cuisine, une chambre avec sa salle de bain — et la terrasse ouverte sur la piscine.",
+        spaces: ["Double séjour européen & marocain", "Salle à manger", "Cuisine", "Chambre avec salle de bain", "Piscine & terrasse", "Coin barbecue", "Garage intérieur sécurisé", "Petit jardin"],
       },
       {
         code: "−1",
@@ -57,8 +57,8 @@ export const fr = {
         code: "+1",
         name: "Étage",
         title: "Dormir",
-        body: "À l'étage, quatre chambres accueillent jusqu'à dix invités, avec des salles de bain en marbre.",
-        spaces: ["4 chambres", "Salles de bain en marbre", "Jusqu'à 10 invités"],
+        body: "À l'étage, trois suites dont une grande suite parentale, avec des salles de bain en carrelage italien grand format.",
+        spaces: ["Suite parentale", "Deux suites", "Carrelage italien grand format", "Jusqu'à 10 invités"],
       },
     ],
   },

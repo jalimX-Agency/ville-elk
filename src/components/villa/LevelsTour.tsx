@@ -12,7 +12,7 @@ type Shot = { src: string; alt: string };
 const SHOTS: { main: Shot; detail: Shot }[] = [
   {
     main: { src: "dining-terrace.jpg", alt: "Salle à manger ouverte sur la terrasse" },
-    detail: { src: "tv-lounge-onyx-2.jpg", alt: "Salon avec mur de pierre et cheminée" },
+    detail: { src: "salon-marocain.jpg", alt: "Salon marocain du double séjour" },
   },
   {
     main: { src: "hammam.jpg", alt: "Hammam en pierre et laiton" },
@@ -20,7 +20,7 @@ const SHOTS: { main: Shot; detail: Shot }[] = [
   },
   {
     main: { src: "bedroom-2.jpg", alt: "Chambre avec accès au balcon" },
-    detail: { src: "bathroom-gold.jpg", alt: "Salle de bain en marbre et laiton" },
+    detail: { src: "bathroom-gold.jpg", alt: "Salle de bain en carrelage italien grand format" },
   },
 ];
 
@@ -260,7 +260,7 @@ function PinnedTour({ dict }: { dict: Dictionary }) {
     >
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         {/* Phone: stacked column. Desktop: copy left, images right. */}
-        <div className="flex h-full flex-col px-6 pb-8 pt-20 lg:mx-auto lg:grid lg:max-w-[1400px] lg:grid-cols-12 lg:gap-x-8 lg:px-[5vw] lg:pb-[8vh] lg:pt-[14vh]">
+        <div className="flex h-full flex-col px-6 pb-8 pt-20 lg:mx-auto lg:grid lg:max-w-[1400px] lg:grid-cols-12 lg:gap-x-8 lg:px-[5vw] lg:pb-[6vh] lg:pt-[12vh]">
           <div className="flex min-h-0 flex-1 flex-col lg:col-span-5 lg:flex-none">
             <p className="eyebrow text-primary">{dict.tour.eyebrow}</p>
             <h2 className="heading-display mt-2 text-2xl text-foreground sm:text-3xl lg:mt-3 lg:text-4xl">
