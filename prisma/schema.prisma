@@ -54,3 +54,34 @@ model Amenity {
 
   @@index([position])
 }
+
+/// A request to stay, sent from the booking page. Nothing is charged and no
+/// date is held: the owner answers each one personally.
+model Enquiry {
+  id        String        @id @default(cuid())
+  createdAt DateTime      @default(now())
+  status    EnquiryStatus @default(NEW)
+
+  name    String
+  email   String
+  phone   String?
+  /// The language the visitor was reading, so the owner replies in it.
+  locale  String
+  message String?
+
+  arrival   DateTime @db.Date
+  departure DateTime @db.Date
+  guests    Int
+
+  /// When the owner's notification email went out; null means it never did.
+  notifiedAt DateTime?
+
+  @@index([status, createdAt])
+}
+
+enum EnquiryStatus {
+  NEW
+  CONTACTED
+  CONFIRMED
+  CANCELLED
+}

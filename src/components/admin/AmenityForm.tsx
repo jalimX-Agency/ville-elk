@@ -32,7 +32,7 @@ export function AmenityForm({ amenity }: { amenity: Values }) {
       <input type="hidden" name="id" value={amenity.id} />
 
       <fieldset>
-        <legend className="admin-label">Nom affiché</legend>
+        <legend className="field-label">Nom affiché</legend>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           {LANGUAGES.map((language) => (
             <label key={language.code} className="block">
@@ -42,7 +42,7 @@ export function AmenityForm({ amenity }: { amenity: Values }) {
                 dir={language.dir}
                 defaultValue={amenity[`name${language.code}`]}
                 required={language.code === "Fr"}
-                className="admin-input mt-1.5"
+                className="field-input mt-1.5"
               />
             </label>
           ))}
@@ -50,7 +50,7 @@ export function AmenityForm({ amenity }: { amenity: Values }) {
       </fieldset>
 
       <fieldset>
-        <legend className="admin-label">Photographie</legend>
+        <legend className="field-label">Photographie</legend>
         <ImageField name="imageUrl" folder="amenities" initialUrl={amenity.imageUrl} />
 
         <p className="mt-6 text-sm text-muted-foreground">
@@ -65,7 +65,7 @@ export function AmenityForm({ amenity }: { amenity: Values }) {
                 name={`alt${language.code}`}
                 dir={language.dir}
                 defaultValue={amenity[`alt${language.code}`] ?? ""}
-                className="admin-input mt-1.5"
+                className="field-input mt-1.5"
               />
             </label>
           ))}

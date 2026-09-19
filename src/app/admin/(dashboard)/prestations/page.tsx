@@ -44,7 +44,7 @@ export default async function PrestationsPage() {
               >
                 {amenity.nameFr}
               </Link>
-              <p className="admin-label mt-1">
+              <p className="field-label mt-1">
                 {amenity.slug}
                 {!amenity.published && " · dépubliée"}
               </p>

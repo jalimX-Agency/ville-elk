@@ -5,17 +5,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { locales, localeNames, type Locale } from "@/lib/i18n/locales";
+import { hrefFor, translatePath } from "@/lib/i18n/routes";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/brand/Logo";
 
 export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary }) {
-  // Only sections that exist while the site is being built.
-  const sections = [
-    { href: "#niveaux", label: dict.tour.eyebrow },
-    { href: "#bientot", label: dict.nav.contact },
-  ];
   const pathname = usePathname();
+  // Only sections that exist while the site is being built. They live on the
+  // home page, so the links stay absolute and work from any page.
+  const sections = [
+    { href: `/${locale}#niveaux`, label: dict.tour.eyebrow },
+    { href: `/${locale}#bientot`, label: dict.nav.contact },
+  ];
+  const bookingHref = hrefFor("booking", locale);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -28,8 +31,6 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
   }, [open]);
-
-  const restOfPath = pathname.replace(new RegExp(`^/${locale}`), "") || "/";
 
   return (
     <header
@@ -56,7 +57,7 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
             {locales.map((l) => (
               <Link
                 key={l}
-                href={`/${l}${restOfPath === "/" ? "" : restOfPath}`}
+                href={translatePath(pathname, locale, l)}
                 className={cn(
                   "eyebrow px-2 py-1 text-foreground/50 hover:text-primary",
                   l === locale && "text-primary",
@@ -67,9 +68,9 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
               </Link>
             ))}
           </div>
-          <a href="#bientot" className="btn-primary hidden lg:inline-flex">
+          <Link href={bookingHref} className="btn-primary hidden lg:inline-flex">
             {dict.nav.bookNow}
-          </a>
+          </Link>
           <button
             className="-me-2.5 grid h-11 w-11 place-items-center lg:hidden"
             onClick={() => setOpen(!open)}
@@ -94,14 +95,14 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
               {s.label}
             </a>
           ))}
-          <a href="#bientot" onClick={() => setOpen(false)} className="btn-primary mt-2">
+          <Link href={bookingHref} onClick={() => setOpen(false)} className="btn-primary mt-2">
             {dict.nav.bookNow}
-          </a>
+          </Link>
           <div className="flex gap-3 pt-4">
             {locales.map((l) => (
               <Link
                 key={l}
-                href={`/${l}${restOfPath === "/" ? "" : restOfPath}`}
+                href={translatePath(pathname, locale, l)}
                 onClick={() => setOpen(false)}
                 className={cn("eyebrow px-3 py-1.5", l === locale ? "text-primary" : "text-foreground/60")}
               >

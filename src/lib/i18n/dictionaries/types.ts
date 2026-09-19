@@ -48,6 +48,39 @@ export interface Dictionary {
     policyTitle: string;
     policyLines: string[];
   };
+  reserve: {
+    meta: { title: string; description: string };
+    eyebrow: string;
+    title: string;
+    intro: string;
+    asideTitle: string;
+    asideLines: string[];
+    form: {
+      name: string;
+      email: string;
+      phone: string;
+      phoneHint: string;
+      arrival: string;
+      departure: string;
+      guests: string;
+      message: string;
+      messageHint: string;
+      submit: string;
+      submitting: string;
+      nights: string;
+    };
+    success: { title: string; body: string; again: string };
+    errors: {
+      name: string;
+      email: string;
+      arrival: string;
+      departure: string;
+      order: string;
+      past: string;
+      guests: string;
+      generic: string;
+    };
+  };
   contact: {
     eyebrow: string;
     title: string;

@@ -131,3 +131,19 @@ export async function moveAmenity(formData: FormData) {
   refreshPublicPages();
   revalidatePath("/admin/prestations");
 }
+
+const ENQUIRY_STATUSES = ["NEW", "CONTACTED", "CONFIRMED", "CANCELLED"] as const;
+type EnquiryStatus = (typeof ENQUIRY_STATUSES)[number];
+
+/** Moves a request along. Nothing here is visible on the public site. */
+export async function setEnquiryStatus(formData: FormData) {
+  await requireUser();
+
+  const id = String(formData.get("id") ?? "");
+  const status = String(formData.get("status") ?? "");
+  if (!ENQUIRY_STATUSES.includes(status as EnquiryStatus)) return;
+
+  await db.enquiry.update({ where: { id }, data: { status: status as EnquiryStatus } });
+  revalidatePath("/admin/demandes");
+  revalidatePath("/admin");
+}

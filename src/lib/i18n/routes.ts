@@ -1,0 +1,48 @@
+import type { Locale } from "./locales";
+import { locales } from "./locales";
+
+/**
+ * Every page below the home page has its own slug per language, so each locale
+ * gets a URL a search engine can read in that language rather than four copies
+ * of a French word.
+ */
+export const pageSlugs = {
+  booking: { fr: "reserver", en: "booking", es: "reservar", ar: "hajz" },
+} as const satisfies Record<string, Record<Locale, string>>;
+
+export type PageKey = keyof typeof pageSlugs;
+
+export function slugFor(page: PageKey, locale: Locale): string {
+  return pageSlugs[page][locale];
+}
+
+export function hrefFor(page: PageKey, locale: Locale): string {
+  return `/${locale}/${slugFor(page, locale)}`;
+}
+
+/** The page a slug belongs to, or null when it is not one of ours. */
+export function pageForSlug(slug: string, locale: Locale): PageKey | null {
+  const entry = Object.entries(pageSlugs).find(([, slugs]) => slugs[locale] === slug);
+  return entry ? (entry[0] as PageKey) : null;
+}
+
+/** Every locale/slug pair, for prerendering. */
+export function allPageParams(): { locale: Locale; slug: string }[] {
+  return locales.flatMap((locale) =>
+    Object.values(pageSlugs).map((slugs) => ({ locale, slug: slugs[locale] })),
+  );
+}
+
+/**
+ * The same page in another language. The slug changes with the locale, so the
+ * language switcher cannot simply swap the first segment: /fr/reserver has to
+ * become /en/booking, not /en/reserver.
+ */
+export function translatePath(pathname: string, from: Locale, to: Locale): string {
+  const rest = pathname.replace(new RegExp(`^/${from}(?=/|$)`), "");
+  const slug = rest.replace(/^\//, "").split("/")[0];
+  if (!slug) return `/${to}`;
+
+  const page = pageForSlug(slug, from);
+  return page ? `/${to}/${slugFor(page, to)}` : `/${to}${rest}`;
+}

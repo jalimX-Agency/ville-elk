@@ -4,9 +4,11 @@ import { auth } from "@/auth";
 
 export default async function DashboardHome() {
   const session = await auth();
-  const [published, total] = await Promise.all([
+  const [published, total, newEnquiries, allEnquiries] = await Promise.all([
     db.amenity.count({ where: { published: true } }),
     db.amenity.count(),
+    db.enquiry.count({ where: { status: "NEW" } }),
+    db.enquiry.count(),
   ]);
 
   return (
@@ -22,7 +24,7 @@ export default async function DashboardHome() {
           href="/admin/prestations"
           className="block border border-border bg-card p-6 transition-colors hover:border-primary"
         >
-          <p className="admin-label">Prestations</p>
+          <p className="field-label">Prestations</p>
           <p className="mt-3 text-3xl font-light">
             {published}
             <span className="text-base text-muted-foreground"> / {total} publiées</span>
@@ -32,13 +34,26 @@ export default async function DashboardHome() {
           </p>
         </Link>
 
+        <Link
+          href="/admin/demandes"
+          className="block border border-border bg-card p-6 transition-colors hover:border-primary"
+        >
+          <p className="field-label">Demandes de réservation</p>
+          <p className="mt-3 text-3xl font-light">
+            {newEnquiries}
+            <span className="text-base text-muted-foreground"> / {allEnquiries} nouvelles</span>
+          </p>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Dates, invités et coordonnées.
+          </p>
+        </Link>
+
         {/* Sections still to come; listed so nothing looks missing. */}
-        <div className="border border-dashed border-border p-6 text-muted-foreground">
-          <p className="admin-label">Bientôt</p>
+        <div className="border border-dashed border-border p-6 text-muted-foreground sm:col-span-2">
+          <p className="field-label">Bientôt</p>
           <ul className="mt-3 space-y-1 text-sm">
             <li>Suites et niveaux</li>
             <li>Galerie photo</li>
-            <li>Demandes de réservation</li>
           </ul>
         </div>
       </div>

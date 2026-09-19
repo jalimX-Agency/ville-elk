@@ -9,24 +9,24 @@ export function LoginForm() {
   return (
     <form action={action} className="space-y-5">
       <label className="block">
-        <span className="admin-label">Email</span>
+        <span className="field-label">Email</span>
         <input
           name="email"
           type="email"
           autoComplete="username"
           required
-          className="admin-input mt-2"
+          className="field-input mt-2"
         />
       </label>
 
       <label className="block">
-        <span className="admin-label">Mot de passe</span>
+        <span className="field-label">Mot de passe</span>
         <input
           name="password"
           type="password"
           autoComplete="current-password"
           required
-          className="admin-input mt-2"
+          className="field-input mt-2"
         />
       </label>
 
