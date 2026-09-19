@@ -29,6 +29,8 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|images|api|.*\\..*).*)",
+    // `admin` is the dashboard: it is not translated, so it must not be
+    // redirected into a locale segment.
+    "/((?!_next/static|_next/image|favicon.ico|images|api|admin|.*\\..*).*)",
   ],
 };

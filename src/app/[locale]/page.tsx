@@ -20,6 +20,7 @@ export default async function HomePage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const dict = getDictionary(locale as Locale);
+  const amenities = await getAmenities();
 
   const lodgingSchema = {
     "@context": "https://schema.org",
@@ -55,7 +56,7 @@ export default async function HomePage({
       />
       <Hero dict={dict} />
       <LevelsTour dict={dict} />
-      <Prestations dict={dict} locale={locale as Locale} amenities={getAmenities()} />
+      <Prestations dict={dict} locale={locale as Locale} amenities={amenities} />
       <UnderConstruction dict={dict} />
     </>
   );

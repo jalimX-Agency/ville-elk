@@ -1,0 +1,56 @@
+// Villa Elk — content the owner edits from the dashboard.
+// Every visitor-facing string is stored once per language, so a single row
+// serves the French, English, Spanish and Arabic pages.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// A person who can sign in to the dashboard. The villa has one owner today,
+/// so there is no invitation flow yet — accounts are created by script.
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         Role     @default(OWNER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum Role {
+  OWNER
+  EDITOR
+}
+
+/// One line of the "Prestations" section: a name in four languages and,
+/// optionally, the photograph shown when a visitor hovers it.
+model Amenity {
+  id        String  @id @default(cuid())
+  /// Stable handle used in code and URLs — never shown to visitors.
+  slug      String  @unique
+  position  Int
+  published Boolean @default(true)
+
+  nameFr String
+  nameEn String
+  nameEs String
+  nameAr String
+
+  /// Empty until a photograph exists for this amenity.
+  imageUrl String?
+  altFr    String?
+  altEn    String?
+  altEs    String?
+  altAr    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([position])
+}
