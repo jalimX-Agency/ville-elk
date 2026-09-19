@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { saveAmenity, type AmenityState } from "@/app/admin/actions";
+import { ImageField } from "./ImageField";
 
 type Values = {
   id: string;
@@ -50,17 +51,7 @@ export function AmenityForm({ amenity }: { amenity: Values }) {
 
       <fieldset>
         <legend className="admin-label">Photographie</legend>
-        <label className="mt-4 block">
-          <span className="text-sm text-muted-foreground">
-            Chemin de l&apos;image — laissez vide pour n&apos;afficher que le texte
-          </span>
-          <input
-            name="imageUrl"
-            defaultValue={amenity.imageUrl ?? ""}
-            placeholder="/images/villa-elk/hammam.jpg"
-            className="admin-input mt-1.5 font-mono text-sm"
-          />
-        </label>
+        <ImageField name="imageUrl" folder="amenities" initialUrl={amenity.imageUrl} />
 
         <p className="mt-6 text-sm text-muted-foreground">
           Description de la photo, lue par les moteurs de recherche et les

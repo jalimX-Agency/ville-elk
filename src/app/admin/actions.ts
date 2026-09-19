@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db/client";
 import { auth, signIn, signOut } from "@/auth";
 import { locales } from "@/lib/i18n/locales";
+import { deleteImage } from "@/lib/storage/r2";
 
 /**
  * Server Actions are reachable by direct POST, so every one of them checks the
@@ -64,6 +65,8 @@ export async function saveAmenity(_state: AmenityState, formData: FormData): Pro
   // Alt text describes a photograph; without one there is nothing to describe.
   const alt = (field: string) => (imageUrl ? text(field) || null : null);
 
+  const previous = await db.amenity.findUnique({ where: { id }, select: { imageUrl: true } });
+
   await db.amenity.update({
     where: { id },
     data: {
@@ -78,6 +81,12 @@ export async function saveAmenity(_state: AmenityState, formData: FormData): Pro
       altAr: alt("altAr"),
     },
   });
+
+  // The old photograph is now unreferenced; leaving it would cost storage for
+  // every replacement the owner ever makes.
+  if (previous?.imageUrl && previous.imageUrl !== imageUrl) {
+    await deleteImage(previous.imageUrl);
+  }
 
   refreshPublicPages();
   revalidatePath("/admin/prestations");
