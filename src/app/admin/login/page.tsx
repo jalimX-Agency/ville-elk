@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 import { Logo } from "@/components/brand/Logo";
 import { LoginForm } from "@/components/admin/LoginForm";
-import { getSessionUser } from "@/lib/auth/session";
+import { auth } from "@/auth";
 
 export default async function LoginPage() {
-  if (await getSessionUser()) redirect("/admin");
+  if ((await auth())?.user) redirect("/admin");
 
   return (
     <main className="grid min-h-screen place-items-center px-6 py-16">

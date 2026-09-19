@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Logo } from "@/components/brand/Logo";
-import { getSessionUser } from "@/lib/auth/session";
+import { auth } from "@/auth";
 import { logout } from "@/app/admin/actions";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const user = await getSessionUser();
-  if (!user) redirect("/admin/login");
+  const session = await auth();
+  if (!session?.user) redirect("/admin/login");
+  const user = session.user;
 
   return (
     <div className="min-h-screen">

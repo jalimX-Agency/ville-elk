@@ -1,10 +1,10 @@
 "use server";
 
-import { compare } from "bcryptjs";
+import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db/client";
-import { createSession, destroySession, getSessionUser } from "@/lib/auth/session";
+import { auth, signIn, signOut } from "@/auth";
 import { locales } from "@/lib/i18n/locales";
 
 /**
@@ -12,9 +12,9 @@ import { locales } from "@/lib/i18n/locales";
  * session itself rather than trusting the page that rendered the form.
  */
 async function requireUser() {
-  const user = await getSessionUser();
-  if (!user) redirect("/admin/login");
-  return user;
+  const session = await auth();
+  if (!session?.user) redirect("/admin/login");
+  return session.user;
 }
 
 /** The public pages are prerendered per locale; a content change refreshes them all. */
@@ -27,28 +27,26 @@ function refreshPublicPages() {
 export type LoginState = { error?: string };
 
 export async function login(_state: LoginState, formData: FormData): Promise<LoginState> {
-  const email = String(formData.get("email") ?? "").trim().toLowerCase();
-  const password = String(formData.get("password") ?? "");
-
-  if (!email || !password) {
-    return { error: "Renseignez votre email et votre mot de passe." };
+  try {
+    await signIn("credentials", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      redirectTo: "/admin",
+    });
+    return {};
+  } catch (error) {
+    // `signIn` redirects by throwing, so that throw has to pass through.
+    if (error instanceof AuthError) {
+      // One message for an unknown email and for a wrong password, so the form
+      // cannot be used to find out which accounts exist.
+      return { error: "Email ou mot de passe incorrect." };
+    }
+    throw error;
   }
-
-  const user = await db.user.findUnique({ where: { email } });
-  // The same message for an unknown email and a wrong password, so the form
-  // cannot be used to find out which accounts exist.
-  const ok = user ? await compare(password, user.passwordHash) : false;
-  if (!user || !ok) {
-    return { error: "Email ou mot de passe incorrect." };
-  }
-
-  await createSession(user.id);
-  redirect("/admin");
 }
 
 export async function logout() {
-  await destroySession();
-  redirect("/admin/login");
+  await signOut({ redirectTo: "/admin/login" });
 }
 
 export type AmenityState = { error?: string; saved?: boolean };

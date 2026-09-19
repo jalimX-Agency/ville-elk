@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { db } from "@/lib/db/client";
-import { getSessionUser } from "@/lib/auth/session";
+import { auth } from "@/auth";
 
 export default async function DashboardHome() {
-  const user = await getSessionUser();
+  const session = await auth();
   const [published, total] = await Promise.all([
     db.amenity.count({ where: { published: true } }),
     db.amenity.count(),
@@ -11,7 +11,7 @@ export default async function DashboardHome() {
 
   return (
     <>
-      <h1 className="text-2xl font-light">Bonjour {user?.name}.</h1>
+      <h1 className="text-2xl font-light">Bonjour {session?.user?.name}.</h1>
       <p className="mt-2 max-w-prose text-muted-foreground">
         Vous modifiez ici le contenu du site. Chaque changement est publié
         immédiatement, dans les quatre langues.
