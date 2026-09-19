@@ -85,7 +85,6 @@ export interface Dictionary {
     eyebrow: string;
     title: string;
     description: string;
-    name: string;
     whatsappCta: string;
     emailCta: string;
   };

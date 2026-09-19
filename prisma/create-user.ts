@@ -2,7 +2,7 @@
  * Creates or updates a dashboard account. Passwords are never stored in the
  * repository — pass them on the command line, which keeps them out of .env too:
  *
- *   npx tsx prisma/create-user.ts owner@example.com "Fatima-Zahra" "the-password"
+ *   npx tsx prisma/create-user.ts owner@example.com "Villa Elk" "the-password"
  */
 import "dotenv/config";
 import { hash } from "bcryptjs";

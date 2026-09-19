@@ -91,7 +91,7 @@ export const es = {
     eyebrow: "Reserva",
     title: "Solicite sus fechas",
     intro:
-      "Villa Elk se alquila entera, a un solo grupo cada vez. Díganos cuándo desea venir y cuántos serán: Fatima-Zahra le responde en 24 horas con la tarifa y la disponibilidad.",
+      "Villa Elk se alquila entera, a un solo grupo cada vez. Díganos cuándo desea venir y cuántos serán: nuestro equipo le responde en 24 horas con la tarifa y la disponibilidad.",
     asideTitle: "Conviene saber",
     asideLines: [
       "La villa entera, nunca compartida",
@@ -116,7 +116,7 @@ export const es = {
     },
     success: {
       title: "Solicitud enviada",
-      body: "Gracias. Fatima-Zahra le responderá en 24 horas con la tarifa y la disponibilidad de sus fechas.",
+      body: "Gracias. Nuestro equipo le responderá en 24 horas con la tarifa y la disponibilidad de sus fechas.",
       again: "Hacer otra solicitud",
     },
     errors: {
@@ -134,8 +134,7 @@ export const es = {
     eyebrow: "Contacto",
     title: "Planifiquemos su estancia",
     description:
-      "Fatima-Zahra y el equipo de Villa Elk responden en menos de 24h para organizar su estancia en Marrakech.",
-    name: "Fatima-Zahra",
+      "El equipo de Villa Elk responde en menos de 24h para organizar su estancia en Marrakech.",
     whatsappCta: "Escribir por WhatsApp",
     emailCta: "Enviar un email",
   },

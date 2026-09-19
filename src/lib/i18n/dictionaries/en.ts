@@ -91,7 +91,7 @@ export const en = {
     eyebrow: "Booking",
     title: "Ask for your dates",
     intro:
-      "Villa Elk is let whole, to one party at a time. Tell us when you would like to come and how many of you there are: Fatima-Zahra replies within 24 hours with the rate and availability.",
+      "Villa Elk is let whole, to one party at a time. Tell us when you would like to come and how many of you there are: our team replies within 24 hours with the rate and availability.",
     asideTitle: "Worth knowing",
     asideLines: [
       "The whole villa, never shared",
@@ -116,7 +116,7 @@ export const en = {
     },
     success: {
       title: "Request sent",
-      body: "Thank you. Fatima-Zahra will come back to you within 24 hours with the rate and availability for your dates.",
+      body: "Thank you. Our team will come back to you within 24 hours with the rate and availability for your dates.",
       again: "Send another request",
     },
     errors: {
@@ -134,8 +134,7 @@ export const en = {
     eyebrow: "Contact",
     title: "Let's plan your stay",
     description:
-      "Fatima-Zahra and the Villa Elk team reply within 24h to help plan your stay in Marrakech.",
-    name: "Fatima-Zahra",
+      "The Villa Elk team replies within 24h to help plan your stay in Marrakech.",
     whatsappCta: "Message on WhatsApp",
     emailCta: "Send an email",
   },
