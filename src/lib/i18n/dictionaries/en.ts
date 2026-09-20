@@ -66,7 +66,26 @@ export const en = {
     eyebrow: "Amenities",
     title: "What the villa offers",
   },
+  suites: {
+    meta: {
+      title: "Suites and bedrooms — Villa Elk, Marrakech",
+      description:
+        "Three suites upstairs, including a master suite of over 50 m², and one bedroom on the level. Bathrooms in large-format Italian tile. Up to 10 guests.",
+    },
+    eyebrow: "Sleeping",
+    title: "Three suites and a bedroom",
+    intro:
+      "The upper floor holds three suites, each with its own bathroom in large-format Italian tile. A fourth bedroom stays on the level, near the living room and the terrace.",
+    levelNames: { ground: "Ground floor", upper: "Upper floor" },
+    areaLabel: "Over",
+  },
   gallery: {
+    meta: {
+      title: "Gallery — Villa Elk, Golf Argan, Marrakech",
+      description:
+        "The villa in pictures: pool, living rooms, suites, hammam, gym and cinema room, at Golf Argan, Agdal, Marrakech.",
+    },
+    intro: "The villa as it stands today, level by level.",
     eyebrow: "Walkthrough",
     title: "Inside Villa Elk",
     note: "Photos taken by the owner — a professional shoot is coming soon.",
@@ -131,17 +150,21 @@ export const en = {
     },
   },
   contact: {
+    meta: {
+      title: "Contact — Villa Elk, Marrakech",
+      description:
+        "Write to Villa Elk on WhatsApp or by email. Golf Argan Resort, Agdal, Marrakech. We reply within 24 hours.",
+    },
+    addressTitle: "Address",
+    address: "Golf Argan Resort, extension — villa 2\nAgdal, Marrakech, Morocco",
+    instagramCta: "Follow on Instagram",
+    reachTitle: "Reach us",
     eyebrow: "Contact",
     title: "Let's plan your stay",
     description:
       "The Villa Elk team replies within 24h to help plan your stay in Marrakech.",
     whatsappCta: "Message on WhatsApp",
     emailCta: "Send an email",
-  },
-  building: {
-    eyebrow: "Site under construction",
-    title: "More is on its way",
-    body: "Online booking, the gallery, amenities and practical information are being prepared. In the meantime, write to us directly: we reply within 24 hours.",
   },
   theme: {
     toDark: "Switch to dark mode",

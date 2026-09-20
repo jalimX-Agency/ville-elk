@@ -5,9 +5,7 @@
  *
  *   npm run db:seed
  */
-import "dotenv/config";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../src/generated/prisma/client";
+import { scriptClient } from "./client";
 
 const AMENITIES = [
   {
@@ -118,9 +116,7 @@ const AMENITIES = [
 ];
 
 async function main() {
-  const connectionString = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
-  if (!connectionString) throw new Error("DATABASE_URL is not set");
-  const db = new PrismaClient({ adapter: new PrismaPg({ connectionString }) });
+  const db = scriptClient();
 
   for (const amenity of AMENITIES) {
     await db.amenity.upsert({

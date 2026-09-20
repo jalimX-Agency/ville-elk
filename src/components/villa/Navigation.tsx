@@ -12,11 +12,10 @@ import { Logo } from "@/components/brand/Logo";
 
 export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const pathname = usePathname();
-  // Only sections that exist while the site is being built. They live on the
-  // home page, so the links stay absolute and work from any page.
   const sections = [
-    { href: `/${locale}#niveaux`, label: dict.tour.eyebrow },
-    { href: `/${locale}#bientot`, label: dict.nav.contact },
+    { href: hrefFor("suites", locale), label: dict.nav.rooms },
+    { href: hrefFor("gallery", locale), label: dict.nav.gallery },
+    { href: hrefFor("contact", locale), label: dict.nav.contact },
   ];
   const bookingHref = hrefFor("booking", locale);
   const [scrolled, setScrolled] = useState(false);
@@ -46,9 +45,9 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
 
         <nav className="hidden items-center gap-8 lg:flex">
           {sections.map((s) => (
-            <a key={s.href} href={s.href} className="eyebrow text-foreground/70 hover:text-primary">
+            <Link key={s.href} href={s.href} className="eyebrow text-foreground/70 hover:text-primary">
               {s.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -86,14 +85,14 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
       {open && (
         <div id="mobile-menu" className="fixed inset-0 top-20 flex flex-col items-center justify-center gap-8 bg-background/98 backdrop-blur-xl lg:hidden">
           {sections.map((s) => (
-            <a
+            <Link
               key={s.href}
               href={s.href}
               onClick={() => setOpen(false)}
               className="heading-display text-3xl text-foreground"
             >
               {s.label}
-            </a>
+            </Link>
           ))}
           <Link href={bookingHref} onClick={() => setOpen(false)} className="btn-primary mt-2">
             {dict.nav.bookNow}

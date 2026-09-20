@@ -3,7 +3,7 @@ import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { Hero } from "@/components/villa/Hero";
 import { LevelsTour } from "@/components/villa/LevelsTour";
 import { Prestations } from "@/components/villa/Prestations";
-import { UnderConstruction } from "@/components/villa/UnderConstruction";
+import { Explore } from "@/components/villa/Explore";
 import { getAmenities } from "@/lib/content/amenities";
 import { notFound } from "next/navigation";
 import { CONTACT } from "@/lib/contact";
@@ -57,7 +57,7 @@ export default async function HomePage({
       <Hero dict={dict} />
       <LevelsTour dict={dict} />
       <Prestations dict={dict} locale={locale as Locale} amenities={amenities} />
-      <UnderConstruction dict={dict} />
+      <Explore dict={dict} locale={locale as Locale} />
     </>
   );
 }

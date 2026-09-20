@@ -66,7 +66,27 @@ export const fr = {
     eyebrow: "Prestations",
     title: "Ce que la villa réserve",
   },
+  suites: {
+    meta: {
+      title: "Suites et chambres — Villa Elk, Marrakech",
+      description:
+        "Trois suites à l'étage, dont une suite parentale de plus de 50 m², et une chambre de plain-pied. Salles de bain en carrelage italien grand format. Jusqu'à 10 invités.",
+    },
+    eyebrow: "Dormir",
+    title: "Trois suites et une chambre",
+    intro:
+      "L'étage réunit trois suites, chacune avec sa salle de bain en carrelage italien grand format. Une quatrième chambre reste de plain-pied, près du séjour et de la terrasse.",
+    levelNames: { ground: "Rez-de-chaussée", upper: "Étage" },
+    areaLabel: "Plus de",
+  },
   gallery: {
+    meta: {
+      title: "Galerie — Villa Elk, Golf Argan, Marrakech",
+      description:
+        "La villa en images : piscine, séjours, suites, hammam, salle de sport et salle de cinéma, à Golf Argan, quartier Agdal, Marrakech.",
+    },
+    intro:
+      "La villa telle qu'elle est aujourd'hui, niveau par niveau.",
     eyebrow: "Visite",
     title: "À l'intérieur de Villa Elk",
     note: "Photos prises par le propriétaire — un reportage professionnel suivra prochainement.",
@@ -131,17 +151,21 @@ export const fr = {
     },
   },
   contact: {
+    meta: {
+      title: "Contact — Villa Elk, Marrakech",
+      description:
+        "Écrivez à Villa Elk par WhatsApp ou par email. Golf Argan Resort, quartier Agdal, Marrakech. Réponse sous 24 heures.",
+    },
+    addressTitle: "Adresse",
+    address: "Golf Argan Resort, extension — villa 2\nQuartier Agdal, Marrakech, Maroc",
+    instagramCta: "Suivre sur Instagram",
+    reachTitle: "Nous joindre",
     eyebrow: "Contact",
     title: "Parlons de votre séjour",
     description:
       "L'équipe de Villa Elk répond sous 24h pour organiser votre séjour à Marrakech.",
     whatsappCta: "Écrire sur WhatsApp",
     emailCta: "Envoyer un email",
-  },
-  building: {
-    eyebrow: "Site en construction",
-    title: "La suite arrive bientôt",
-    body: "Réservation en ligne, galerie, prestations et informations pratiques sont en cours de préparation. En attendant, écrivez-nous directement : nous répondons sous 24h.",
   },
   theme: {
     toDark: "Passer en mode sombre",

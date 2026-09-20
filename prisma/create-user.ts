@@ -4,10 +4,8 @@
  *
  *   npx tsx prisma/create-user.ts owner@example.com "Villa Elk" "the-password"
  */
-import "dotenv/config";
 import { hash } from "bcryptjs";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../src/generated/prisma/client";
+import { scriptClient } from "./client";
 
 async function main() {
   const [email, name, password] = process.argv.slice(2);
@@ -20,9 +18,7 @@ async function main() {
     process.exit(1);
   }
 
-  const connectionString = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
-  if (!connectionString) throw new Error("DATABASE_URL is not set");
-  const db = new PrismaClient({ adapter: new PrismaPg({ connectionString }) });
+  const db = scriptClient();
 
   const passwordHash = await hash(password, 12);
   const user = await db.user.upsert({

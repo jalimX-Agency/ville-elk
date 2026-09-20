@@ -1,8 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
+
+// The chosen theme lives in localStorage, which the server cannot read, so the
+// first render has to match the server's guess and only then tell the truth.
+// This reads false through hydration and true afterwards, without an effect.
+const subscribe = () => () => {};
+const isHydrated = () => true;
+const isServer = () => false;
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   return (
@@ -20,8 +27,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 export function ThemeToggle({ labels }: { labels: { toDark: string; toLight: string } }) {
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useSyncExternalStore(subscribe, isHydrated, isServer);
 
   const isDark = mounted && resolvedTheme === "dark";
   const label = isDark ? labels.toLight : labels.toDark;

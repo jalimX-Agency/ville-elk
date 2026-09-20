@@ -85,3 +85,59 @@ enum EnquiryStatus {
   CONFIRMED
   CANCELLED
 }
+
+/// A room the owner lets. Three suites upstairs and one bedroom on the ground
+/// floor today; the photographs are placeholders until the shoot lands, which
+/// is why the image is a field the dashboard owns rather than a file in the repo.
+model Suite {
+  id        String  @id @default(cuid())
+  slug      String  @unique
+  position  Int
+  published Boolean @default(true)
+
+  /// Which floor it sits on, matching the levels tour: "0" or "+1".
+  level String
+
+  nameFr String
+  nameEn String
+  nameEs String
+  nameAr String
+
+  descriptionFr String
+  descriptionEn String
+  descriptionEs String
+  descriptionAr String
+
+  /// Floor area in square metres, when the owner has measured it.
+  areaSqm Int?
+
+  imageUrl String?
+  altFr    String?
+  altEn    String?
+  altEs    String?
+  altAr    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([position])
+}
+
+/// One photograph in the gallery. No caption: the alt text carries the meaning
+/// for search engines and screen readers, and the page shows the picture alone.
+model GalleryImage {
+  id        String  @id @default(cuid())
+  position  Int
+  published Boolean @default(true)
+
+  imageUrl String
+  altFr    String
+  altEn    String
+  altEs    String
+  altAr    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([position])
+}

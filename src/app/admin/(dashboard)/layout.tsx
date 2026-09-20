@@ -19,6 +19,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
           </Link>
 
           <nav className="flex items-center gap-5 text-sm">
+            <Link href="/admin/suites" className="hover:text-primary">
+              Suites
+            </Link>
+            <Link href="/admin/galerie" className="hover:text-primary">
+              Galerie
+            </Link>
             <Link href="/admin/prestations" className="hover:text-primary">
               Prestations
             </Link>

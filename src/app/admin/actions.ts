@@ -105,29 +105,60 @@ export async function toggleAmenity(formData: FormData) {
   revalidatePath("/admin/prestations");
 }
 
-/** Swaps a row with its neighbour, which is all reordering a short list needs. */
-export async function moveAmenity(formData: FormData) {
-  await requireUser();
-  const id = String(formData.get("id") ?? "");
-  const direction = formData.get("direction") === "up" ? "up" : "down";
+/**
+ * Swaps a row with its neighbour, which is all reordering a short list needs.
+ *
+ * The three ordered tables share the same `position` column, and Prisma's
+ * per-model clients are not interchangeable, so this speaks SQL. The table name
+ * comes from the union type below and never from user input.
+ */
+const ORDERED_TABLES = {
+  amenity: "Amenity",
+  suite: "Suite",
+  galleryImage: "GalleryImage",
+} as const;
 
-  const current = await db.amenity.findUnique({ where: { id } });
+type Ordered = { id: string; position: number };
+
+async function swapPosition(
+  model: keyof typeof ORDERED_TABLES,
+  id: string,
+  rawDirection: FormDataEntryValue | null,
+) {
+  if (!id) return;
+  const table = ORDERED_TABLES[model];
+  const up = rawDirection === "up";
+
+  const [current] = await db.$queryRawUnsafe<Ordered[]>(
+    `SELECT id, position FROM "${table}" WHERE id = $1`,
+    id,
+  );
   if (!current) return;
 
-  const neighbour = await db.amenity.findFirst({
-    where:
-      direction === "up"
-        ? { position: { lt: current.position } }
-        : { position: { gt: current.position } },
-    orderBy: { position: direction === "up" ? "desc" : "asc" },
-  });
+  const [neighbour] = await db.$queryRawUnsafe<Ordered[]>(
+    `SELECT id, position FROM "${table}"
+      WHERE position ${up ? "<" : ">"} $1
+      ORDER BY position ${up ? "DESC" : "ASC"}
+      LIMIT 1`,
+    current.position,
+  );
   if (!neighbour) return;
 
-  await db.$transaction([
-    db.amenity.update({ where: { id: current.id }, data: { position: neighbour.position } }),
-    db.amenity.update({ where: { id: neighbour.id }, data: { position: current.position } }),
-  ]);
+  // One statement, so the two rows can never be left holding the same position.
+  await db.$executeRawUnsafe(
+    `UPDATE "${table}"
+        SET position = CASE id WHEN $1 THEN $2::int ELSE $4::int END
+      WHERE id IN ($1, $3)`,
+    current.id,
+    neighbour.position,
+    neighbour.id,
+    current.position,
+  );
+}
 
+export async function moveAmenity(formData: FormData) {
+  await requireUser();
+  await swapPosition("amenity", String(formData.get("id") ?? ""), formData.get("direction"));
   refreshPublicPages();
   revalidatePath("/admin/prestations");
 }
@@ -146,4 +177,165 @@ export async function setEnquiryStatus(formData: FormData) {
   await db.enquiry.update({ where: { id }, data: { status: status as EnquiryStatus } });
   revalidatePath("/admin/demandes");
   revalidatePath("/admin");
+}
+
+export type SuiteState = { error?: string; saved?: boolean };
+
+export async function saveSuite(_state: SuiteState, formData: FormData): Promise<SuiteState> {
+  await requireUser();
+
+  const id = String(formData.get("id") ?? "");
+  const text = (field: string) => String(formData.get(field) ?? "").trim();
+
+  const nameFr = text("nameFr");
+  if (!nameFr) return { error: "Le nom en français est obligatoire." };
+
+  const area = text("areaSqm");
+  const areaSqm = area ? Number(area) : null;
+  if (areaSqm !== null && (!Number.isInteger(areaSqm) || areaSqm < 1 || areaSqm > 2000)) {
+    return { error: "La surface doit être un nombre de mètres carrés." };
+  }
+
+  const imageUrl = text("imageUrl") || null;
+  const alt = (field: string) => (imageUrl ? text(field) || null : null);
+
+  const previous = await db.suite.findUnique({ where: { id }, select: { imageUrl: true } });
+
+  await db.suite.update({
+    where: { id },
+    data: {
+      nameFr,
+      nameEn: text("nameEn") || nameFr,
+      nameEs: text("nameEs") || nameFr,
+      nameAr: text("nameAr") || nameFr,
+      descriptionFr: text("descriptionFr"),
+      descriptionEn: text("descriptionEn") || text("descriptionFr"),
+      descriptionEs: text("descriptionEs") || text("descriptionFr"),
+      descriptionAr: text("descriptionAr") || text("descriptionFr"),
+      level: text("level") === "0" ? "0" : "+1",
+      areaSqm,
+      imageUrl,
+      altFr: alt("altFr"),
+      altEn: alt("altEn"),
+      altEs: alt("altEs"),
+      altAr: alt("altAr"),
+    },
+  });
+
+  if (previous?.imageUrl && previous.imageUrl !== imageUrl) {
+    await deleteImage(previous.imageUrl);
+  }
+
+  refreshPublicPages();
+  revalidatePath("/admin/suites");
+  return { saved: true };
+}
+
+export async function toggleSuite(formData: FormData) {
+  await requireUser();
+  const id = String(formData.get("id") ?? "");
+
+  const suite = await db.suite.findUnique({ where: { id }, select: { published: true } });
+  if (!suite) return;
+
+  await db.suite.update({ where: { id }, data: { published: !suite.published } });
+  refreshPublicPages();
+  revalidatePath("/admin/suites");
+}
+
+export async function moveSuite(formData: FormData) {
+  await requireUser();
+  await swapPosition("suite", String(formData.get("id") ?? ""), formData.get("direction"));
+  refreshPublicPages();
+  revalidatePath("/admin/suites");
+}
+
+export async function toggleGalleryImage(formData: FormData) {
+  await requireUser();
+  const id = String(formData.get("id") ?? "");
+
+  const photo = await db.galleryImage.findUnique({ where: { id }, select: { published: true } });
+  if (!photo) return;
+
+  await db.galleryImage.update({ where: { id }, data: { published: !photo.published } });
+  refreshPublicPages();
+  revalidatePath("/admin/galerie");
+}
+
+export async function moveGalleryImage(formData: FormData) {
+  await requireUser();
+  await swapPosition("galleryImage", String(formData.get("id") ?? ""), formData.get("direction"));
+  refreshPublicPages();
+  revalidatePath("/admin/galerie");
+}
+
+export async function deleteGalleryImage(formData: FormData) {
+  await requireUser();
+  const id = String(formData.get("id") ?? "");
+
+  const photo = await db.galleryImage.findUnique({ where: { id } });
+  if (!photo) return;
+
+  await db.galleryImage.delete({ where: { id } });
+  await deleteImage(photo.imageUrl);
+
+  refreshPublicPages();
+  revalidatePath("/admin/galerie");
+}
+
+export type GalleryState = { error?: string; added?: number };
+
+export async function addGalleryImages(
+  _state: GalleryState,
+  formData: FormData,
+): Promise<GalleryState> {
+  await requireUser();
+
+  // The picker uploads first and posts the URLs, so this only records them.
+  const urls = formData.getAll("imageUrl").map(String).filter(Boolean);
+  if (urls.length === 0) return { error: "Choisissez au moins une photo." };
+
+  const last = await db.galleryImage.findFirst({ orderBy: { position: "desc" } });
+  let position = (last?.position ?? 0) + 1;
+
+  for (const imageUrl of urls) {
+    // Alt text starts empty; the owner writes it on the row.
+    await db.galleryImage.create({
+      data: { imageUrl, position, altFr: "", altEn: "", altEs: "", altAr: "" },
+    });
+    position += 1;
+  }
+
+  refreshPublicPages();
+  revalidatePath("/admin/galerie");
+  return { added: urls.length };
+}
+
+export type GalleryAltState = { error?: string; saved?: boolean };
+
+export async function saveGalleryAlt(
+  _state: GalleryAltState,
+  formData: FormData,
+): Promise<GalleryAltState> {
+  await requireUser();
+
+  const id = String(formData.get("id") ?? "");
+  const text = (field: string) => String(formData.get(field) ?? "").trim();
+
+  const altFr = text("altFr");
+  if (!altFr) return { error: "La description en français est obligatoire." };
+
+  await db.galleryImage.update({
+    where: { id },
+    data: {
+      altFr,
+      altEn: text("altEn") || altFr,
+      altEs: text("altEs") || altFr,
+      altAr: text("altAr") || altFr,
+    },
+  });
+
+  refreshPublicPages();
+  revalidatePath("/admin/galerie");
+  return { saved: true };
 }

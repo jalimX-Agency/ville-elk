@@ -7,7 +7,10 @@ import { locales } from "./locales";
  * of a French word.
  */
 export const pageSlugs = {
+  suites: { fr: "suites", en: "suites", es: "suites", ar: "ajniha" },
+  gallery: { fr: "galerie", en: "gallery", es: "galeria", ar: "maarid" },
   booking: { fr: "reserver", en: "booking", es: "reservar", ar: "hajz" },
+  contact: { fr: "contact", en: "contact", es: "contacto", ar: "ittisal" },
 } as const satisfies Record<string, Record<Locale, string>>;
 
 export type PageKey = keyof typeof pageSlugs;

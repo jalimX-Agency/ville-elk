@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/lib/i18n/locales";
-import { hrefFor } from "@/lib/i18n/routes";
+import { hrefFor, pageSlugs, type PageKey } from "@/lib/i18n/routes";
 
 const BASE = "https://www.villaelk.com";
 
@@ -20,13 +20,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     alternates: { languages: alternates((l) => `/${l}`) },
   }));
 
-  const booking = locales.map((locale) => ({
-    url: `${BASE}${hrefFor("booking", locale)}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: locale === "fr" ? 0.9 : 0.7,
-    alternates: { languages: alternates((l) => hrefFor("booking", l)) },
-  }));
+  const pages = (Object.keys(pageSlugs) as PageKey[]).flatMap((page) =>
+    locales.map((locale) => ({
+      url: `${BASE}${hrefFor(page, locale)}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: locale === "fr" ? 0.9 : 0.7,
+      alternates: { languages: alternates((l) => hrefFor(page, l)) },
+    })),
+  );
 
-  return [...home, ...booking];
+  return [...home, ...pages];
 }

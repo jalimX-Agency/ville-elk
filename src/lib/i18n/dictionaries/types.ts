@@ -36,7 +36,17 @@ export interface Dictionary {
     eyebrow: string;
     title: string;
   };
+  suites: {
+    meta: { title: string; description: string };
+    eyebrow: string;
+    title: string;
+    intro: string;
+    levelNames: { ground: string; upper: string };
+    areaLabel: string;
+  };
   gallery: {
+    meta: { title: string; description: string };
+    intro: string;
     eyebrow: string;
     title: string;
     note: string;
@@ -82,16 +92,16 @@ export interface Dictionary {
     };
   };
   contact: {
+    meta: { title: string; description: string };
+    addressTitle: string;
+    address: string;
+    instagramCta: string;
+    reachTitle: string;
     eyebrow: string;
     title: string;
     description: string;
     whatsappCta: string;
     emailCta: string;
-  };
-  building: {
-    eyebrow: string;
-    title: string;
-    body: string;
   };
   theme: {
     toDark: string;

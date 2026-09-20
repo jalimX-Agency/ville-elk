@@ -10,6 +10,11 @@ export default async function DashboardHome() {
     db.enquiry.count({ where: { status: "NEW" } }),
     db.enquiry.count(),
   ]);
+  const [suites, photos, missingAlt] = await Promise.all([
+    db.suite.count({ where: { published: true } }),
+    db.galleryImage.count({ where: { published: true } }),
+    db.galleryImage.count({ where: { altFr: "" } }),
+  ]);
 
   return (
     <>
@@ -48,14 +53,29 @@ export default async function DashboardHome() {
           </p>
         </Link>
 
-        {/* Sections still to come; listed so nothing looks missing. */}
-        <div className="border border-dashed border-border p-6 text-muted-foreground sm:col-span-2">
-          <p className="field-label">Bientôt</p>
-          <ul className="mt-3 space-y-1 text-sm">
-            <li>Suites et niveaux</li>
-            <li>Galerie photo</li>
-          </ul>
-        </div>
+        <Link
+          href="/admin/suites"
+          className="block border border-border bg-card p-6 transition-colors hover:border-primary"
+        >
+          <p className="field-label">Suites et chambres</p>
+          <p className="mt-3 text-3xl font-light">{suites}</p>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Noms, descriptions et photos.
+          </p>
+        </Link>
+
+        <Link
+          href="/admin/galerie"
+          className="block border border-border bg-card p-6 transition-colors hover:border-primary"
+        >
+          <p className="field-label">Galerie</p>
+          <p className="mt-3 text-3xl font-light">{photos}</p>
+          <p className="mt-3 text-sm text-muted-foreground">
+            {missingAlt > 0
+              ? `${missingAlt} photo${missingAlt > 1 ? "s" : ""} sans description.`
+              : "Toutes les photos sont décrites."}
+          </p>
+        </Link>
       </div>
     </>
   );

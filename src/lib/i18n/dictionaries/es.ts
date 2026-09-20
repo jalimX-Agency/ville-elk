@@ -66,7 +66,26 @@ export const es = {
     eyebrow: "Servicios",
     title: "Lo que ofrece la villa",
   },
+  suites: {
+    meta: {
+      title: "Suites y habitaciones — Villa Elk, Marrakech",
+      description:
+        "Tres suites en la planta alta, incluida una suite principal de más de 50 m², y una habitación a ras de suelo. Baños en gran formato de azulejo italiano. Hasta 10 huéspedes.",
+    },
+    eyebrow: "Dormir",
+    title: "Tres suites y una habitación",
+    intro:
+      "La planta alta reúne tres suites, cada una con su baño en gran formato de azulejo italiano. Una cuarta habitación queda a ras de suelo, cerca del salón y de la terraza.",
+    levelNames: { ground: "Planta baja", upper: "Planta alta" },
+    areaLabel: "Más de",
+  },
   gallery: {
+    meta: {
+      title: "Galería — Villa Elk, Golf Argan, Marrakech",
+      description:
+        "La villa en imágenes: piscina, salones, suites, hammam, gimnasio y sala de cine, en Golf Argan, Agdal, Marrakech.",
+    },
+    intro: "La villa tal como está hoy, nivel por nivel.",
     eyebrow: "Recorrido",
     title: "Dentro de Villa Elk",
     note: "Fotos tomadas por el propietario — pronto llegará un reportaje profesional.",
@@ -131,17 +150,21 @@ export const es = {
     },
   },
   contact: {
+    meta: {
+      title: "Contacto — Villa Elk, Marrakech",
+      description:
+        "Escriba a Villa Elk por WhatsApp o por email. Golf Argan Resort, Agdal, Marrakech. Respondemos en 24 horas.",
+    },
+    addressTitle: "Dirección",
+    address: "Golf Argan Resort, extensión — villa 2\nAgdal, Marrakech, Marruecos",
+    instagramCta: "Seguir en Instagram",
+    reachTitle: "Contactarnos",
     eyebrow: "Contacto",
     title: "Planifiquemos su estancia",
     description:
       "El equipo de Villa Elk responde en menos de 24h para organizar su estancia en Marrakech.",
     whatsappCta: "Escribir por WhatsApp",
     emailCta: "Enviar un email",
-  },
-  building: {
-    eyebrow: "Sitio en construcción",
-    title: "Pronto habrá más",
-    body: "La reserva en línea, la galería, los servicios y la información práctica están en preparación. Mientras tanto, escríbanos directamente: respondemos en menos de 24 horas.",
   },
   theme: {
     toDark: "Cambiar a modo oscuro",

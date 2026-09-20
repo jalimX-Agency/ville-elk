@@ -24,3 +24,21 @@ export type Amenity = {
 export function pick(text: Localized, locale: Locale): string {
   return text[locale] || text.fr;
 }
+
+/** One room the villa lets, as the public pages read it. */
+export type Suite = {
+  id: string;
+  slug: string;
+  /** Matches the levels tour: "0" for the ground floor, "+1" for upstairs. */
+  level: string;
+  areaSqm: number | null;
+  name: Localized;
+  description: Localized;
+  image: ContentImage | null;
+};
+
+/** One photograph in the gallery. The alt text is the only copy it carries. */
+export type GalleryPhoto = {
+  id: string;
+  image: ContentImage;
+};
