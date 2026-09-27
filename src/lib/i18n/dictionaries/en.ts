@@ -4,7 +4,7 @@ export const en = {
   meta: {
     title: "Villa Elk — Luxury Villa at Golf Argan, Marrakech",
     description:
-      "Villa Elk, a contemporary villa with three suites and a bedroom across 3 levels at Golf Argan Resort, Agdal, Marrakech. Private pool, hammam, home cinema — sleeps up to 10 guests.",
+      "A private villa of four suites at Golf Argan, Marrakech, 10 minutes from the airport: pool, hammam, cinema, gym and a Moroccan rooftop. Up to 10 guests.",
   },
   nav: {
     home: "Home",
@@ -20,19 +20,9 @@ export const en = {
     threshold: "Step across the threshold.",
     scroll: "Enter",
     subtitle:
-      "A modern, clean-lined city villa spread across three levels, in the heart of Marrakech's Agdal district.",
+      "A contemporary town house on three levels and a rooftop, quiet, ten minutes from the airport.",
     cta: "Discover the villa",
     bookCta: "Check availability",
-  },
-  concept: {
-    eyebrow: "The spirit of the place",
-    title: "Three levels, one idea: calm",
-    body: "Golf Argan Resort, extension — villa 2. Minutes from the golf course and the heart of Agdal, Villa Elk unfolds across three levels: clean lines, light stone and low, raking light — built for stays among family and close friends.",
-    stats: [
-      { value: "04", label: "Bedrooms / suites" },
-      { value: "10", label: "Guests maximum" },
-      { value: "03", label: "Levels" },
-    ],
   },
   tour: {
     eyebrow: "The villa",
@@ -42,23 +32,34 @@ export const en = {
       {
         code: "0",
         name: "Ground floor",
-        title: "Live",
-        body: "Past the threshold: a double living room, European and Moroccan, the dining room and kitchen, a bedroom with its own bathroom — and the terrace opening onto the pool.",
-        spaces: ["European & Moroccan living rooms", "Dining room", "Kitchen", "Bedroom with bathroom", "Pool & terrace", "Barbecue corner", "Secure indoor garage", "Small garden"],
+        title: "Gathering",
+        body: "The heart of the house: a double living room, Moroccan and European, around a contemporary fireplace, the dining room and a fully equipped kitchen. Everything opens onto the terrace and its private pool, screened from view by sheer curtains.",
+        spaces: ["Moroccan & European living rooms", "Contemporary fireplace", "Dining room", "Equipped kitchen", "Suite with shower room", "Guest cloakroom", "Private pool", "Terrace, barbecue & outdoor dining", "Secure indoor garage"],
+        photos: { main: "The private pool under its pergola", detail: "The Moroccan living room" },
       },
       {
         code: "−1",
         name: "Lower level",
-        title: "Restore",
-        body: "Below, sheltered from the heat: the hammam, a gym opening onto a bamboo patio, and the cinema room.",
-        spaces: ["Hammam", "Gym", "Cinema room"],
+        title: "Unwinding",
+        body: "Below, a whole floor given to wellbeing: a spa with hammam, a gym opening onto a patio, a private cinema and a hair salon. Reason enough not to go out.",
+        spaces: ["Spa & hammam", "Gym onto a patio", "Cinema room", "Hair salon", "Storage"],
+        photos: { main: "The hammam", detail: "The gym opening onto the patio" },
       },
       {
         code: "+1",
         name: "Upper floor",
-        title: "Sleep",
-        body: "Upstairs, three suites including a master suite of over 50 m², with bathrooms in large-format Italian tile.",
-        spaces: ["Master suite · over 50 m²", "Two suites", "Large-format Italian tile", "Up to 10 guests"],
+        title: "Sleeping",
+        body: "Three suites designed like hotel rooms, each with a private balcony. The master suite, about 60 m², brings together a dressing room, a study and a bathroom with a marble bathtub and a walk-in shower.",
+        spaces: ["Master suite · about 60 m²", "Two suites with balconies", "Marble bathtub", "Walk-in showers", "Premium bedding"],
+        photos: { main: "The master suite", detail: "The marble bathtub in the master suite" },
+      },
+      {
+        code: "+2",
+        name: "Rooftop",
+        title: "The Sta7",
+        body: "At the top, the Sta7 changes the mood: a Moroccan lounge dressed in zellige, a summer kitchen with a pizza oven and barbecue, and the view out to the Atlas. For long lunches and dinners under the Marrakech sky.",
+        spaces: ["Zellige Moroccan lounge", "Summer kitchen", "Pizza oven", "Barbecue", "View of the Atlas"],
+        photos: { main: "The Moroccan lounge on the rooftop", detail: "The rooftop pizza oven" },
       },
     ],
   },
@@ -66,46 +67,49 @@ export const en = {
     eyebrow: "Amenities",
     title: "What the villa offers",
   },
+  location: {
+    eyebrow: "Location",
+    title: "Quiet, and minutes from everything",
+    intro:
+      "Golf Argan Resort, in the Agdal district: a calm street with no noise, and all of Marrakech within a short drive.",
+    places: [
+      { minutes: "10", label: "Marrakech Menara Airport" },
+      { minutes: "3", label: "Nouria & Argan golf courses" },
+      { minutes: "3", label: "Avenue Mohammed VI" },
+      { minutes: "5", label: "Morocco Mall" },
+      { minutes: "5", label: "Al Mazar & Megarama cinema" },
+    ],
+    unit: "min",
+    note: "Driving times.",
+  },
   suites: {
     meta: {
-      title: "Suites and bedrooms — Villa Elk, Marrakech",
+      title: "Suites — Villa Elk, Marrakech",
       description:
-        "Three suites upstairs, including a master suite of over 50 m², and one bedroom on the level. Bathrooms in large-format Italian tile. Up to 10 guests.",
+        "Four suites with their own bathrooms, including a master suite of about 60 m² with a marble bathtub, dressing room and study. Private balconies, premium bedding.",
     },
     eyebrow: "Sleeping",
-    title: "Three suites and a bedroom",
+    title: "Four suites",
     intro:
-      "The upper floor holds three suites, each with its own bathroom in large-format Italian tile. A fourth bedroom stays on the level, near the living room and the terrace.",
+      "Three suites upstairs, each with a private balcony, and a fourth on the ground floor near the living rooms. All have their own bathroom, a television, generous storage and premium bedding chosen for properly restful nights.",
     levelNames: { ground: "Ground floor", upper: "Upper floor" },
-    areaLabel: "Over",
+    areaLabel: "About",
   },
   gallery: {
     meta: {
       title: "Gallery — Villa Elk, Golf Argan, Marrakech",
       description:
-        "The villa in pictures: pool, living rooms, suites, hammam, gym and cinema room, at Golf Argan, Agdal, Marrakech.",
+        "The villa in pictures: pool, rooftop, suites, hammam, cinema and gym, at Golf Argan, Agdal, Marrakech.",
     },
-    intro: "The villa as it stands today, level by level.",
+    intro: "The villa as it is, level by level — from the lower floor to the rooftop.",
     eyebrow: "Walkthrough",
     title: "Inside Villa Elk",
-    note: "Photos taken by the owner — a professional shoot is coming soon.",
-  },
-  booking: {
-    eyebrow: "Booking",
-    title: "Stay conditions",
-    currency: "Rates shown in MAD (Moroccan Dirham)",
-    policyTitle: "Booking policy",
-    policyLines: [
-      "Deposit required to confirm booking",
-      "Free cancellation up to 48h before arrival",
-      "Payment by bank transfer, cash or card",
-    ],
   },
   reserve: {
     meta: {
       title: "Book Villa Elk — Whole-villa rental in Marrakech",
       description:
-        "Request your dates at Villa Elk, a private villa of three suites and one bedroom at Golf Argan, Agdal, Marrakech. The whole villa, up to 10 guests. We reply within 24 hours.",
+        "Request your dates at Villa Elk, a private villa of four suites at Golf Argan, Marrakech. The whole villa, up to 10 guests. We reply within 24 hours.",
     },
     eyebrow: "Booking",
     title: "Ask for your dates",

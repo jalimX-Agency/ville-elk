@@ -4,7 +4,7 @@ export const es = {
   meta: {
     title: "Villa Elk — Villa de lujo en Golf Argan, Marrakech",
     description:
-      "Villa Elk, una villa contemporánea con tres suites y un dormitorio en 3 niveles en Golf Argan Resort, Agdal, Marrakech. Piscina privada, hammam, cine privado — hasta 10 huéspedes.",
+      "Villa privada de cuatro suites en Golf Argan, Marrakech, a 10 minutos del aeropuerto: piscina, hammam, cine, gimnasio y azotea marroquí. Hasta 10 huéspedes.",
   },
   nav: {
     home: "Inicio",
@@ -20,45 +20,46 @@ export const es = {
     threshold: "Cruce el umbral.",
     scroll: "Entrar",
     subtitle:
-      "Una villa urbana de arquitectura moderna y depurada, distribuida en tres niveles, en el corazón del barrio turístico de Agdal.",
+      "Una casa urbana contemporánea en tres niveles y una azotea, tranquila, a diez minutos del aeropuerto.",
     cta: "Descubrir la villa",
     bookCta: "Consultar disponibilidad",
   },
-  concept: {
-    eyebrow: "El espíritu del lugar",
-    title: "Tres niveles, una sola idea: la calma",
-    body: "Golf Argan Resort, extensión — villa 2. A pocos minutos del campo de golf y del centro de Agdal, Villa Elk se despliega en tres niveles: líneas limpias, piedra clara y luz rasante, pensada para estancias en familia o entre amigos cercanos.",
-    stats: [
-      { value: "04", label: "Habitaciones / suites" },
-      { value: "10", label: "Huéspedes máximo" },
-      { value: "03", label: "Niveles" },
-    ],
-  },
   tour: {
     eyebrow: "La villa",
-    title: "Nivel a nivel",
+    title: "Nivel por nivel",
     levelLabel: "Nivel",
     levels: [
       {
         code: "0",
         name: "Planta baja",
-        title: "Vivir",
-        body: "Cruzado el umbral: un doble salón, europeo y marroquí, el comedor y la cocina, un dormitorio con su baño — y la terraza abierta a la piscina.",
-        spaces: ["Doble salón europeo y marroquí", "Comedor", "Cocina", "Dormitorio con baño", "Piscina y terraza", "Rincón de barbacoa", "Garaje interior seguro", "Pequeño jardín"],
+        title: "Recibir",
+        body: "El corazón de la casa: un doble salón, marroquí y europeo, en torno a una chimenea contemporánea, el comedor y una cocina totalmente equipada. Todo se abre a la terraza y su piscina privada, protegida de las miradas por visillos.",
+        spaces: ["Salón marroquí y salón europeo", "Chimenea contemporánea", "Comedor", "Cocina equipada", "Suite con baño", "Aseo de invitados", "Piscina privada", "Terraza, barbacoa y comedor exterior", "Garaje interior seguro"],
+        photos: { main: "La piscina privada bajo su pérgola", detail: "El salón marroquí" },
       },
       {
         code: "−1",
-        name: "Nivel inferior",
-        title: "Recuperarse",
-        body: "Abajo, al resguardo del calor: el hammam, un gimnasio abierto a un patio de bambú y la sala de cine.",
-        spaces: ["Hammam", "Gimnasio", "Sala de cine"],
+        name: "Sótano",
+        title: "Descansar",
+        body: "Abajo, una planta entera dedicada al bienestar: un spa con hammam, un gimnasio abierto a un patio, una sala de cine privada y un espacio de peluquería. Sin necesidad de salir.",
+        spaces: ["Spa y hammam", "Gimnasio con patio", "Sala de cine", "Peluquería", "Almacenaje"],
+        photos: { main: "El hammam", detail: "El gimnasio abierto al patio" },
       },
       {
         code: "+1",
         name: "Planta alta",
-        title: "Descansar",
-        body: "Arriba, tres suites, entre ellas una suite principal de más de 50 m², con baños de gres porcelánico italiano de gran formato.",
-        spaces: ["Suite principal · más de 50 m²", "Dos suites", "Gres italiano de gran formato", "Hasta 10 huéspedes"],
+        title: "Dormir",
+        body: "Tres suites pensadas como habitaciones de hotel, cada una con su balcón privado. La suite principal, de unos 60 m², reúne vestidor, despacho y un baño con bañera de mármol y ducha a ras de suelo.",
+        spaces: ["Suite principal · unos 60 m²", "Dos suites con balcón", "Bañera de mármol", "Duchas a ras de suelo", "Ropa de cama de alta gama"],
+        photos: { main: "La suite principal", detail: "La bañera de mármol de la suite principal" },
+      },
+      {
+        code: "+2",
+        name: "Azotea",
+        title: "El Sta7",
+        body: "Arriba, el Sta7 cambia de ambiente: un salón marroquí revestido de zellige, una cocina de verano con horno de pizza y barbacoa, y vistas hasta el Atlas. Para almuerzos largos y cenas bajo el cielo de Marrakech.",
+        spaces: ["Salón marroquí de zellige", "Cocina de verano", "Horno de pizza", "Barbacoa", "Vistas al Atlas"],
+        photos: { main: "El salón marroquí de la azotea", detail: "El horno de pizza de la azotea" },
       },
     ],
   },
@@ -66,46 +67,49 @@ export const es = {
     eyebrow: "Servicios",
     title: "Lo que ofrece la villa",
   },
+  location: {
+    eyebrow: "Ubicación",
+    title: "Tranquila, y a minutos de todo",
+    intro:
+      "Golf Argan Resort, en el barrio de Agdal: una calle tranquila, sin ruido, y todo Marrakech a un corto trayecto en coche.",
+    places: [
+      { minutes: "10", label: "Aeropuerto de Marrakech-Menara" },
+      { minutes: "3", label: "Campos de golf Nouria y Argan" },
+      { minutes: "3", label: "Avenida Mohammed VI" },
+      { minutes: "5", label: "Morocco Mall" },
+      { minutes: "5", label: "Al Mazar y cine Megarama" },
+    ],
+    unit: "min",
+    note: "Tiempos en coche.",
+  },
   suites: {
     meta: {
-      title: "Suites y habitaciones — Villa Elk, Marrakech",
+      title: "Suites — Villa Elk, Marrakech",
       description:
-        "Tres suites en la planta alta, incluida una suite principal de más de 50 m², y una habitación a ras de suelo. Baños en gran formato de azulejo italiano. Hasta 10 huéspedes.",
+        "Cuatro suites con baño propio, incluida una suite principal de unos 60 m² con bañera de mármol, vestidor y despacho. Balcones privados, ropa de cama de alta gama.",
     },
     eyebrow: "Dormir",
-    title: "Tres suites y una habitación",
+    title: "Cuatro suites",
     intro:
-      "La planta alta reúne tres suites, cada una con su baño en gran formato de azulejo italiano. Una cuarta habitación queda a ras de suelo, cerca del salón y de la terraza.",
+      "Tres suites en la planta alta, cada una con balcón privado, y una cuarta en la planta baja, cerca de los salones. Todas tienen baño propio, televisión, amplio almacenaje y ropa de cama de alta gama elegida para noches de verdadero descanso.",
     levelNames: { ground: "Planta baja", upper: "Planta alta" },
-    areaLabel: "Más de",
+    areaLabel: "Unos",
   },
   gallery: {
     meta: {
       title: "Galería — Villa Elk, Golf Argan, Marrakech",
       description:
-        "La villa en imágenes: piscina, salones, suites, hammam, gimnasio y sala de cine, en Golf Argan, Agdal, Marrakech.",
+        "La villa en imágenes: piscina, azotea, suites, hammam, cine y gimnasio, en Golf Argan, Agdal, Marrakech.",
     },
-    intro: "La villa tal como está hoy, nivel por nivel.",
+    intro: "La villa tal como es, nivel por nivel — del sótano a la azotea.",
     eyebrow: "Recorrido",
     title: "Dentro de Villa Elk",
-    note: "Fotos tomadas por el propietario — pronto llegará un reportaje profesional.",
-  },
-  booking: {
-    eyebrow: "Reserva",
-    title: "Condiciones de estancia",
-    currency: "Tarifas mostradas en MAD (dírham marroquí)",
-    policyTitle: "Política de reserva",
-    policyLines: [
-      "Depósito obligatorio para confirmar la reserva",
-      "Cancelación gratuita hasta 48h antes de la llegada",
-      "Pago por transferencia, efectivo o tarjeta",
-    ],
   },
   reserve: {
     meta: {
       title: "Reservar Villa Elk — Alquiler de villa completa en Marrakech",
       description:
-        "Solicite sus fechas en Villa Elk, villa privada de tres suites y una habitación en Golf Argan, Agdal, Marrakech. La villa entera, hasta 10 huéspedes. Respondemos en 24 horas.",
+        "Solicite sus fechas en Villa Elk, villa privada de cuatro suites en Golf Argan, Marrakech. La villa entera, hasta 10 huéspedes. Respondemos en 24 horas.",
     },
     eyebrow: "Reserva",
     title: "Solicite sus fechas",

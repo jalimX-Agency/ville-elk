@@ -77,7 +77,7 @@ export async function generateMetadata({
       siteName: "Villa Elk",
       images: [
         {
-          url: "/images/villa-elk/pool-terrace-sunset.jpg",
+          url: "/images/villa-elk/og.jpg",
           width: 1200,
           height: 630,
         },

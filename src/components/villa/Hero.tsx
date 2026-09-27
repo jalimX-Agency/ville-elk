@@ -118,7 +118,7 @@ export function Hero({ dict }: { dict: Dictionary }) {
           className="absolute inset-0"
         >
           <Image
-            src="/images/villa-elk/pool-terrace-sunset.jpg"
+            src="/images/villa-elk/piscine.jpg"
             alt=""
             fill
             priority

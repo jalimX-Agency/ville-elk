@@ -6,25 +6,16 @@ import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScro
 import { GATE_OUTLINE, GATE_SILHOUETTE } from "@/components/brand/logo-paths";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 
-type Shot = { src: string; alt: string };
-
-// Photos per level, in dictionary order (0, −1, +1).
-const SHOTS: { main: Shot; detail: Shot }[] = [
-  {
-    main: { src: "dining-terrace.jpg", alt: "Salle à manger ouverte sur la terrasse" },
-    detail: { src: "salon-marocain.jpg", alt: "Salon marocain du double séjour" },
-  },
-  {
-    main: { src: "hammam.jpg", alt: "Hammam en pierre et laiton" },
-    detail: { src: "gym.jpg", alt: "Salle de sport ouverte sur le patio de bambous" },
-  },
-  {
-    main: { src: "bedroom-2.jpg", alt: "Chambre avec accès au balcon" },
-    detail: { src: "bathroom-gold.jpg", alt: "Salle de bain en carrelage italien grand format" },
-  },
+// Photos per level, in dictionary order (0, −1, +1, +2). The alt text lives
+// with the level in the dictionary, so each language describes its own pictures.
+const SHOTS: { main: string; detail: string }[] = [
+  { main: "piscine-terrasse.jpg", detail: "salon-marocain.jpg" },
+  { main: "hammam.jpg", detail: "salle-de-sport.jpg" },
+  { main: "suite-parentale.jpg", detail: "suite-parentale-baignoire.jpg" },
+  { main: "sta7.jpg", detail: "sta7-four-a-pizza.jpg" },
 ];
 
-const ELEVATION: Record<string, number> = { "+1": 1, "0": 0, "−1": -1 };
+const ELEVATION: Record<string, number> = { "+2": 2, "+1": 1, "0": 0, "−1": -1 };
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function LevelsTour({ dict }: { dict: Dictionary }) {
@@ -122,16 +113,16 @@ function SwipeTour({ dict }: { dict: Dictionary }) {
 
             <div className="relative mt-5 aspect-[4/5] overflow-hidden bg-muted">
               <Image
-                src={`/images/villa-elk/${SHOTS[i].main.src}`}
-                alt={SHOTS[i].main.alt}
+                src={`/images/villa-elk/${SHOTS[i].main}`}
+                alt={lvl.photos.main}
                 fill
                 sizes="84vw"
                 className="object-cover"
               />
               <div className="absolute bottom-0 start-0 aspect-[4/5] w-[34%] overflow-hidden border-[5px] border-background bg-muted">
                 <Image
-                  src={`/images/villa-elk/${SHOTS[i].detail.src}`}
-                  alt={SHOTS[i].detail.alt}
+                  src={`/images/villa-elk/${SHOTS[i].detail}`}
+                  alt={lvl.photos.detail}
                   fill
                   sizes="30vw"
                   className="object-cover"
@@ -184,26 +175,26 @@ function PinnedTour({ dict }: { dict: Dictionary }) {
       <div className="absolute inset-y-0 end-0 w-[82%] overflow-hidden bg-muted">
         <AnimatePresence initial={false}>
           <motion.div
-            key={shots.main.src}
+            key={shots.main}
             initial={{ clipPath: wipeFrom }}
             animate={{ clipPath: "inset(0% 0 0% 0)" }}
             transition={{ duration: 0.9, ease: EASE }}
             className="absolute inset-0"
           >
-            <Image src={`/images/villa-elk/${shots.main.src}`} alt={shots.main.alt} fill sizes="(max-width: 1024px) 80vw, 45vw" className="object-cover" />
+            <Image src={`/images/villa-elk/${shots.main}`} alt={level.photos.main} fill sizes="(max-width: 1024px) 80vw, 45vw" className="object-cover" />
           </motion.div>
         </AnimatePresence>
       </div>
       <div className="absolute bottom-0 start-0 z-10 aspect-[4/5] w-[30%] overflow-hidden border-[5px] border-background bg-muted lg:bottom-[-4vh] lg:w-[34%] lg:border-[6px]">
         <AnimatePresence initial={false}>
           <motion.div
-            key={shots.detail.src}
+            key={shots.detail}
             initial={{ clipPath: wipeFrom }}
             animate={{ clipPath: "inset(0% 0 0% 0)" }}
             transition={{ duration: 0.9, delay: 0.12, ease: EASE }}
             className="absolute inset-0"
           >
-            <Image src={`/images/villa-elk/${shots.detail.src}`} alt={shots.detail.alt} fill sizes="(max-width: 1024px) 30vw, 20vw" className="object-cover" />
+            <Image src={`/images/villa-elk/${shots.detail}`} alt={level.photos.detail} fill sizes="(max-width: 1024px) 30vw, 20vw" className="object-cover" />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -314,10 +305,10 @@ function StackedTour({ dict }: { dict: Dictionary }) {
             </ul>
             <div className="mt-8 grid grid-cols-[1fr_0.55fr] items-end gap-3">
               <div className="relative aspect-[4/5] overflow-hidden bg-muted">
-                <Image src={`/images/villa-elk/${SHOTS[i].main.src}`} alt={SHOTS[i].main.alt} fill sizes="60vw" className="object-cover" />
+                <Image src={`/images/villa-elk/${SHOTS[i].main}`} alt={level.photos.main} fill sizes="60vw" className="object-cover" />
               </div>
               <div className="relative aspect-[4/5] overflow-hidden bg-muted">
-                <Image src={`/images/villa-elk/${SHOTS[i].detail.src}`} alt={SHOTS[i].detail.alt} fill sizes="35vw" className="object-cover" />
+                <Image src={`/images/villa-elk/${SHOTS[i].detail}`} alt={level.photos.detail} fill sizes="35vw" className="object-cover" />
               </div>
             </div>
           </li>
@@ -329,7 +320,8 @@ function StackedTour({ dict }: { dict: Dictionary }) {
 
 /**
  * Section drawing built from the logo gate: the two floors above ground fill the
- * gate, the lower level sits beneath the threshold line.
+ * gate, the lower level sits beneath the threshold line, and the rooftop sits
+ * above the arch — the same box as the lower level, mirrored.
  */
 function LevelDiagram({ codes, active, className }: { codes: string[]; active: string; className?: string }) {
   const clip = `gate-${useId().replace(/[^a-zA-Z0-9-]/g, "")}`;
@@ -340,7 +332,7 @@ function LevelDiagram({ codes, active, className }: { codes: string[]; active: s
   const label = (code: string) => (code === active ? "var(--primary)" : "var(--muted-foreground)");
 
   return (
-    <svg viewBox="0 0 220 262" className={className} aria-hidden="true" direction="ltr">
+    <svg viewBox="0 -46 220 308" className={className} aria-hidden="true" direction="ltr">
       <defs>
         <clipPath id={clip}>
           <path d={GATE_SILHOUETTE} />
@@ -351,14 +343,19 @@ function LevelDiagram({ codes, active, className }: { codes: string[]; active: s
         <rect x="0" y="104" width="200" height="86" style={{ ...band("0"), transition: "fill-opacity .5s" }} />
       </g>
       <rect x="28" y="198" width="144" height="56" style={{ ...band("−1"), transition: "fill-opacity .5s" }} />
+      <rect x="28" y="-38" width="144" height="30" style={{ ...band("+2"), transition: "fill-opacity .5s" }} />
 
       <g fill="none" style={{ stroke: "var(--accent)" }} strokeWidth="1.2" vectorEffect="non-scaling-stroke">
         <path d={GATE_OUTLINE} vectorEffect="non-scaling-stroke" />
         <path d="M 28 104 L 172 104" strokeDasharray="3 4" vectorEffect="non-scaling-stroke" />
         <path d="M 0 190 L 200 190" vectorEffect="non-scaling-stroke" />
         <rect x="28" y="198" width="144" height="56" strokeDasharray="3 4" vectorEffect="non-scaling-stroke" />
+        <rect x="28" y="-38" width="144" height="30" strokeDasharray="3 4" vectorEffect="non-scaling-stroke" />
       </g>
 
+      {codes.includes("+2") && (
+        <text x="184" y="-18" style={{ fill: label("+2") }} className="font-mono" fontSize="15">+2</text>
+      )}
       {codes.includes("+1") && (
         <text x="184" y="62" style={{ fill: label("+1") }} className="font-mono" fontSize="15">+1</text>
       )}

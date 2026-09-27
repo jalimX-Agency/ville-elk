@@ -4,6 +4,7 @@ import { Hero } from "@/components/villa/Hero";
 import { LevelsTour } from "@/components/villa/LevelsTour";
 import { Prestations } from "@/components/villa/Prestations";
 import { Explore } from "@/components/villa/Explore";
+import { Location } from "@/components/villa/Location";
 import { getAmenities } from "@/lib/content/amenities";
 import { notFound } from "next/navigation";
 import { CONTACT } from "@/lib/contact";
@@ -30,7 +31,7 @@ export default async function HomePage({
     url: `https://www.villaelk.com/${locale}`,
     email: CONTACT.email,
     telephone: `+${CONTACT.whatsapp}`,
-    image: "https://www.villaelk.com/images/villa-elk/pool-terrace-sunset.jpg",
+    image: "https://www.villaelk.com/images/villa-elk/og.jpg",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Golf Argan Resort, extension, Villa 2",
@@ -39,11 +40,16 @@ export default async function HomePage({
     },
     priceRange: "MAD",
     amenityFeature: [
-      { "@type": "LocationFeatureSpecification", name: "Piscine privée", value: true },
-      { "@type": "LocationFeatureSpecification", name: "Hammam", value: true },
-      { "@type": "LocationFeatureSpecification", name: "Salle de cinéma", value: true },
-      { "@type": "LocationFeatureSpecification", name: "Parking sécurisé", value: true },
-    ],
+      "Piscine privée",
+      "Spa & hammam",
+      "Salle de cinéma",
+      "Salle de sport",
+      "Rooftop avec cuisine d'été",
+      "Four à pizza",
+      "Barbecue",
+      "Cheminée",
+      "Garage intérieur sécurisé",
+    ].map((name) => ({ "@type": "LocationFeatureSpecification", name, value: true })),
     numberOfRooms: 4,
     occupancy: { "@type": "QuantitativeValue", maxValue: 10 },
   };
@@ -57,6 +63,7 @@ export default async function HomePage({
       <Hero dict={dict} />
       <LevelsTour dict={dict} />
       <Prestations dict={dict} locale={locale as Locale} amenities={amenities} />
+      <Location dict={dict} />
       <Explore dict={dict} locale={locale as Locale} />
     </>
   );

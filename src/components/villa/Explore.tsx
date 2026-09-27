@@ -17,13 +17,13 @@ export function Explore({ dict, locale }: { dict: Dictionary; locale: Locale }) 
       href: hrefFor("suites", locale),
       eyebrow: dict.suites.eyebrow,
       title: dict.suites.title,
-      image: "/images/villa-elk/bedroom-1.jpg",
+      image: "/images/villa-elk/suite-parentale.jpg",
     },
     {
       href: hrefFor("gallery", locale),
       eyebrow: dict.gallery.eyebrow,
       title: dict.gallery.title,
-      image: "/images/villa-elk/pool-terrace-sunset.jpg",
+      image: "/images/villa-elk/salon-europeen.jpg",
     },
   ];
 

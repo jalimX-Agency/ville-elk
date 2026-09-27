@@ -20,21 +20,31 @@ export interface Dictionary {
     cta: string;
     bookCta: string;
   };
-  concept: {
-    eyebrow: string;
-    title: string;
-    body: string;
-    stats: { value: string; label: string }[];
-  };
   tour: {
     eyebrow: string;
     title: string;
     levelLabel: string;
-    levels: { code: string; name: string; title: string; body: string; spaces: string[] }[];
+    levels: {
+      code: string;
+      name: string;
+      title: string;
+      body: string;
+      spaces: string[];
+      /** Alt text for the level's two photographs. */
+      photos: { main: string; detail: string };
+    }[];
   };
   amenities: {
     eyebrow: string;
     title: string;
+  };
+  location: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    places: { minutes: string; label: string }[];
+    unit: string;
+    note: string;
   };
   suites: {
     meta: { title: string; description: string };
@@ -49,14 +59,6 @@ export interface Dictionary {
     intro: string;
     eyebrow: string;
     title: string;
-    note: string;
-  };
-  booking: {
-    eyebrow: string;
-    title: string;
-    currency: string;
-    policyTitle: string;
-    policyLines: string[];
   };
   reserve: {
     meta: { title: string; description: string };

@@ -69,7 +69,7 @@ export async function generateMetadata({
       description: meta.description,
       url: `${SITE}${hrefFor(resolved.page, resolved.locale)}`,
       siteName: "Villa Elk",
-      images: [{ url: "/images/villa-elk/pool-terrace-sunset.jpg", width: 1200, height: 630 }],
+      images: [{ url: "/images/villa-elk/og.jpg", width: 1200, height: 630 }],
     },
   };
 }
@@ -146,7 +146,6 @@ async function GalleryPage({ dict, locale }: { dict: Dictionary; locale: Locale 
         intro={dict.gallery.intro}
       />
       <GalleryGrid photos={photos} locale={locale} />
-      <p className="mt-8 text-sm text-muted-foreground">{dict.gallery.note}</p>
       <NextStep dict={dict} locale={locale} />
     </section>
   );
