@@ -59,6 +59,18 @@ export interface Dictionary {
     intro: string;
     eyebrow: string;
     title: string;
+    categories: {
+      all: string;
+      exterieur: string;
+      rdc: string;
+      sousSol: string;
+      suites: string;
+      rooftop: string;
+    };
+    filterLabel: string;
+    showMore: string;
+    shownOf: string;
+    viewer: { open: string; close: string; previous: string; next: string };
   };
   reserve: {
     meta: { title: string; description: string };

@@ -130,6 +130,10 @@ model GalleryImage {
   position  Int
   published Boolean @default(true)
 
+  /// Which part of the house the photograph shows; the gallery filters on it.
+  /// One of: exterieur, rdc, sous-sol, suites, rooftop.
+  category String @default("rdc")
+
   imageUrl String
   altFr    String
   altEn    String
@@ -140,4 +144,5 @@ model GalleryImage {
   updatedAt DateTime @updatedAt
 
   @@index([position])
+  @@index([category, position])
 }

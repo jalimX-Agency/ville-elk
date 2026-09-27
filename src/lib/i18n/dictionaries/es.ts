@@ -4,7 +4,7 @@ export const es = {
   meta: {
     title: "Villa Elk — Villa de lujo en Golf Argan, Marrakech",
     description:
-      "Villa privada de cuatro suites en Golf Argan, Marrakech, a 10 minutos del aeropuerto: piscina, hammam, cine, gimnasio y azotea marroquí. Hasta 10 huéspedes.",
+      "Villa privada de cuatro suites en Golf Argan, Marrakech, a 12 minutos del aeropuerto: piscina, hammam, cine, gimnasio y azotea marroquí. Hasta 10 huéspedes.",
   },
   nav: {
     home: "Inicio",
@@ -20,7 +20,7 @@ export const es = {
     threshold: "Cruce el umbral.",
     scroll: "Entrar",
     subtitle:
-      "Una casa urbana contemporánea en tres niveles y una azotea, tranquila, a diez minutos del aeropuerto.",
+      "Una casa urbana contemporánea en tres niveles y una azotea, tranquila, a doce minutos del aeropuerto.",
     cta: "Descubrir la villa",
     bookCta: "Consultar disponibilidad",
   },
@@ -73,7 +73,7 @@ export const es = {
     intro:
       "Golf Argan Resort, en el barrio de Agdal: una calle tranquila, sin ruido, y todo Marrakech a un corto trayecto en coche.",
     places: [
-      { minutes: "10", label: "Aeropuerto de Marrakech-Menara" },
+      { minutes: "12", label: "Aeropuerto de Marrakech-Menara" },
       { minutes: "3", label: "Campos de golf Nouria y Argan" },
       { minutes: "3", label: "Avenida Mohammed VI" },
       { minutes: "5", label: "Morocco Mall" },
@@ -104,6 +104,18 @@ export const es = {
     intro: "La villa tal como es, nivel por nivel — del sótano a la azotea.",
     eyebrow: "Recorrido",
     title: "Dentro de Villa Elk",
+    categories: {
+      all: "Todo",
+      exterieur: "Exterior",
+      rdc: "Planta baja",
+      sousSol: "Sótano",
+      suites: "Suites",
+      rooftop: "Azotea",
+    },
+    filterLabel: "Filtrar por espacio",
+    showMore: "Mostrar más fotos",
+    shownOf: "fotos mostradas de",
+    viewer: { open: "Ampliar la foto", close: "Cerrar", previous: "Foto anterior", next: "Foto siguiente" },
   },
   reserve: {
     meta: {

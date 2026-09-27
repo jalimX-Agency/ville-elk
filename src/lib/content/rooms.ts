@@ -1,6 +1,6 @@
 import { db } from "@/lib/db/client";
 import type { GalleryImageModel, SuiteModel } from "@/generated/prisma/models";
-import type { GalleryPhoto, Suite } from "./types";
+import { isGalleryCategory, type GalleryPhoto, type Suite } from "./types";
 
 function toSuite(row: SuiteModel): Suite {
   return {
@@ -41,6 +41,8 @@ export async function getSuites(): Promise<Suite[]> {
 function toPhoto(row: GalleryImageModel): GalleryPhoto {
   return {
     id: row.id,
+    // A value the gallery does not know still shows under "all".
+    category: isGalleryCategory(row.category) ? row.category : "rdc",
     image: {
       src: row.imageUrl,
       alt: { fr: row.altFr, en: row.altEn, es: row.altEs, ar: row.altAr },

@@ -7,6 +7,7 @@ import { db } from "@/lib/db/client";
 import { auth, signIn, signOut } from "@/auth";
 import { locales } from "@/lib/i18n/locales";
 import { deleteImage } from "@/lib/storage/r2";
+import { isGalleryCategory } from "@/lib/content/types";
 
 /**
  * Server Actions are reachable by direct POST, so every one of them checks the
@@ -295,13 +296,16 @@ export async function addGalleryImages(
   const urls = formData.getAll("imageUrl").map(String).filter(Boolean);
   if (urls.length === 0) return { error: "Choisissez au moins une photo." };
 
+  const raw = String(formData.get("category") ?? "");
+  const category = isGalleryCategory(raw) ? raw : "rdc";
+
   const last = await db.galleryImage.findFirst({ orderBy: { position: "desc" } });
   let position = (last?.position ?? 0) + 1;
 
   for (const imageUrl of urls) {
     // Alt text starts empty; the owner writes it on the row.
     await db.galleryImage.create({
-      data: { imageUrl, position, altFr: "", altEn: "", altEs: "", altAr: "" },
+      data: { imageUrl, position, category, altFr: "", altEn: "", altEs: "", altAr: "" },
     });
     position += 1;
   }
@@ -325,9 +329,13 @@ export async function saveGalleryAlt(
   const altFr = text("altFr");
   if (!altFr) return { error: "La description en français est obligatoire." };
 
+  const category = text("category");
+  if (!isGalleryCategory(category)) return { error: "Choisissez un espace." };
+
   await db.galleryImage.update({
     where: { id },
     data: {
+      category,
       altFr,
       altEn: text("altEn") || altFr,
       altEs: text("altEs") || altFr,

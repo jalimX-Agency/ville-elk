@@ -4,7 +4,7 @@ export const fr = {
   meta: {
     title: "Villa Elk — Villa de luxe à Golf Argan, Marrakech",
     description:
-      "Villa privée de quatre suites à Golf Argan, Marrakech, à 10 minutes de l'aéroport : piscine, hammam, cinéma, salle de sport et rooftop marocain. Jusqu'à 10 invités.",
+      "Villa privée de quatre suites à Golf Argan, Marrakech, à 12 minutes de l'aéroport : piscine, hammam, cinéma, salle de sport et rooftop marocain. Jusqu'à 10 invités.",
   },
   nav: {
     home: "Accueil",
@@ -20,7 +20,7 @@ export const fr = {
     threshold: "Passez le seuil.",
     scroll: "Entrer",
     subtitle:
-      "Une maison de ville contemporaine sur trois niveaux et un rooftop, au calme, à dix minutes de l'aéroport.",
+      "Une maison de ville contemporaine sur trois niveaux et un rooftop, au calme, à douze minutes de l'aéroport.",
     cta: "Découvrir la villa",
     bookCta: "Demander une disponibilité",
   },
@@ -73,7 +73,7 @@ export const fr = {
     intro:
       "Golf Argan Resort, dans le quartier d'Agdal : une rue tranquille, sans nuisance sonore, et pourtant tout Marrakech à portée de voiture.",
     places: [
-      { minutes: "10", label: "Aéroport Marrakech-Ménara" },
+      { minutes: "12", label: "Aéroport Marrakech-Ménara" },
       { minutes: "3", label: "Golfs Nouria & Argan" },
       { minutes: "3", label: "Avenue Mohammed VI" },
       { minutes: "5", label: "Morocco Mall" },
@@ -104,6 +104,18 @@ export const fr = {
     intro: "La villa telle qu'elle est, niveau par niveau — du sous-sol au rooftop.",
     eyebrow: "Visite",
     title: "À l'intérieur de Villa Elk",
+    categories: {
+      all: "Tout",
+      exterieur: "Extérieur",
+      rdc: "Rez-de-chaussée",
+      sousSol: "Sous-sol",
+      suites: "Suites",
+      rooftop: "Rooftop",
+    },
+    filterLabel: "Filtrer par espace",
+    showMore: "Afficher plus de photos",
+    shownOf: "photos affichées sur",
+    viewer: { open: "Agrandir la photo", close: "Fermer", previous: "Photo précédente", next: "Photo suivante" },
   },
   reserve: {
     meta: {

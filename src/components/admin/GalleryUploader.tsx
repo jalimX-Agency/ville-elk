@@ -3,6 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { addGalleryImages } from "@/app/admin/actions";
+import { CATEGORY_OPTIONS } from "./gallery-categories";
 
 /**
  * Several photographs at once, because a shoot arrives as a folder. Each file
@@ -16,6 +17,7 @@ export function GalleryUploader() {
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const [failed, setFailed] = useState<string[]>([]);
   const [saving, startSaving] = useTransition();
+  const [category, setCategory] = useState<string>("rdc");
 
   async function upload(files: File[]) {
     setBusy(true);
@@ -46,6 +48,7 @@ export function GalleryUploader() {
 
     if (urls.length > 0) {
       const form = new FormData();
+      form.set("category", category);
       for (const url of urls) form.append("imageUrl", url);
       startSaving(async () => {
         await addGalleryImages({}, form);
@@ -73,14 +76,31 @@ export function GalleryUploader() {
         }}
       />
 
-      <button
-        type="button"
-        disabled={working}
-        onClick={() => input.current?.click()}
-        className="admin-button"
-      >
-        {working ? "Envoi…" : "Ajouter des photos"}
-      </button>
+      <div className="flex flex-wrap items-center gap-3">
+        <label className="flex items-center gap-2 text-sm">
+          <span className="text-muted-foreground">Espace</span>
+          <select
+            value={category}
+            onChange={(event) => setCategory(event.target.value)}
+            disabled={working}
+            className="field-input h-11 w-auto py-0"
+          >
+            {CATEGORY_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <button
+          type="button"
+          disabled={working}
+          onClick={() => input.current?.click()}
+          className="admin-button"
+        >
+          {working ? "Envoi…" : "Ajouter des photos"}
+        </button>
+      </div>
 
       {progress && (
         <p aria-live="polite" className="mt-3 text-sm text-muted-foreground">

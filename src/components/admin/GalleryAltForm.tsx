@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { saveGalleryAlt, type GalleryAltState } from "@/app/admin/actions";
+import { CATEGORY_OPTIONS } from "./gallery-categories";
 
 const LANGUAGES = [
   { code: "Fr", label: "FR", dir: "ltr" },
@@ -12,6 +13,7 @@ const LANGUAGES = [
 
 type Values = {
   id: string;
+  category: string;
   altFr: string;
   altEn: string;
   altEs: string;
@@ -25,6 +27,21 @@ export function GalleryAltForm({ photo }: { photo: Values }) {
   return (
     <form action={action} className="mt-3 space-y-2">
       <input type="hidden" name="id" value={photo.id} />
+
+      <label className="flex items-center gap-2">
+        <span className="field-label w-8 shrink-0">Où</span>
+        <select
+          name="category"
+          defaultValue={photo.category}
+          className="field-input h-9 py-0 text-sm"
+        >
+          {CATEGORY_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </label>
 
       {LANGUAGES.map((language) => (
         <label key={language.code} className="flex items-center gap-2">

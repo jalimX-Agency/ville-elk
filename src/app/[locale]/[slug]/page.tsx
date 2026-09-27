@@ -145,7 +145,7 @@ async function GalleryPage({ dict, locale }: { dict: Dictionary; locale: Locale 
         title={dict.gallery.title}
         intro={dict.gallery.intro}
       />
-      <GalleryGrid photos={photos} locale={locale} />
+      <GalleryGrid photos={photos} locale={locale} dict={dict} />
       <NextStep dict={dict} locale={locale} />
     </section>
   );

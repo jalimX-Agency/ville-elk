@@ -37,8 +37,17 @@ export type Suite = {
   image: ContentImage | null;
 };
 
+/** The parts of the house the gallery is filtered by, in visiting order. */
+export const GALLERY_CATEGORIES = ["exterieur", "rdc", "sous-sol", "suites", "rooftop"] as const;
+export type GalleryCategory = (typeof GALLERY_CATEGORIES)[number];
+
+export function isGalleryCategory(value: string): value is GalleryCategory {
+  return (GALLERY_CATEGORIES as readonly string[]).includes(value);
+}
+
 /** One photograph in the gallery. The alt text is the only copy it carries. */
 export type GalleryPhoto = {
   id: string;
+  category: GalleryCategory;
   image: ContentImage;
 };

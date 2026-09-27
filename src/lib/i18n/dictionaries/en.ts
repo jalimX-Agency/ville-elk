@@ -4,7 +4,7 @@ export const en = {
   meta: {
     title: "Villa Elk — Luxury Villa at Golf Argan, Marrakech",
     description:
-      "A private villa of four suites at Golf Argan, Marrakech, 10 minutes from the airport: pool, hammam, cinema, gym and a Moroccan rooftop. Up to 10 guests.",
+      "A private villa of four suites at Golf Argan, Marrakech, 12 minutes from the airport: pool, hammam, cinema, gym and a Moroccan rooftop. Up to 10 guests.",
   },
   nav: {
     home: "Home",
@@ -20,7 +20,7 @@ export const en = {
     threshold: "Step across the threshold.",
     scroll: "Enter",
     subtitle:
-      "A contemporary town house on three levels and a rooftop, quiet, ten minutes from the airport.",
+      "A contemporary town house on three levels and a rooftop, quiet, twelve minutes from the airport.",
     cta: "Discover the villa",
     bookCta: "Check availability",
   },
@@ -73,7 +73,7 @@ export const en = {
     intro:
       "Golf Argan Resort, in the Agdal district: a calm street with no noise, and all of Marrakech within a short drive.",
     places: [
-      { minutes: "10", label: "Marrakech Menara Airport" },
+      { minutes: "12", label: "Marrakech Menara Airport" },
       { minutes: "3", label: "Nouria & Argan golf courses" },
       { minutes: "3", label: "Avenue Mohammed VI" },
       { minutes: "5", label: "Morocco Mall" },
@@ -104,6 +104,18 @@ export const en = {
     intro: "The villa as it is, level by level — from the lower floor to the rooftop.",
     eyebrow: "Walkthrough",
     title: "Inside Villa Elk",
+    categories: {
+      all: "All",
+      exterieur: "Outside",
+      rdc: "Ground floor",
+      sousSol: "Lower level",
+      suites: "Suites",
+      rooftop: "Rooftop",
+    },
+    filterLabel: "Filter by space",
+    showMore: "Show more photos",
+    shownOf: "photos shown of",
+    viewer: { open: "Enlarge photo", close: "Close", previous: "Previous photo", next: "Next photo" },
   },
   reserve: {
     meta: {
