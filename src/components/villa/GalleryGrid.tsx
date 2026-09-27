@@ -157,7 +157,7 @@ export function GalleryGrid({
   );
 }
 
-function Viewer({
+export function Viewer({
   photos,
   index,
   locale,

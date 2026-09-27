@@ -286,3 +286,30 @@ body {
     cursor: not-allowed;
   }
 }
+
+/* Sections that rise as they come into view. Pure CSS, scroll-driven; browsers
+   without view timelines simply show the content, and reduced motion is
+   honoured by the global rule above. */
+@layer components {
+  @supports (animation-timeline: view()) {
+    .rise {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 28%;
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(2.5rem);
+    }
+  }
+}
+
+/* Scroll-driven animations ignore duration, so the global reduced-motion rule
+   above does not reach them; switch this one off explicitly. */
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+}

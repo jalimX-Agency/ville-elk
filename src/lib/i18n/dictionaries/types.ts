@@ -58,6 +58,10 @@ export interface Dictionary {
     featuresTitle: string;
     photosTitle: string;
     otherSuites: string;
+    allPhotos: string;
+    photosUnit: string;
+    ctaTitle: string;
+    suiteLabel: string;
   };
   gallery: {
     meta: { title: string; description: string };

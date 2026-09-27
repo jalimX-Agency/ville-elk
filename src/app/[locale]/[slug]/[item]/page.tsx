@@ -2,19 +2,23 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { MessageCircle } from "lucide-react";
 import { isLocale, locales, type Locale } from "@/lib/i18n/locales";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { hrefFor, pageForSlug, slugFor, suiteHref } from "@/lib/i18n/routes";
 import { getSuite, getSuiteSlugs, getSuites } from "@/lib/content/rooms";
-import { pick } from "@/lib/content/types";
-import { GalleryGrid } from "@/components/villa/GalleryGrid";
-import { Logo } from "@/components/brand/Logo";
+import { pick, type GalleryPhoto } from "@/lib/content/types";
+import { SuiteCarousel } from "@/components/villa/SuiteCarousel";
+import { CONTACT } from "@/lib/contact";
 
 const SITE = "https://www.villaelk.com";
+const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
 
 /**
- * A suite's own page. Only the suites page has children, so any other slug in
- * front of an item is not ours: /fr/galerie/x is a 404, not a suite.
+ * A suite's own page — "L'Alcôve". It opens on the photographs, full width,
+ * then reads like the page of a hotel's room book: one large number, the
+ * description set in the display face, and the inventory as a numbered list.
+ * Only the suites page has children: /fr/galerie/x is a 404, not a suite.
  */
 export async function generateStaticParams() {
   const slugs = await getSuiteSlugs();
@@ -80,13 +84,24 @@ export default async function SuitePage({
   const found = await resolve(locale, slug, item);
   if (!found) notFound();
 
-  const { suite, photos } = found;
+  const { suite } = found;
   const lang: Locale = found.locale;
   const dict = getDictionary(lang);
   const copy = dict.suites;
   const name = pick(suite.name, lang);
   const features = suite.features[lang].length ? suite.features[lang] : suite.features.fr;
-  const others = (await getSuites()).filter((other) => other.id !== suite.id);
+  const all = await getSuites();
+  const index = all.findIndex((other) => other.id === suite.id);
+  const others = all.filter((other) => other.id !== suite.id);
+  const level = suite.level === "0" ? copy.levelNames.ground : copy.levelNames.upper;
+
+  // The carousel shows the suite's photographs; a suite without any still
+  // opens on its main picture rather than on nothing.
+  const photos: GalleryPhoto[] = found.photos.length
+    ? found.photos
+    : suite.image
+      ? [{ id: suite.id, category: "suites", image: suite.image }]
+      : [];
 
   const schema = {
     "@context": "https://schema.org",
@@ -97,132 +112,183 @@ export default async function SuitePage({
     ...(suite.areaSqm
       ? { floorSize: { "@type": "QuantitativeValue", value: suite.areaSqm, unitCode: "MTK" } }
       : {}),
-    image: [suite.image, ...photos.map((p) => p.image)]
-      .filter((image): image is NonNullable<typeof image> => Boolean(image))
-      .slice(0, 6)
-      .map((image) => absolute(image.src)),
+    image: photos.slice(0, 6).map((photo) => absolute(photo.image.src)),
     amenityFeature: features.map((feature) => ({
       "@type": "LocationFeatureSpecification",
       name: feature,
       value: true,
     })),
-    containedInPlace: {
-      "@type": "LodgingBusiness",
-      name: "Villa Elk",
-      url: `${SITE}/${lang}`,
-    },
+    containedInPlace: { "@type": "LodgingBusiness", name: "Villa Elk", url: `${SITE}/${lang}` },
   };
 
+  const pad = (n: number) => String(n).padStart(2, "0");
+
   return (
-    <article className="mx-auto max-w-[1400px] px-6 py-20 lg:px-[5vw] lg:py-28">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
+    // The header is fixed and 5rem tall; the photographs start below it so the
+    // navigation never sits on a dark picture.
+    <article className="pt-20">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
 
-      <Link
-        href={hrefFor("suites", lang)}
-        className="eyebrow inline-flex min-h-11 items-center gap-2 text-muted-foreground hover:text-primary"
-      >
-        <span aria-hidden="true">{lang === "ar" ? "→" : "←"}</span> {copy.backToSuites}
-      </Link>
-
-      <div className="mt-10 grid items-end gap-10 lg:grid-cols-12 lg:gap-x-16">
-        <div className="lg:col-span-5">
-          <p className="eyebrow text-primary">
-            {suite.level === "0" ? copy.levelNames.ground : copy.levelNames.upper}
+      {photos.length > 0 ? (
+        <SuiteCarousel photos={photos} locale={lang} dict={dict}>
+          <p className="font-mono text-[0.75rem] uppercase tracking-[0.22em] text-white/80">
+            {copy.suiteLabel} {ROMAN[index] ?? index + 1} · {level}
           </p>
-          <h1 className="heading-display mt-3 text-4xl text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="heading-display mt-3 text-[clamp(2.6rem,11vw,6.5rem)] leading-[0.95] text-[#f5efe6]">
             {name}
           </h1>
-          {suite.areaSqm && (
-            <p className="eyebrow mt-4 text-muted-foreground">
-              {copy.areaLabel} {suite.areaSqm} m²
-            </p>
-          )}
-          <p className="body-copy mt-6 text-lg">{pick(suite.description, lang)}</p>
-        </div>
+        </SuiteCarousel>
+      ) : (
+        <h1 className="heading-display mx-auto max-w-[1400px] px-6 pt-10 text-5xl lg:px-[5vw]">{name}</h1>
+      )}
 
-        <div className="relative aspect-[4/3] overflow-hidden bg-muted lg:col-span-7 lg:aspect-[3/2]">
-          {suite.image ? (
-            <Image
-              src={suite.image.src}
-              alt={pick(suite.image.alt, lang)}
-              fill
-              priority
-              sizes="(min-width: 1024px) 55vw, 100vw"
-              quality={85}
-              className="object-cover"
-            />
-          ) : (
-            <div className="grid h-full place-items-center" aria-hidden="true">
-              <Logo variant="mark" className="w-20 opacity-25" />
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-[5vw]">
+        <Link
+          href={hrefFor("suites", lang)}
+          className="eyebrow mt-6 inline-flex min-h-11 items-center gap-2 text-muted-foreground hover:text-primary"
+        >
+          <span aria-hidden="true">{lang === "ar" ? "→" : "←"}</span> {copy.backToSuites}
+        </Link>
+
+        {/* The room at a glance: one number carries it */}
+        <section className="rise mt-8 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-x-16">
+          <dl className="grid grid-cols-2 border-y border-border lg:col-span-4 lg:grid-cols-1 lg:border-y-0 lg:border-e lg:pe-10">
+            {suite.areaSqm ? (
+              <div className="py-6 lg:py-0 lg:pb-8">
+                <dt className="eyebrow text-muted-foreground">{copy.areaLabel}</dt>
+                <dd className="mt-2 flex items-baseline gap-2">
+                  <span className="heading-display text-[clamp(4rem,18vw,8rem)] leading-none text-primary tabular-nums">
+                    {suite.areaSqm}
+                  </span>
+                  <span className="heading-display text-2xl text-foreground">m²</span>
+                </dd>
+              </div>
+            ) : (
+              <div className="py-6 lg:py-0 lg:pb-8">
+                <dt className="eyebrow text-muted-foreground">{copy.suiteLabel}</dt>
+                <dd className="heading-display mt-2 text-[clamp(4rem,18vw,8rem)] leading-none text-primary">
+                  {ROMAN[index] ?? index + 1}
+                </dd>
+              </div>
+            )}
+            <div className="border-s border-border py-6 ps-6 lg:border-s-0 lg:border-t lg:ps-0 lg:pt-8">
+              <dt className="eyebrow text-muted-foreground">{dict.tour.levelLabel}</dt>
+              <dd className="heading-display mt-2 text-2xl text-foreground sm:text-3xl">{level}</dd>
+              <dt className="eyebrow mt-6 text-muted-foreground">{copy.photosTitle}</dt>
+              <dd className="heading-display mt-2 text-2xl text-foreground sm:text-3xl tabular-nums">
+                {photos.length} <span className="text-lg text-muted-foreground">{copy.photosUnit}</span>
+              </dd>
             </div>
-          )}
-        </div>
+          </dl>
+
+          <p className="heading-display text-[clamp(1.6rem,5.4vw,2.6rem)] leading-[1.25] text-foreground lg:col-span-8 lg:self-center">
+            {pick(suite.description, lang)}
+          </p>
+        </section>
+
+        {features.length > 0 && (
+          <section aria-labelledby="features-title" className="rise mt-16 lg:mt-28">
+            <div className="flex items-baseline justify-between gap-6 border-b border-border pb-4">
+              <h2 id="features-title" className="heading-display text-3xl text-foreground sm:text-4xl">
+                {copy.featuresTitle}
+              </h2>
+              <span className="font-mono text-xs tracking-[0.2em] text-muted-foreground tabular-nums">
+                {pad(features.length)}
+              </span>
+            </div>
+            <ol className="grid sm:grid-cols-2 sm:gap-x-12">
+              {features.map((feature, i) => (
+                <li key={feature} className="flex items-baseline gap-5 border-b border-border py-5">
+                  <span className="w-7 shrink-0 font-mono text-xs tracking-[0.15em] text-accent tabular-nums">
+                    {pad(i + 1)}
+                  </span>
+                  <span className="text-lg text-foreground sm:text-xl">{feature}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
       </div>
-
-      {features.length > 0 && (
-        <section aria-labelledby="features-title" className="mt-16 border-t border-border pt-10 lg:mt-24">
-          <h2 id="features-title" className="eyebrow text-muted-foreground">
-            {copy.featuresTitle}
-          </h2>
-          <ul className="mt-6 grid gap-x-10 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((feature) => (
-              <li key={feature} className="flex items-baseline gap-3 text-lg text-foreground">
-                <span className="h-1.5 w-1.5 shrink-0 translate-y-[-0.2em] rotate-45 bg-accent" aria-hidden="true" />
-                {feature}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {photos.length > 0 && (
-        <section aria-labelledby="photos-title" className="mt-16 border-t border-border pt-10 lg:mt-24">
-          <h2 id="photos-title" className="eyebrow text-muted-foreground">
-            {copy.photosTitle} <span className="tabular-nums">· {photos.length}</span>
-          </h2>
-          <GalleryGrid photos={photos} locale={lang} dict={dict} />
-        </section>
-      )}
 
       {others.length > 0 && (
-        <section aria-labelledby="others-title" className="mt-16 border-t border-border pt-10 lg:mt-24">
-          <h2 id="others-title" className="eyebrow text-muted-foreground">
+        <section aria-labelledby="others-title" className="rise mt-20 lg:mt-32">
+          <h2
+            id="others-title"
+            className="heading-display mx-auto max-w-[1400px] px-5 text-3xl text-foreground sm:px-8 sm:text-4xl lg:px-[5vw]"
+          >
             {copy.otherSuites}
           </h2>
-          <ul className="mt-8 grid gap-6 sm:grid-cols-3">
-            {others.map((other) => (
-              <li key={other.id}>
-                <Link href={suiteHref(other.slug, lang)} className="group block">
-                  <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-                    {other.image && (
-                      <Image
-                        src={other.image.src}
-                        alt=""
-                        fill
-                        sizes="(min-width: 640px) 30vw, 100vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                      />
-                    )}
-                  </div>
-                  <p className="heading-display mt-4 text-2xl text-foreground group-hover:text-primary">
-                    {pick(other.name, lang)}
-                  </p>
-                </Link>
-              </li>
-            ))}
+          {/* A swipeable strip on phones, a row on wide screens */}
+          <ul className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] sm:px-8 lg:mx-auto lg:grid lg:max-w-[1400px] lg:grid-cols-3 lg:gap-8 lg:overflow-visible lg:px-[5vw] [&::-webkit-scrollbar]:hidden">
+            {others.map((other) => {
+              const position = all.findIndex((s) => s.id === other.id);
+              return (
+                <li key={other.id} className="w-[78vw] max-w-[420px] shrink-0 snap-start lg:w-auto lg:max-w-none">
+                  <Link href={suiteHref(other.slug, lang)} className="group block">
+                    <div className="relative aspect-[4/5] overflow-hidden bg-muted lg:aspect-[4/3]">
+                      {other.image && (
+                        <Image
+                          src={other.image.src}
+                          alt=""
+                          fill
+                          sizes="(min-width: 1024px) 30vw, 80vw"
+                          quality={85}
+                          className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+                        />
+                      )}
+                      <span className="absolute start-4 top-4 font-mono text-xs tracking-[0.2em] text-white/90">
+                        {copy.suiteLabel} {ROMAN[position] ?? position + 1}
+                      </span>
+                    </div>
+                    <p className="heading-display mt-4 text-2xl text-foreground transition-colors group-hover:text-primary">
+                      {pick(other.name, lang)}
+                    </p>
+                    <p className="eyebrow mt-1 text-muted-foreground">
+                      {other.level === "0" ? copy.levelNames.ground : copy.levelNames.upper}
+                      {other.areaSqm ? ` · ${other.areaSqm} m²` : ""}
+                    </p>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </section>
       )}
 
-      <div className="mt-20 border-t border-border pt-10 lg:mt-28">
-        <p className="body-copy max-w-xl text-lg">{dict.reserve.intro}</p>
-        <Link href={hrefFor("booking", lang)} className="btn-primary mt-6">
-          {dict.nav.bookNow}
-        </Link>
-      </div>
+      {/* The one dark band on the page: the ask */}
+      <section className="mt-20 bg-onyx text-[#efe6da] lg:mt-32">
+        <div className="mx-auto max-w-[1400px] px-5 py-20 sm:px-8 lg:px-[5vw] lg:py-28">
+          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--brass-light)]">
+            {dict.reserve.eyebrow}
+          </p>
+          <h2 className="heading-display mt-4 max-w-3xl text-[clamp(2.2rem,8vw,4.5rem)] leading-[1.02]">
+            {copy.ctaTitle}
+          </h2>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#efe6da]/75">{dict.reserve.intro}</p>
+          <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <Link href={hrefFor("booking", lang)} className="btn-primary">
+              {dict.nav.bookNow}
+            </Link>
+            <a
+              href={`https://wa.me/${CONTACT.whatsapp}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center gap-2 border-b border-[var(--brass-light)] text-sm font-semibold uppercase tracking-[0.06em] text-[#efe6da] hover:text-[var(--brass-light)]"
+            >
+              <MessageCircle className="h-4 w-4" />
+              {dict.contact.whatsappCta}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* On a phone the ask stays within reach; the theme button owns the other corner */}
+      <Link
+        href={hrefFor("booking", lang)}
+        className="fixed bottom-5 right-5 z-40 inline-flex min-h-12 items-center rounded-full bg-primary px-6 text-sm font-semibold uppercase tracking-[0.06em] text-primary-foreground shadow-[0_10px_30px_-10px_rgba(31,28,25,0.6)] lg:hidden"
+      >
+        {dict.nav.bookNow}
+      </Link>
     </article>
   );
 }

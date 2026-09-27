@@ -99,6 +99,10 @@ export const ar = {
     featuresTitle: "داخل الجناح",
     photosTitle: "بالصور",
     otherSuites: "الأجنحة الأخرى",
+    allPhotos: "كل الصور",
+    photosUnit: "صورة",
+    ctaTitle: "الفيلا كاملة، لكم وحدكم",
+    suiteLabel: "جناح",
   },
   gallery: {
     meta: {

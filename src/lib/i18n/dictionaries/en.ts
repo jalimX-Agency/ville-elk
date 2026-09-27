@@ -99,6 +99,10 @@ export const en = {
     featuresTitle: "In the suite",
     photosTitle: "In pictures",
     otherSuites: "The other suites",
+    allPhotos: "All photos",
+    photosUnit: "photos",
+    ctaTitle: "The whole villa, yours alone",
+    suiteLabel: "Suite",
   },
   gallery: {
     meta: {
