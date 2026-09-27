@@ -94,6 +94,11 @@ export const fr = {
       "Trois suites à l'étage, chacune avec son balcon privé, et une quatrième de plain-pied près du séjour. Toutes ont leur salle de bain, une télévision, de nombreux rangements et une literie haut de gamme choisie pour des nuits vraiment reposantes.",
     levelNames: { ground: "Rez-de-chaussée", upper: "Étage" },
     areaLabel: "Environ",
+    viewSuite: "Voir la suite",
+    backToSuites: "Toutes les suites",
+    featuresTitle: "Dans la suite",
+    photosTitle: "En images",
+    otherSuites: "Les autres suites",
   },
   gallery: {
     meta: {

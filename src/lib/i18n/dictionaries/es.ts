@@ -94,6 +94,11 @@ export const es = {
       "Tres suites en la planta alta, cada una con balcón privado, y una cuarta en la planta baja, cerca de los salones. Todas tienen baño propio, televisión, amplio almacenaje y ropa de cama de alta gama elegida para noches de verdadero descanso.",
     levelNames: { ground: "Planta baja", upper: "Planta alta" },
     areaLabel: "Unos",
+    viewSuite: "Ver la suite",
+    backToSuites: "Todas las suites",
+    featuresTitle: "En la suite",
+    photosTitle: "En imágenes",
+    otherSuites: "Las otras suites",
   },
   gallery: {
     meta: {

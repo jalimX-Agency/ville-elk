@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { suiteHref } from "@/lib/i18n/routes";
 import { pick } from "@/lib/content/types";
 import type { Suite } from "@/lib/content/types";
 import type { Locale } from "@/lib/i18n/locales";
@@ -40,6 +42,7 @@ export function SuitesList({
                 alt={pick(suite.image.alt, locale)}
                 fill
                 sizes="(min-width: 1024px) 55vw, 100vw"
+                quality={85}
                 className="object-cover"
               />
             ) : (
@@ -62,6 +65,9 @@ export function SuitesList({
               </p>
             )}
             <p className="body-copy mt-5 text-lg">{pick(suite.description, locale)}</p>
+            <Link href={suiteHref(suite.slug, locale)} className="btn-quiet mt-6">
+              {copy.viewSuite}
+            </Link>
           </div>
         </article>
       ))}

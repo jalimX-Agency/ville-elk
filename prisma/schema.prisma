@@ -111,6 +111,15 @@ model Suite {
   /// Floor area in square metres, when the owner has measured it.
   areaSqm Int?
 
+  /// What the room has, one item per line in the dashboard.
+  featuresFr String[] @default([])
+  featuresEn String[] @default([])
+  featuresEs String[] @default([])
+  featuresAr String[] @default([])
+
+  /// Gallery photographs that show this room; its own page lists them.
+  photos GalleryImage[]
+
   imageUrl String?
   altFr    String?
   altEn    String?
@@ -134,6 +143,10 @@ model GalleryImage {
   /// One of: exterieur, rdc, sous-sol, suites, rooftop.
   category String @default("rdc")
 
+  /// The suite it shows, if any. Deleting a suite leaves the photograph.
+  suiteId String?
+  suite   Suite?  @relation(fields: [suiteId], references: [id], onDelete: SetNull)
+
   imageUrl String
   altFr    String
   altEn    String
@@ -145,4 +158,5 @@ model GalleryImage {
 
   @@index([position])
   @@index([category, position])
+  @@index([suiteId, position])
 }

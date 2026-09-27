@@ -117,6 +117,7 @@ function SwipeTour({ dict }: { dict: Dictionary }) {
                 alt={lvl.photos.main}
                 fill
                 sizes="84vw"
+                quality={85}
                 className="object-cover"
               />
               <div className="absolute bottom-0 start-0 aspect-[4/5] w-[34%] overflow-hidden border-[5px] border-background bg-muted">
@@ -181,7 +182,7 @@ function PinnedTour({ dict }: { dict: Dictionary }) {
             transition={{ duration: 0.9, ease: EASE }}
             className="absolute inset-0"
           >
-            <Image src={`/images/villa-elk/${shots.main}`} alt={level.photos.main} fill sizes="(max-width: 1024px) 80vw, 45vw" className="object-cover" />
+            <Image src={`/images/villa-elk/${shots.main}`} alt={level.photos.main} fill sizes="(max-width: 1024px) 80vw, 45vw" quality={85} className="object-cover" />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -305,7 +306,7 @@ function StackedTour({ dict }: { dict: Dictionary }) {
             </ul>
             <div className="mt-8 grid grid-cols-[1fr_0.55fr] items-end gap-3">
               <div className="relative aspect-[4/5] overflow-hidden bg-muted">
-                <Image src={`/images/villa-elk/${SHOTS[i].main}`} alt={level.photos.main} fill sizes="60vw" className="object-cover" />
+                <Image src={`/images/villa-elk/${SHOTS[i].main}`} alt={level.photos.main} fill sizes="60vw" quality={85} className="object-cover" />
               </div>
               <div className="relative aspect-[4/5] overflow-hidden bg-muted">
                 <Image src={`/images/villa-elk/${SHOTS[i].detail}`} alt={level.photos.detail} fill sizes="35vw" className="object-cover" />

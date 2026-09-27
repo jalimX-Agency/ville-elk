@@ -5,7 +5,11 @@ import { GalleryUploader } from "@/components/admin/GalleryUploader";
 import { GalleryAltForm } from "@/components/admin/GalleryAltForm";
 
 export default async function GalleryAdminPage() {
-  const photos = await db.galleryImage.findMany({ orderBy: { position: "asc" } });
+  const [photos, suiteRows] = await Promise.all([
+    db.galleryImage.findMany({ orderBy: { position: "asc" } }),
+    db.suite.findMany({ orderBy: { position: "asc" }, select: { id: true, nameFr: true } }),
+  ]);
+  const suites = suiteRows.map((suite) => ({ id: suite.id, name: suite.nameFr }));
   const last = photos.length - 1;
   const missingAlt = photos.filter((photo) => !photo.altFr.trim()).length;
 
@@ -45,7 +49,7 @@ export default async function GalleryAdminPage() {
                 {!photo.published && " · dépubliée"}
                 {!photo.altFr.trim() && " · sans description"}
               </p>
-              <GalleryAltForm photo={photo} />
+              <GalleryAltForm photo={photo} suites={suites} />
             </div>
 
             <div className="flex shrink-0 flex-wrap items-start gap-2">

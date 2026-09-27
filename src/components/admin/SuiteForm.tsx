@@ -16,6 +16,10 @@ type Values = {
   descriptionEn: string;
   descriptionEs: string;
   descriptionAr: string;
+  featuresFr: string[];
+  featuresEn: string[];
+  featuresEs: string[];
+  featuresAr: string[];
   imageUrl: string | null;
   altFr: string | null;
   altEn: string | null;
@@ -90,6 +94,27 @@ export function SuiteForm({ suite }: { suite: Values }) {
                 dir={language.dir}
                 rows={4}
                 defaultValue={suite[`description${language.code}`]}
+                className="field-input mt-1.5 resize-y"
+              />
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend className="field-label">Équipements</legend>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Un équipement par ligne. Ils s&apos;affichent en liste sur la page de la suite.
+        </p>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          {LANGUAGES.map((language) => (
+            <label key={language.code} className="block">
+              <span className="text-sm text-muted-foreground">{language.label}</span>
+              <textarea
+                name={`features${language.code}`}
+                dir={language.dir}
+                rows={7}
+                defaultValue={suite[`features${language.code}`].join("\n")}
                 className="field-input mt-1.5 resize-y"
               />
             </label>

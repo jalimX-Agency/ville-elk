@@ -53,6 +53,11 @@ export interface Dictionary {
     intro: string;
     levelNames: { ground: string; upper: string };
     areaLabel: string;
+    viewSuite: string;
+    backToSuites: string;
+    featuresTitle: string;
+    photosTitle: string;
+    otherSuites: string;
   };
   gallery: {
     meta: { title: string; description: string };

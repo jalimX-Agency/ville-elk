@@ -1,6 +1,7 @@
 import "server-only";
 import { randomBytes } from "node:crypto";
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { PUBLIC_STORAGE_URL } from "./public-url";
 
 /**
  * Photographs live in Cloudflare R2 and are served from the bucket's custom
@@ -90,19 +91,18 @@ export async function uploadImage(
     }),
   );
 
-  return `${env("R2_PUBLIC_URL").replace(/\/$/, "")}/${key}`;
+  return `${PUBLIC_STORAGE_URL}/${key}`;
 }
 
 /** True for URLs this bucket serves — anything else is not ours to delete. */
 export function isStoredImage(url: string): boolean {
-  const base = process.env.R2_PUBLIC_URL;
-  return Boolean(base) && url.startsWith(`${base!.replace(/\/$/, "")}/`);
+  return url.startsWith(`${PUBLIC_STORAGE_URL}/`);
 }
 
 /** Removes a photograph the dashboard replaced. Failure here is never fatal. */
 export async function deleteImage(url: string): Promise<void> {
   if (!isStoredImage(url)) return;
-  const key = url.slice(`${env("R2_PUBLIC_URL").replace(/\/$/, "")}/`.length);
+  const key = url.slice(`${PUBLIC_STORAGE_URL}/`.length);
   if (!key) return;
 
   try {

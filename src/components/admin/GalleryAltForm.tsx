@@ -14,6 +14,7 @@ const LANGUAGES = [
 type Values = {
   id: string;
   category: string;
+  suiteId: string | null;
   altFr: string;
   altEn: string;
   altEs: string;
@@ -21,7 +22,14 @@ type Values = {
 };
 
 /** The alt text is the only copy a photograph carries, so it is edited inline. */
-export function GalleryAltForm({ photo }: { photo: Values }) {
+export function GalleryAltForm({
+  photo,
+  suites,
+}: {
+  photo: Values;
+  /** Rooms a photograph can belong to; it then also shows on that suite's page. */
+  suites: { id: string; name: string }[];
+}) {
   const [state, action, pending] = useActionState<GalleryAltState, FormData>(saveGalleryAlt, {});
 
   return (
@@ -38,6 +46,22 @@ export function GalleryAltForm({ photo }: { photo: Values }) {
           {CATEGORY_OPTIONS.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="flex items-center gap-2">
+        <span className="field-label w-8 shrink-0">Suite</span>
+        <select
+          name="suiteId"
+          defaultValue={photo.suiteId ?? ""}
+          className="field-input h-9 py-0 text-sm"
+        >
+          <option value="">Aucune</option>
+          {suites.map((suite) => (
+            <option key={suite.id} value={suite.id}>
+              {suite.name}
             </option>
           ))}
         </select>

@@ -34,6 +34,7 @@ export type Suite = {
   areaSqm: number | null;
   name: Localized;
   description: Localized;
+  features: Record<Locale, string[]>;
   image: ContentImage | null;
 };
 

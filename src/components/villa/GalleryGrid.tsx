@@ -72,6 +72,7 @@ export function GalleryGrid({
 
   return (
     <div className="mt-12 lg:mt-16">
+      {filters.length > 2 && (
       <div
         role="group"
         aria-label={copy.filterLabel}
@@ -100,6 +101,7 @@ export function GalleryGrid({
           );
         })}
       </div>
+      )}
 
       <ul className="mt-8 grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-3 lg:gap-4">
         {shown.map((photo, index) => (
@@ -234,7 +236,9 @@ function Viewer({
                   src={photo.image.src}
                   alt={pick(photo.image.alt, locale)}
                   fill
-                  sizes="100vw"
+                  // Phones get the full photograph: a visitor pinches to look closer.
+                  sizes="(max-width: 1024px) 200vw, 100vw"
+                  quality={85}
                   className="object-contain"
                 />
                 <button
@@ -281,7 +285,7 @@ function Viewer({
               {/* The next and previous pictures load in the background, so paging is instant. */}
               <div className="hidden" aria-hidden="true">
                 {neighbours.map((neighbour) => (
-                  <Image key={neighbour.id} src={neighbour.image.src} alt="" width={1920} height={1280} sizes="100vw" loading="eager" />
+                  <Image key={neighbour.id} src={neighbour.image.src} alt="" width={1920} height={1280} sizes="(max-width: 1024px) 200vw, 100vw" quality={85} loading="eager" />
                 ))}
               </div>
             </>

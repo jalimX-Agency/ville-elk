@@ -100,7 +100,7 @@ export function Hero({ dict }: { dict: Dictionary }) {
   const narrow = size.w < 900;
   const imageScale = useTransform(scrollYProgress, (p) => {
     if (reduce) return 1;
-    const from = narrow ? 1.9 : 1.18;
+    const from = narrow ? 1.35 : 1.18;
     const t = Math.min(1, Math.max(0, p / OPEN_BY));
     return from + (1 - from) * (t * t * (3 - 2 * t));
   });
@@ -119,10 +119,11 @@ export function Hero({ dict }: { dict: Dictionary }) {
         >
           <Image
             src="/images/villa-elk/piscine.jpg"
+            quality={85}
             alt=""
             fill
             priority
-            sizes="100vw"
+            sizes="(orientation: portrait) 150vh, 100vw"
             className="object-cover"
           />
         </motion.div>

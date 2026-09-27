@@ -47,6 +47,7 @@ export function Explore({ dict, locale }: { dict: Dictionary; locale: Locale }) 
                   alt=""
                   fill
                   sizes="(min-width: 1024px) 48vw, 100vw"
+                quality={85}
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 />
               </div>

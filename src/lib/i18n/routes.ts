@@ -43,9 +43,17 @@ export function allPageParams(): { locale: Locale; slug: string }[] {
  */
 export function translatePath(pathname: string, from: Locale, to: Locale): string {
   const rest = pathname.replace(new RegExp(`^/${from}(?=/|$)`), "");
-  const slug = rest.replace(/^\//, "").split("/")[0];
+  const [slug, ...tail] = rest.replace(/^\//, "").split("/");
   if (!slug) return `/${to}`;
 
+  // Only the page segment is translated; what follows it (a suite's own slug)
+  // is the same in every language.
   const page = pageForSlug(slug, from);
-  return page ? `/${to}/${slugFor(page, to)}` : `/${to}${rest}`;
+  const after = tail.length ? `/${tail.join("/")}` : "";
+  return page ? `/${to}/${slugFor(page, to)}${after}` : `/${to}${rest}`;
+}
+
+/** A suite's own page: /fr/suites/suite-parentale, /ar/ajniha/suite-parentale… */
+export function suiteHref(suiteSlug: string, locale: Locale): string {
+  return `${hrefFor("suites", locale)}/${suiteSlug}`;
 }

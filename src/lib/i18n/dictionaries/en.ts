@@ -94,6 +94,11 @@ export const en = {
       "Three suites upstairs, each with a private balcony, and a fourth on the ground floor near the living rooms. All have their own bathroom, a television, generous storage and premium bedding chosen for properly restful nights.",
     levelNames: { ground: "Ground floor", upper: "Upper floor" },
     areaLabel: "About",
+    viewSuite: "View the suite",
+    backToSuites: "All suites",
+    featuresTitle: "In the suite",
+    photosTitle: "In pictures",
+    otherSuites: "The other suites",
   },
   gallery: {
     meta: {

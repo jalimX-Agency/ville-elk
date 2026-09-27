@@ -15,6 +15,7 @@ function toSuite(row: SuiteModel): Suite {
       es: row.descriptionEs,
       ar: row.descriptionAr,
     },
+    features: { fr: row.featuresFr, en: row.featuresEn, es: row.featuresEs, ar: row.featuresAr },
     image: row.imageUrl
       ? {
           src: row.imageUrl,
@@ -56,4 +57,24 @@ export async function getGallery(): Promise<GalleryPhoto[]> {
     orderBy: { position: "asc" },
   });
   return rows.map(toPhoto);
+}
+
+/** One published suite and the gallery photographs that show it, or null. */
+export async function getSuite(slug: string): Promise<{ suite: Suite; photos: GalleryPhoto[] } | null> {
+  const row = await db.suite.findFirst({
+    where: { slug, published: true },
+    include: { photos: { where: { published: true }, orderBy: { position: "asc" } } },
+  });
+  if (!row) return null;
+  return { suite: toSuite(row), photos: row.photos.map(toPhoto) };
+}
+
+/** Slugs of the published suites, for prerendering their pages. */
+export async function getSuiteSlugs(): Promise<string[]> {
+  const rows = await db.suite.findMany({
+    where: { published: true },
+    orderBy: { position: "asc" },
+    select: { slug: true },
+  });
+  return rows.map((row) => row.slug);
 }

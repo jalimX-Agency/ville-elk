@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db/client";
 import { auth, signIn, signOut } from "@/auth";
-import { locales } from "@/lib/i18n/locales";
 import { deleteImage } from "@/lib/storage/r2";
 import { isGalleryCategory } from "@/lib/content/types";
 
@@ -19,11 +18,13 @@ async function requireUser() {
   return session.user;
 }
 
-/** The public pages are prerendered per locale; a content change refreshes them all. */
+/**
+ * The public pages are prerendered. A content change can show on any of them —
+ * an amenity on the home page, a photograph in the gallery and on its suite's
+ * page — so everything under the public layout is refreshed, in every language.
+ */
 function refreshPublicPages() {
-  for (const locale of locales) {
-    revalidatePath(`/${locale}`);
-  }
+  revalidatePath("/[locale]", "layout");
 }
 
 export type LoginState = { error?: string };
@@ -190,6 +191,12 @@ export async function saveSuite(_state: SuiteState, formData: FormData): Promise
 
   const nameFr = text("nameFr");
   if (!nameFr) return { error: "Le nom en français est obligatoire." };
+  const lines = (field: string) =>
+    text(field)
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .slice(0, 30);
 
   const area = text("areaSqm");
   const areaSqm = area ? Number(area) : null;
@@ -215,6 +222,11 @@ export async function saveSuite(_state: SuiteState, formData: FormData): Promise
       descriptionAr: text("descriptionAr") || text("descriptionFr"),
       level: text("level") === "0" ? "0" : "+1",
       areaSqm,
+      // One item per line; blank lines and stray spaces are not items.
+      featuresFr: lines("featuresFr"),
+      featuresEn: lines("featuresEn"),
+      featuresEs: lines("featuresEs"),
+      featuresAr: lines("featuresAr"),
       imageUrl,
       altFr: alt("altFr"),
       altEn: alt("altEn"),
@@ -332,10 +344,17 @@ export async function saveGalleryAlt(
   const category = text("category");
   if (!isGalleryCategory(category)) return { error: "Choisissez un espace." };
 
+  // Empty means "not a suite photo"; anything else must be a real suite.
+  const suiteId = text("suiteId") || null;
+  if (suiteId && !(await db.suite.findUnique({ where: { id: suiteId }, select: { id: true } }))) {
+    return { error: "Cette suite n'existe plus." };
+  }
+
   await db.galleryImage.update({
     where: { id },
     data: {
       category,
+      suiteId,
       altFr,
       altEn: text("altEn") || altFr,
       altEs: text("altEs") || altFr,
