@@ -20,12 +20,15 @@ export async function Explore({ dict, locale }: { dict: Dictionary; locale: Loca
       eyebrow: dict.suites.eyebrow,
       title: dict.suites.title,
       image: settings["image.explore.suites"],
+      className: "",
     },
     {
       href: hrefFor("gallery", locale),
       eyebrow: dict.gallery.eyebrow,
       title: dict.gallery.title,
       image: settings["image.explore.gallery"],
+      // The owner wants the visit first on a phone; side by side, the suites lead.
+      className: "max-lg:order-first",
     },
   ];
 
@@ -42,7 +45,7 @@ export async function Explore({ dict, locale }: { dict: Dictionary; locale: Loca
 
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
           {doors.map((door) => (
-            <Link key={door.href} href={door.href} className="group block">
+            <Link key={door.href} href={door.href} className={"group block " + door.className}>
               <div className="relative aspect-[4/3] overflow-hidden bg-muted lg:aspect-[3/2]">
                 <Image
                   src={door.image}
@@ -67,6 +70,11 @@ export async function Explore({ dict, locale }: { dict: Dictionary; locale: Loca
             {dict.contact.title}
           </h3>
           <p className="body-copy mt-5 max-w-xl text-lg">{dict.contact.description}</p>
+          <p className="mt-6 text-foreground">
+            {dict.stay.from} <span className="heading-display text-2xl text-primary">{dict.stay.price}</span> {dict.stay.per}
+            <span className="text-muted-foreground"> · {dict.stay.approx}</span>
+          </p>
+          <p className="body-copy mt-2">{dict.stay.minStay}</p>
 
           <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
             <Link href={hrefFor("booking", locale)} className="btn-primary">

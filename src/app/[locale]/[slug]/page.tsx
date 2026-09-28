@@ -11,6 +11,8 @@ import { GalleryGrid } from "@/components/villa/GalleryGrid";
 import { getGallery, getSuites } from "@/lib/content/rooms";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 import { getContact } from "@/lib/content/site";
+import { ConciergePage } from "@/components/villa/ConciergePage";
+import { StayFacts } from "@/components/villa/StayFacts";
 
 const SITE = "https://www.villaelk.com";
 
@@ -40,6 +42,8 @@ function metaFor(page: PageKey, dict: Dictionary) {
       return dict.contact.meta;
     case "booking":
       return dict.reserve.meta;
+    case "concierge":
+      return dict.concierge.meta;
   }
 }
 
@@ -94,6 +98,8 @@ export default async function LocalePage({
       return <ContactPage dict={dict} locale={resolved.locale} />;
     case "booking":
       return <BookingPage dict={dict} locale={resolved.locale} />;
+    case "concierge":
+      return <ConciergePage dict={dict} locale={resolved.locale} />;
   }
 }
 
@@ -214,6 +220,8 @@ async function ContactPage({ dict, locale }: { dict: Dictionary; locale: Locale 
             </li>
           </ul>
 
+          <p className="body-copy mt-10 border-s-2 border-accent ps-4">{dict.stay.languages}</p>
+
           <Link href={hrefFor("booking", locale)} className="btn-primary mt-10">
             {dict.nav.bookNow}
           </Link>
@@ -272,6 +280,7 @@ async function BookingPage({ dict, locale }: { dict: Dictionary; locale: Locale 
         </div>
 
         <aside className="lg:col-span-5">
+          <StayFacts dict={dict} className="mb-12 border-t border-border pt-6" />
           <div className="border-t border-border pt-6">
             <h2 className="eyebrow text-muted-foreground">{copy.asideTitle}</h2>
             <ul className="mt-6 space-y-4">
@@ -288,6 +297,7 @@ async function BookingPage({ dict, locale }: { dict: Dictionary; locale: Locale 
 
             <div className="mt-10 border-t border-border pt-6">
               <p className="body-copy">{dict.contact.description}</p>
+              <p className="body-copy mt-3">{dict.stay.languages}</p>
               <a
                 href={`https://wa.me/${CONTACT.whatsapp}`}
                 target="_blank"

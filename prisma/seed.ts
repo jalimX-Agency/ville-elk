@@ -90,17 +90,17 @@ const AMENITIES = [
     altAr: "فرن البيتزا في المطبخ الصيفي",
   },
   {
-    slug: "cheminee",
+    slug: "espace-de-vie",
     position: 7,
-    nameFr: "Cheminée contemporaine",
-    nameEn: "Contemporary fireplace",
-    nameEs: "Chimenea contemporánea",
-    nameAr: "مدفأة عصرية",
+    nameFr: "Espace de vie",
+    nameEn: "Living space",
+    nameEs: "Espacio de estar",
+    nameAr: "فضاء المعيشة",
     imageUrl: img("salon-cheminee.jpg"),
-    altFr: "Le salon européen et sa cheminée",
-    altEn: "The European living room and its fireplace",
-    altEs: "El salón europeo y su chimenea",
-    altAr: "الصالون الأوروبي ومدفأته",
+    altFr: "L'espace de vie, salon européen et cheminée",
+    altEn: "The living space, European lounge and fireplace",
+    altEs: "El espacio de estar, salón europeo y chimenea",
+    altAr: "فضاء المعيشة، الصالون الأوروبي والمدفأة",
   },
   {
     slug: "coiffure",
@@ -141,14 +141,94 @@ const AMENITIES = [
     altEs: null,
     altAr: null,
   },
+  // Added after the owner's call of 28 September 2026.
+  {
+    slug: "domotique",
+    position: 11,
+    nameFr: "Maison entièrement domotisée",
+    nameEn: "Fully smart home",
+    nameEs: "Casa totalmente domótica",
+    nameAr: "منزل ذكي بالكامل",
+    imageUrl: null,
+    altFr: null,
+    altEn: null,
+    altEs: null,
+    altAr: null,
+  },
+  {
+    slug: "wifi",
+    position: 12,
+    nameFr: "Wi-Fi dans toute la villa",
+    nameEn: "Wi-Fi throughout the villa",
+    nameEs: "Wi-Fi en toda la villa",
+    nameAr: "واي فاي في كامل الفيلا",
+    imageUrl: null,
+    altFr: null,
+    altEn: null,
+    altEs: null,
+    altAr: null,
+  },
+  {
+    slug: "cameras",
+    position: 13,
+    nameFr: "Caméras de surveillance",
+    nameEn: "Security cameras",
+    nameEs: "Cámaras de vigilancia",
+    nameAr: "كاميرات مراقبة",
+    imageUrl: null,
+    altFr: null,
+    altEn: null,
+    altEs: null,
+    altAr: null,
+  },
+  {
+    slug: "securite",
+    position: 14,
+    nameFr: "Service de sécurité",
+    nameEn: "Security service",
+    nameEs: "Servicio de seguridad",
+    nameAr: "خدمة الأمن والحراسة",
+    imageUrl: null,
+    altFr: null,
+    altEn: null,
+    altEs: null,
+    altAr: null,
+  },
+  {
+    slug: "menage",
+    position: 15,
+    nameFr: "Femme de ménage",
+    nameEn: "Housekeeping",
+    nameEs: "Servicio de limpieza",
+    nameAr: "عاملة نظافة",
+    imageUrl: null,
+    altFr: null,
+    altEn: null,
+    altEs: null,
+    altAr: null,
+  },
+  {
+    slug: "chef",
+    position: 16,
+    nameFr: "Chef sur demande",
+    nameEn: "Private chef on request",
+    nameEs: "Chef bajo petición",
+    nameAr: "طاهٍ عند الطلب",
+    imageUrl: null,
+    altFr: null,
+    altEn: null,
+    altEs: null,
+    altAr: null,
+  },
 ];
 
 /**
  * Rows the owner's new descriptions retired: the barbecue now belongs to the
  * summer kitchen line, and the planted terrace was a misreading of the phone
- * pictures that the professional set does not show.
+ * pictures that the professional set does not show. The fireplace became
+ * "Espace de vie" at the owner's request.
  */
-const RETIRED = ["barbecue", "jardin"];
+const RETIRED = ["barbecue", "jardin", "cheminee"];
 
 async function main() {
   const db = scriptClient();

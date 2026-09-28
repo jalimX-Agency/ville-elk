@@ -7,6 +7,7 @@ export function Footer({ dict }: { dict: Dictionary }) {
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-8 text-center">
         <Logo variant="framed" className="w-[190px] sm:w-[220px]" />
         <p className="body-copy max-w-md text-sm">{dict.footer.description}</p>
+        <p className="body-copy max-w-md text-sm">{dict.stay.languages}</p>
         <p className="eyebrow text-muted-foreground">
           © {new Date().getFullYear()} Villa Elk — {dict.footer.rights}
         </p>

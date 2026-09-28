@@ -1,6 +1,8 @@
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 
 export const MAX_GUESTS = 10;
+/** The owner's rule: three nights at least, "afin de garantir une expérience privilégiée". */
+export const MIN_NIGHTS = 3;
 
 export type EnquiryInput = {
   name: string;
@@ -63,6 +65,9 @@ export function readEnquiry(
   }
   if (departure <= arrival) {
     return { ok: false, error: { field: "departure", message: errors.order } };
+  }
+  if (nightsBetween(arrival, departure) < MIN_NIGHTS) {
+    return { ok: false, error: { field: "departure", message: errors.minStay } };
   }
 
   const guests = Number(text("guests"));

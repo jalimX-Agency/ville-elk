@@ -9,6 +9,7 @@ export interface Dictionary {
     gallery: string;
     amenities: string;
     contact: string;
+    concierge: string;
     bookNow: string;
   };
   hero: {
@@ -37,6 +38,7 @@ export interface Dictionary {
   amenities: {
     eyebrow: string;
     title: string;
+    conciergeLink: string;
   };
   location: {
     eyebrow: string;
@@ -113,6 +115,7 @@ export interface Dictionary {
       order: string;
       past: string;
       guests: string;
+      minStay: string;
       generic: string;
     };
   };
@@ -127,6 +130,35 @@ export interface Dictionary {
     description: string;
     whatsappCta: string;
     emailCta: string;
+  };
+  /** Rates and house rules, shown on the booking page, the menu and the home page. */
+  stay: {
+    eyebrow: string;
+    from: string;
+    price: string;
+    per: string;
+    approx: string;
+    taxLabel: string;
+    tax: string;
+    taxApprox: string;
+    minStay: string;
+    languages: string;
+  };
+  concierge: {
+    meta: { title: string; description: string };
+    eyebrow: string;
+    title: string;
+    intro: string[];
+    groups: { title: string; items: { name: string; body: string }[] }[];
+    onDemandTitle: string;
+    onDemand: string;
+    stepsTitle: string;
+    stepsIntro: string;
+    steps: string[];
+    exclusive: string;
+    terms: string;
+    cta: string;
+    imageAlt: string;
   };
   theme: {
     toDark: string;

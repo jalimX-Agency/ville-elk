@@ -21,6 +21,7 @@ export default async function SettingsPage() {
       group: "Photos des deux portes en bas de l'accueil",
       items: [item("image.explore.suites", "Porte « Suites »"), item("image.explore.gallery", "Porte « Galerie »")],
     },
+    { group: "Page Conciergerie", items: [item("image.concierge", "Photo à côté du titre")] },
   ];
 
   return (

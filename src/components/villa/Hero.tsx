@@ -2,6 +2,7 @@
 
 import { forwardRef, useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   motion,
   useMotionValueEvent,
@@ -53,7 +54,7 @@ function gateTransform(size: Size, progress: number) {
   return `translate(${px - ORIGIN.x * k} ${py - ORIGIN.y * k}) scale(${k})`;
 }
 
-export function Hero({ dict, image }: { dict: Dictionary; image: string }) {
+export function Hero({ dict, image, bookingHref }: { dict: Dictionary; image: string; bookingHref: string }) {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -161,7 +162,14 @@ export function Hero({ dict, image }: { dict: Dictionary; image: string }) {
           </motion.g>
         </svg>
 
-        <HeroCopy ref={copyRef} dict={dict} progress={scrollYProgress} reduce={!!reduce} narrow={narrow} />
+        <HeroCopy
+          ref={copyRef}
+          dict={dict}
+          bookingHref={bookingHref}
+          progress={scrollYProgress}
+          reduce={!!reduce}
+          narrow={narrow}
+        />
       </div>
     </section>
   );
@@ -169,10 +177,11 @@ export function Hero({ dict, image }: { dict: Dictionary; image: string }) {
 
 const HeroCopy = forwardRef<HTMLDivElement, {
   dict: Dictionary;
+  bookingHref: string;
   progress: MotionValue<number>;
   reduce: boolean;
   narrow: boolean;
-}>(function HeroCopy({ dict, progress, reduce, narrow }, ref) {
+}>(function HeroCopy({ dict, bookingHref, progress, reduce, narrow }, ref) {
   // On a phone the copy sits on an opaque panel, so it slides out of frame rather
   // than fading — a half-faded panel would let the photo show through the text.
   const opacity = useTransform(
@@ -205,9 +214,9 @@ const HeroCopy = forwardRef<HTMLDivElement, {
         </h1>
         <p className="body-copy mt-4 max-w-md text-sm sm:text-base lg:mt-6 lg:text-lg">{dict.hero.subtitle}</p>
         <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-4 lg:mt-8">
-          <a href="#bientot" className="btn-primary">
+          <Link href={bookingHref} className="btn-primary">
             {dict.hero.bookCta}
-          </a>
+          </Link>
           <a href="#niveaux" className="btn-quiet">
             {dict.hero.cta}
           </a>

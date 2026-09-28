@@ -11,6 +11,7 @@ export const pageSlugs = {
   gallery: { fr: "galerie", en: "gallery", es: "galeria", ar: "maarid" },
   booking: { fr: "reserver", en: "booking", es: "reservar", ar: "hajz" },
   contact: { fr: "contact", en: "contact", es: "contacto", ar: "ittisal" },
+  concierge: { fr: "conciergerie", en: "concierge", es: "conserjeria", ar: "khadamat" },
 } as const satisfies Record<string, Record<Locale, string>>;
 
 export type PageKey = keyof typeof pageSlugs;

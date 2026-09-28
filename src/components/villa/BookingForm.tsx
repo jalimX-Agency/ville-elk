@@ -2,12 +2,20 @@
 
 import { useActionState, useId, useMemo, useState } from "react";
 import { submitEnquiry, type EnquiryState } from "@/app/actions/booking";
-import { MAX_GUESTS, nightsBetween } from "@/lib/booking/enquiry";
+import { MAX_GUESTS, MIN_NIGHTS, nightsBetween } from "@/lib/booking/enquiry";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 import type { Locale } from "@/lib/i18n/locales";
 
 function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
+}
+
+/** The first departure the minimum stay allows after a given arrival. */
+function earliestDeparture(arrival: string): string | undefined {
+  const date = parseISO(arrival);
+  if (!date) return undefined;
+  date.setUTCDate(date.getUTCDate() + MIN_NIGHTS);
+  return date.toISOString().slice(0, 10);
 }
 
 function parseISO(value: string): Date | null {
@@ -141,7 +149,7 @@ export function BookingForm({
           name="departure"
           type="date"
           label={copy.form.departure}
-          min={values.arrival || todayISO()}
+          min={earliestDeparture(values.arrival) ?? todayISO()}
           required
           value={values.departure}
           onChange={set("departure")}
@@ -171,8 +179,9 @@ export function BookingForm({
       </div>
 
       {nights !== null && (
-        <p aria-live="polite" className="text-sm text-muted-foreground">
+        <p aria-live="polite" className={"text-sm " + (nights < MIN_NIGHTS ? "text-primary" : "text-muted-foreground")}>
           {nights} {copy.form.nights}
+          {nights < MIN_NIGHTS && ` — ${dict.stay.minStay}`}
         </p>
       )}
 

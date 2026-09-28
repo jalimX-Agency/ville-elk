@@ -8,6 +8,7 @@ import { Location } from "@/components/villa/Location";
 import { getAmenities } from "@/lib/content/amenities";
 import { notFound } from "next/navigation";
 import { getContact, getSettings } from "@/lib/content/site";
+import { hrefFor } from "@/lib/i18n/routes";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -44,18 +45,14 @@ export default async function HomePage({
       addressLocality: "Agdal, Marrakech",
       addressCountry: "MA",
     },
-    priceRange: "MAD",
-    amenityFeature: [
-      "Piscine privée",
-      "Spa & hammam",
-      "Salle de cinéma",
-      "Salle de sport",
-      "Rooftop avec cuisine d'été",
-      "Four à pizza",
-      "Barbecue",
-      "Cheminée",
-      "Garage intérieur sécurisé",
-    ].map((name) => ({ "@type": "LocationFeatureSpecification", name, value: true })),
+    priceRange: `${dict.stay.from} ${dict.stay.price} ${dict.stay.per}`,
+    // The owner's own list, in the page's language, so it never drifts from what the page shows.
+    amenityFeature: amenities.map((amenity) => ({
+      "@type": "LocationFeatureSpecification",
+      name: amenity.name[locale as Locale] || amenity.name.fr,
+      value: true,
+    })),
+    knowsLanguage: ["ar", "fr", "en"],
     numberOfRooms: 4,
     occupancy: { "@type": "QuantitativeValue", maxValue: 10 },
   };
@@ -66,7 +63,7 @@ export default async function HomePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(lodgingSchema) }}
       />
-      <Hero dict={dict} image={settings["image.hero"]} />
+      <Hero dict={dict} image={settings["image.hero"]} bookingHref={hrefFor("booking", locale as Locale)} />
       <LevelsTour dict={dict} shots={shots} />
       <Prestations dict={dict} locale={locale as Locale} amenities={amenities} />
       <Location dict={dict} />

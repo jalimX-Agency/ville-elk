@@ -39,6 +39,7 @@ export const SETTING_DEFAULTS = {
   "image.levels.3.detail": "/images/villa-elk/sta7-four-a-pizza.jpg",
   "image.explore.suites": "/images/villa-elk/suite-parentale.jpg",
   "image.explore.gallery": "/images/villa-elk/salon-europeen.jpg",
+  "image.concierge": "/images/villa-elk/salon-marocain.jpg",
 } as const;
 
 export type SettingKey = keyof typeof SETTING_DEFAULTS;

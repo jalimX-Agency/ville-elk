@@ -9,12 +9,14 @@ import { hrefFor, translatePath } from "@/lib/i18n/routes";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/brand/Logo";
+import { StayFacts } from "./StayFacts";
 
 export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const pathname = usePathname();
   const sections = [
     { href: hrefFor("suites", locale), label: dict.nav.rooms },
     { href: hrefFor("gallery", locale), label: dict.nav.gallery },
+    { href: hrefFor("concierge", locale), label: dict.nav.concierge },
     { href: hrefFor("contact", locale), label: dict.nav.contact },
   ];
   const bookingHref = hrefFor("booking", locale);
@@ -35,7 +37,7 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-500",
-        scrolled ? "bg-card/90 backdrop-blur-lg border-b border-border" : "bg-transparent",
+        open ? "bg-background" : scrolled ? "bg-card/90 backdrop-blur-lg border-b border-border" : "bg-transparent",
       )}
     >
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-6">
@@ -83,7 +85,7 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
       </div>
 
       {open && (
-        <div id="mobile-menu" className="fixed inset-0 top-20 flex flex-col items-center justify-center gap-8 bg-background/98 backdrop-blur-xl lg:hidden">
+        <div id="mobile-menu" className="fixed inset-0 top-20 flex flex-col items-center justify-center gap-7 overflow-y-auto bg-background/98 py-8 backdrop-blur-xl lg:hidden">
           {sections.map((s) => (
             <Link
               key={s.href}
@@ -97,6 +99,7 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
           <Link href={bookingHref} onClick={() => setOpen(false)} className="btn-primary mt-2">
             {dict.nav.bookNow}
           </Link>
+          <StayFacts dict={dict} compact className="max-w-xs border-t border-border px-6 pt-6" />
           <div className="flex gap-3 pt-4">
             {locales.map((l) => (
               <Link

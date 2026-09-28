@@ -12,6 +12,7 @@ export const es = {
     gallery: "Galería",
     amenities: "Servicios",
     contact: "Contacto",
+    concierge: "Conserjería",
     bookNow: "Reservar",
   },
   hero: {
@@ -66,6 +67,7 @@ export const es = {
   amenities: {
     eyebrow: "Servicios",
     title: "Lo que ofrece la villa",
+    conciergeLink: "Descubrir la conserjería privada",
   },
   location: {
     eyebrow: "Ubicación",
@@ -179,6 +181,7 @@ export const es = {
       order: "La salida debe ser posterior a la llegada.",
       past: "Elija una fecha de llegada futura.",
       guests: "La villa acoge hasta 10 huéspedes.",
+      minStay: "La estancia mínima es de 3 noches.",
       generic: "No se pudo enviar la solicitud. Inténtelo de nuevo o escríbanos por WhatsApp.",
     },
   },
@@ -198,6 +201,114 @@ export const es = {
       "El equipo de Villa Elk responde en menos de 24h para organizar su estancia en Marrakech.",
     whatsappCta: "Escribir por WhatsApp",
     emailCta: "Enviar un email",
+  },
+  stay: {
+    eyebrow: "Tarifas",
+    from: "Desde",
+    price: "3.700 DH",
+    per: "la noche",
+    approx: "unos 350 €",
+    taxLabel: "Tasa turística",
+    tax: "31 DH por persona y día",
+    taxApprox: "unos 3 €",
+    minStay: "Estancia mínima de 3 noches para garantizar una experiencia privilegiada.",
+    languages: "Nuestro equipo habla árabe, francés e inglés.",
+  },
+  concierge: {
+    meta: {
+      title: "Conserjería privada — Villa Elk, Marrakech",
+      description: "Traslados, chef privado, excursiones, tratamientos en la villa, cuidado de niños: la conserjería privada de Villa Elk organiza su estancia en Marrakech, bajo petición.",
+    },
+    eyebrow: "Conserjería privada",
+    title: "El arte de vivir Marrakech, con toda sencillez.",
+    intro: [
+      "Porque una estancia excepcional no se limita a una villa bonita, Villa Elk le abre las puertas de un servicio de conserjería privado, pensado para responder a sus deseos y hacerle disfrutar plenamente de Marrakech.",
+      "A través de nuestra red de socios cuidadosamente seleccionados, le acompañamos antes de su llegada y durante toda su estancia para organizar, con una simple petición, los servicios que necesite.",
+    ],
+    groups: [
+      {
+        title: "Llegada y transporte",
+        items: [
+          {
+            name: "Traslados privados desde y hacia el aeropuerto",
+            body: "Recibimiento personalizado y organización de sus desplazamientos.",
+          },
+          {
+            name: "Alquiler de vehículos",
+            body: "Vehículos de alta gama, con o sin chófer, según sus necesidades.",
+          },
+        ],
+      },
+      {
+        title: "Arte de vivir y gastronomía",
+        items: [
+          {
+            name: "Reservas exclusivas",
+            body: "Restaurantes, mesas privilegiadas, rooftops, locales de moda, beach clubs y direcciones confidenciales.",
+          },
+          {
+            name: "Chef y cocinero privado",
+            body: "Desayuno, almuerzo, cena o recepción privada directamente en la villa, a su gusto.",
+          },
+        ],
+      },
+      {
+        title: "Experiencias privadas",
+        items: [
+          {
+            name: "Excursiones y descubrimientos a medida",
+            body: "El Atlas, el desierto de Agafay, escapadas privadas, actividades culturales y experiencias auténticas alrededor de Marrakech.",
+          },
+          {
+            name: "Programas personalizados",
+            body: "También podemos organizar programas personalizados para que descubra la región a su ritmo.",
+          },
+        ],
+      },
+      {
+        title: "Belleza y bienestar",
+        items: [
+          {
+            name: "Belleza a domicilio",
+            body: "Tratamientos, masajes y servicios de bienestar en la intimidad de su villa.",
+          },
+          {
+            name: "Peluquería y cuidados tradicionales",
+            body: "Peluquería, hammam, exfoliación tradicional y tratamientos de belleza realizados por profesionales seleccionados.",
+          },
+        ],
+      },
+      {
+        title: "Deporte y bienestar",
+        items: [
+          {
+            name: "Entrenador personal",
+            body: "Sesiones personalizadas en la villa o en un espacio adecuado, según sus objetivos y su programa.",
+          },
+        ],
+      },
+      {
+        title: "Servicios para familias",
+        items: [
+          {
+            name: "Niñera y cuidado de niños",
+            body: "Le ponemos en contacto con profesionales seleccionados para que los padres disfruten plenamente de su estancia, con total tranquilidad.",
+          },
+        ],
+      },
+    ],
+    onDemandTitle: "Y todo lo que necesite",
+    onDemand: "¿Necesita algo que no figura en esta lista? Pídanoslo: lo organizamos bajo petición.",
+    stepsTitle: "Su deseo, nuestra organización",
+    stepsIntro: "En Villa Elk queremos que cada detalle de su estancia sea sencillo, fluido y personalizado.",
+    steps: [
+      "Nos cuenta lo que desea.",
+      "Le ponemos en contacto con el socio adecuado.",
+    ],
+    exclusive: "Nuestro servicio de conserjería se ofrece exclusivamente a los huéspedes de Villa Elk.",
+    terms: "Los servicios los prestan directamente nuestros socios y están sujetos a disponibilidad, reserva previa y tarifas según los servicios solicitados.",
+    cta: "Solicitar un servicio",
+    imageAlt: "El salón marroquí de la villa",
   },
   theme: {
     toDark: "Cambiar a modo oscuro",

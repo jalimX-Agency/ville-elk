@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { hrefFor } from "@/lib/i18n/routes";
 import { Logo } from "@/components/brand/Logo";
 import type { Amenity } from "@/lib/content/types";
 import { pick } from "@/lib/content/types";
@@ -71,6 +73,11 @@ export function Prestations({
               );
             })}
           </ul>
+
+          <Link href={hrefFor("concierge", locale)} className="btn-quiet mt-8">
+            {dict.amenities.conciergeLink}
+            <span aria-hidden="true">{locale === "ar" ? "←" : "→"}</span>
+          </Link>
         </div>
 
         {/* Decorative: the list above already carries every name */}

@@ -14,6 +14,8 @@ export const SECTIONS = [
   { key: "suites", title: "Page Suites", hint: "Les textes de la page des suites et des pages de chaque suite." },
   { key: "gallery", title: "Page Galerie", hint: "Le titre, l'introduction et les noms des catégories." },
   { key: "reserve", title: "Page Réservation", hint: "Le formulaire, ses messages et l'encadré « Bon à savoir »." },
+  { key: "stay", title: "Tarifs & séjour minimum", hint: "Le prix, la taxe de séjour, le séjour minimum et les langues parlées. Affichés sur la réservation, le menu du téléphone, l'accueil et le pied de page." },
+  { key: "concierge", title: "Page Conciergerie", hint: "Le « menu » des services de conciergerie. La photo se change dans « Réglages »." },
   { key: "contact", title: "Contact", hint: "Les textes de la page contact. Le numéro et l'email se modifient dans « Réglages »." },
   { key: "meta", title: "Google — page d'accueil", hint: "Le titre et la description qui apparaissent dans les résultats de recherche." },
   { key: "nav", title: "Menu", hint: "Les liens du menu en haut de chaque page." },
@@ -122,7 +124,29 @@ const WORDS: Record<string, string> = {
   order: "Départ avant l'arrivée",
   past: "Date passée",
   generic: "Erreur d'envoi",
+  concierge: "Conciergerie",
+  conciergeLink: "Lien vers la conciergerie",
+  minStay: "Séjour minimum",
+  from: "« À partir de »",
+  price: "Prix",
+  per: "« la nuit »",
+  approx: "Prix en euros",
+  taxLabel: "Titre de la taxe de séjour",
+  tax: "Taxe de séjour",
+  taxApprox: "Taxe en euros",
+  languages: "Langues parlées",
+  onDemandTitle: "« Sur demande » — titre",
+  onDemand: "« Sur demande » — texte",
+  stepsTitle: "« Votre envie » — titre",
+  stepsIntro: "« Votre envie » — texte",
+  steps: "Étapes (une par ligne)",
+  exclusive: "Réservé aux clients",
+  terms: "Conditions",
+  imageAlt: "Description de la photo",
 };
+
+/** Names for the numbered entries of a list: "Rubrique 2 — Service 1 — Nom". */
+const INDEXED: Record<string, string> = { places: "Lieu", groups: "Rubrique", items: "Service" };
 
 const GROUPS: Record<string, string> = {
   meta: "Google",
@@ -151,7 +175,7 @@ export function fieldLabel(path: string): string {
         const code = getAt(getDefaultDictionary("fr"), `tour.levels.${index}.code`);
         parts.push(`Niveau ${code}`);
       } else {
-        parts.push(`${key === "places" ? "Lieu" : key} ${index + 1}`);
+        parts.push(`${INDEXED[key] ?? key} ${index + 1}`);
       }
       continue;
     }
