@@ -28,6 +28,7 @@ import { isSuiteSpace, sortBySpace } from "@/lib/content/types";
 import { GalleryUploader } from "./GalleryUploader";
 import { SpaceSelect } from "./SpaceSelect";
 import { LangProvider, PerLang } from "./LangTabs";
+import { ReplacePhotoButton } from "./ReplacePhotoButton";
 import { SaveBar } from "./SaveBar";
 
 export type LibraryPhoto = {
@@ -298,6 +299,13 @@ function PhotoSheet({
 
       <div className="relative aspect-[3/2] shrink-0 bg-muted">
         <Image src={photo.imageUrl} alt="" fill sizes="512px" className="object-contain" />
+      </div>
+
+      <div className="border-b border-border bg-card px-4 pt-3">
+        <ReplacePhotoButton photoId={photo.id} />
+        <p className="mt-1 pb-3 text-sm text-muted-foreground">
+          La nouvelle photo prend la place de celle-ci : descriptions, espace et ordre sont gardés.
+        </p>
       </div>
 
       <div className="space-y-2 border-b border-border bg-card p-4">

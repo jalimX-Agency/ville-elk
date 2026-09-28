@@ -13,6 +13,7 @@ import {
 } from "@/app/admin/actions";
 import { CATEGORY_OPTIONS } from "./gallery-categories";
 import { LangProvider, PerLang } from "./LangTabs";
+import { ReplacePhotoButton } from "./ReplacePhotoButton";
 import { SaveBar } from "./SaveBar";
 
 export type AdminPhoto = {
@@ -175,6 +176,13 @@ function PhotoPanel({
 
       <div className="relative aspect-[3/2] bg-muted">
         <Image src={photo.imageUrl} alt="" fill sizes="512px" className="object-contain" />
+      </div>
+
+      <div className="border-b border-border bg-card px-4 pt-3">
+        <ReplacePhotoButton photoId={photo.id} />
+        <p className="mt-1 pb-3 text-sm text-muted-foreground">
+          La nouvelle photo prend la place de celle-ci : descriptions, espace et ordre sont gardés.
+        </p>
       </div>
 
       <div className="flex flex-wrap gap-2 border-b border-border bg-card p-4">

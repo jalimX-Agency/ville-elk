@@ -6,6 +6,7 @@ import { db } from "@/lib/db/client";
 import { signIn, signOut } from "@/auth";
 import { requireUser, refreshPublicPages } from "./guard";
 import { deleteUnusedImage } from "@/lib/storage/cleanup";
+import { isStoredImage } from "@/lib/storage/r2";
 import { isGalleryCategory, isSuiteSpace } from "@/lib/content/types";
 
 export type LoginState = { error?: string };
@@ -263,6 +264,31 @@ export async function moveGalleryImage(formData: FormData) {
   refreshPublicPages();
   revalidatePath("/admin/galerie");
   revalidatePath("/admin/suites", "layout");
+}
+
+/**
+ * A new picture in an existing photo's place. The row keeps its texts, space,
+ * suite and position; a suite or amenity showing the same file follows it.
+ */
+export async function replaceGalleryImage(id: string, imageUrl: string): Promise<{ error?: string }> {
+  await requireUser();
+  // Only a file this dashboard just uploaded can take the place of a photo.
+  if (!isStoredImage(imageUrl)) return { error: "Photo non reconnue." };
+
+  const photo = await db.galleryImage.findUnique({ where: { id }, select: { imageUrl: true } });
+  if (!photo) return { error: "Cette photo n'existe plus." };
+  if (photo.imageUrl === imageUrl) return {};
+
+  await db.galleryImage.update({ where: { id }, data: { imageUrl } });
+  await db.suite.updateMany({ where: { imageUrl: photo.imageUrl }, data: { imageUrl } });
+  await db.amenity.updateMany({ where: { imageUrl: photo.imageUrl }, data: { imageUrl } });
+  await deleteUnusedImage(photo.imageUrl);
+
+  refreshPublicPages();
+  revalidatePath("/admin/galerie");
+  revalidatePath("/admin/suites", "layout");
+  revalidatePath("/admin/prestations");
+  return {};
 }
 
 export async function deleteGalleryImage(formData: FormData) {
