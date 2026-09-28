@@ -4,7 +4,7 @@ import { db } from "@/lib/db/client";
 import { getDictionary } from "@/lib/content/site";
 import { isLocale, defaultLocale, type Locale } from "@/lib/i18n/locales";
 import { readEnquiry } from "@/lib/booking/enquiry";
-import { notifyOwner } from "@/lib/booking/notify";
+import { acknowledgeGuest, notifyOwner } from "@/lib/booking/notify";
 
 export type EnquiryState = {
   status: "idle" | "sent" | "error";
@@ -42,14 +42,17 @@ export async function submitEnquiry(
     return { status: "error", field: "form", message: dict.reserve.errors.generic };
   }
 
-  try {
-    await notifyOwner(parsed.value, locale);
-    await db.enquiry.update({ where: { id }, data: { notifiedAt: new Date() } });
-  } catch (error) {
-    // The visitor did their part and the request is saved; the dashboard shows
-    // it as un-notified so nobody has to guess whether the email went out.
-    console.error("Could not email the enquiry", error);
-  }
+  // The two emails are independent: one failing must not stop the other.
+  const [owner, guest] = await Promise.allSettled([
+    notifyOwner(parsed.value, locale).then(() =>
+      db.enquiry.update({ where: { id }, data: { notifiedAt: new Date() } }),
+    ),
+    acknowledgeGuest(parsed.value, locale),
+  ]);
+  // The visitor did their part and the request is saved; the dashboard shows
+  // it as un-notified so nobody has to guess whether the owner's email went out.
+  if (owner.status === "rejected") console.error("Could not email the enquiry", owner.reason);
+  if (guest.status === "rejected") console.error("Could not acknowledge the enquiry to the guest", guest.reason);
 
   return { status: "sent" };
 }

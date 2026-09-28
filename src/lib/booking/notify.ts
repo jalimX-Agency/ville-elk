@@ -2,6 +2,7 @@ import "server-only";
 import { Resend } from "resend";
 import { getContact } from "@/lib/content/site";
 import { nightsBetween, type EnquiryInput } from "./enquiry";
+import { acknowledgementEmail } from "./acknowledge";
 
 /**
  * The owner reads these on a phone, so the email is plain and the important
@@ -66,4 +67,25 @@ export async function notifyOwner(enquiry: EnquiryInput, locale: string): Promis
       `<p style="margin:28px 0 0;color:#6b5f55;font-size:13px">` +
       `Répondez directement à cet email pour écrire à ${escapeHtml(enquiry.name)}.</p></div>`,
   });
+}
+
+/**
+ * Tells the guest their request arrived and the team will answer soon, in the
+ * language they were reading. Replies reach the villa's own inbox.
+ */
+export async function acknowledgeGuest(enquiry: EnquiryInput, locale: string): Promise<void> {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) throw new Error("RESEND_API_KEY is not set");
+
+  const contact = await getContact();
+  const { subject, html, text } = acknowledgementEmail(enquiry, locale, contact);
+  const { error } = await new Resend(key).emails.send({
+    from: FROM,
+    to: enquiry.email,
+    replyTo: contact.email,
+    subject,
+    html,
+    text,
+  });
+  if (error) throw new Error(error.message);
 }
