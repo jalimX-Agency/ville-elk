@@ -33,19 +33,21 @@ export function SuiteCarousel({
   const rtl = locale === "ar";
   const total = photos.length;
 
+  // Every slide is exactly one track wide, so the slide showing is the scroll
+  // offset over the width. Right to left, browsers report scrollLeft as a
+  // negative number; the absolute value reads the same either way. (An
+  // IntersectionObserver rooted in an RTL scroll container never fired here.)
   useEffect(() => {
     const root = track.current;
     if (!root) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActive(Number((entry.target as HTMLElement).dataset.index));
-        }
-      },
-      { root, threshold: 0.6 },
-    );
-    root.querySelectorAll("[data-index]").forEach((slide) => observer.observe(slide));
-    return () => observer.disconnect();
+    // React skips the render when the index has not changed, so this is cheap
+    // even at scroll-event frequency.
+    const onScroll = () => {
+      const index = Math.round(Math.abs(root.scrollLeft) / root.clientWidth);
+      setActive(Math.min(total - 1, Math.max(0, index)));
+    };
+    root.addEventListener("scroll", onScroll, { passive: true });
+    return () => root.removeEventListener("scroll", onScroll);
   }, [total]);
 
   function go(index: number) {
