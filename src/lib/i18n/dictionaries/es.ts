@@ -103,6 +103,14 @@ export const es = {
     photosUnit: "fotos",
     ctaTitle: "La villa entera, solo para ustedes",
     suiteLabel: "Suite",
+    spaces: {
+      bedroom: "Dormitorio",
+      desk: "Escritorio",
+      bathroom: "Baño",
+      balcony: "Balcón",
+      details: "Detalles",
+      other: "Más",
+    },
   },
   gallery: {
     meta: {

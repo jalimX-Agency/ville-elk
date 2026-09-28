@@ -79,6 +79,12 @@ const WORDS: Record<string, string> = {
   photosUnit: "Le mot « photos »",
   ctaTitle: "Titre de l'appel à réserver",
   suiteLabel: "Le mot « Suite »",
+  bedroom: "Chambre",
+  desk: "Coin bureau",
+  bathroom: "Salle de bain",
+  balcony: "Balcon",
+  details: "Détails",
+  other: "Photos non classées",
   filterLabel: "Titre des filtres (lecteur d'écran)",
   showMore: "Bouton « afficher plus »",
   shownOf: "Compteur « photos affichées sur »",
@@ -127,6 +133,7 @@ const GROUPS: Record<string, string> = {
   categories: "Catégories",
   viewer: "Visionneuse",
   photos: "Photo",
+  spaces: "Parties de la suite",
 };
 
 /** "tour.levels.2.photos.main" → "Niveau +1 — Photo — description de la photo principale". */

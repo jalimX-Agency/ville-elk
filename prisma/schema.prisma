@@ -147,6 +147,10 @@ model GalleryImage {
   suiteId String?
   suite   Suite?  @relation(fields: [suiteId], references: [id], onDelete: SetNull)
 
+  /// Which part of the suite it shows, for the suite page's sections.
+  /// One of: bedroom, desk, bathroom, balcony, details; null = unclassified.
+  suiteSpace String?
+
   imageUrl String
   altFr    String
   altEn    String

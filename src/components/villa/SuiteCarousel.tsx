@@ -59,6 +59,29 @@ export function SuiteCarousel({
 
   const pad = (n: number) => String(n).padStart(2, "0");
 
+  // The photos arrive grouped by part of the suite; each run becomes a
+  // section a visitor can jump to. One section alone needs no navigation.
+  const sections: { key: string; label: string; start: number; count: number }[] = [];
+  photos.forEach((photo, index) => {
+    const key = photo.space ?? "other";
+    const last = sections.at(-1);
+    if (last?.key === key) last.count += 1;
+    else sections.push({ key, label: dict.suites.spaces[photo.space ?? "other"], start: index, count: 1 });
+  });
+  const current = sections.findLast((section) => section.start <= active);
+  const chips = useRef<HTMLDivElement>(null);
+
+  // Keep the section showing in view in the chip strip as the photos pass.
+  useEffect(() => {
+    const strip = chips.current;
+    const chip = strip?.querySelector<HTMLElement>('[aria-current="true"]');
+    if (!strip || !chip) return;
+    // Measured on screen, so it reads the same right to left.
+    const c = chip.getBoundingClientRect();
+    const s = strip.getBoundingClientRect();
+    strip.scrollBy({ left: c.left + c.width / 2 - (s.left + s.width / 2), behavior: "smooth" });
+  }, [current?.key]);
+
   return (
     <section
       aria-roledescription="carousel"
@@ -113,9 +136,40 @@ export function SuiteCarousel({
             style={{ width: `${((active + 1) / total) * 100}%` }}
           />
         </div>
-        <p className="mt-3 font-mono text-xs tracking-[0.2em] text-white/85 tabular-nums" aria-live="polite">
-          {pad(active + 1)} <span className="text-white/45">/ {pad(total)}</span>
-        </p>
+        <div className="mt-1 flex items-center gap-4">
+          <p className="shrink-0 font-mono text-xs tracking-[0.2em] text-white/85 tabular-nums" aria-live="polite">
+            {pad(active + 1)} <span className="text-white/45">/ {pad(total)}</span>
+          </p>
+          {sections.length > 1 && (
+            <nav aria-label={dict.suites.photosTitle} className="pointer-events-auto min-w-0 flex-1">
+              <div
+                ref={chips}
+                className="flex overflow-x-auto [mask-image:linear-gradient(to_right,transparent,#000_1rem,#000_calc(100%-1.5rem),transparent)] [scrollbar-width:none] sm:justify-end sm:[mask-image:none] [&::-webkit-scrollbar]:hidden"
+              >
+                {sections.map((section) => {
+                  const on = section.key === current?.key;
+                  return (
+                    <button
+                      key={section.key}
+                      type="button"
+                      onClick={() => go(section.start)}
+                      aria-current={on ? "true" : undefined}
+                      className={
+                        "group flex min-h-11 shrink-0 items-center gap-1.5 px-3 font-mono text-[0.7rem] uppercase tracking-[0.18em] transition-colors " +
+                        (on ? "text-white" : "text-white/60 hover:text-white")
+                      }
+                    >
+                      <span className={"border-b pb-1 " + (on ? "border-[var(--brass-light)]" : "border-transparent")}>
+                        {section.label}
+                      </span>
+                      <span className="pb-1 text-white/45 tabular-nums">{section.count}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </nav>
+          )}
+        </div>
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 px-5 pb-7 text-[#f5efe6] sm:px-8 lg:px-[5vw] lg:pb-12">

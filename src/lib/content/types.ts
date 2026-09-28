@@ -46,9 +46,31 @@ export function isGalleryCategory(value: string): value is GalleryCategory {
   return (GALLERY_CATEGORIES as readonly string[]).includes(value);
 }
 
+/** The parts of a suite its photographs are sorted into, in page order. */
+export const SUITE_SPACES = ["bedroom", "desk", "bathroom", "balcony", "details"] as const;
+export type SuiteSpace = (typeof SUITE_SPACES)[number];
+
+export function isSuiteSpace(value: string): value is SuiteSpace {
+  return (SUITE_SPACES as readonly string[]).includes(value);
+}
+
+/**
+ * A suite's photographs grouped by part, in the order of SUITE_SPACES, with
+ * unsorted ones last. The sort is stable, so each part keeps the order given.
+ */
+export function sortBySpace<T>(items: T[], spaceOf: (item: T) => string | null | undefined): T[] {
+  const rank = (item: T) => {
+    const space = spaceOf(item);
+    return space && isSuiteSpace(space) ? SUITE_SPACES.indexOf(space) : SUITE_SPACES.length;
+  };
+  return [...items].sort((a, b) => rank(a) - rank(b));
+}
+
 /** One photograph in the gallery. The alt text is the only copy it carries. */
 export type GalleryPhoto = {
   id: string;
   category: GalleryCategory;
+  /** On a suite's page, the part of the suite it shows; null when unsorted. */
+  space?: SuiteSpace | null;
   image: ContentImage;
 };

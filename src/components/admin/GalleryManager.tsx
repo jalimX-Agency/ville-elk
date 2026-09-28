@@ -20,6 +20,8 @@ export type AdminPhoto = {
   imageUrl: string;
   category: string;
   suiteId: string | null;
+  /** Its part of the suite (bedroom, bathroom…); only meaningful with a suite. */
+  suiteSpace?: string | null;
   published: boolean;
   altFr: string;
   altEn: string;

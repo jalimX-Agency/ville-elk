@@ -6,7 +6,7 @@ import { db } from "@/lib/db/client";
 import { signIn, signOut } from "@/auth";
 import { requireUser, refreshPublicPages } from "./guard";
 import { deleteUnusedImage } from "@/lib/storage/cleanup";
-import { isGalleryCategory } from "@/lib/content/types";
+import { isGalleryCategory, isSuiteSpace } from "@/lib/content/types";
 
 export type LoginState = { error?: string };
 
@@ -300,6 +300,8 @@ export async function addGalleryImages(
   if (suiteId && !(await db.suite.findUnique({ where: { id: suiteId }, select: { id: true } }))) {
     return { error: "Cette suite n'existe plus." };
   }
+  const rawSpace = String(formData.get("suiteSpace") ?? "");
+  const suiteSpace = suiteId && isSuiteSpace(rawSpace) ? rawSpace : null;
 
   const last = await db.galleryImage.findFirst({ orderBy: { position: "desc" } });
   let position = (last?.position ?? 0) + 1;
@@ -307,7 +309,7 @@ export async function addGalleryImages(
   for (const imageUrl of urls) {
     // Alt text starts empty; the owner writes it on the row.
     await db.galleryImage.create({
-      data: { imageUrl, position, category, suiteId, altFr: "", altEn: "", altEs: "", altAr: "" },
+      data: { imageUrl, position, category, suiteId, suiteSpace, altFr: "", altEn: "", altEs: "", altAr: "" },
     });
     position += 1;
   }
@@ -341,11 +343,15 @@ export async function saveGalleryAlt(
     return { error: "Cette suite n'existe plus." };
   }
 
+  const before = await db.galleryImage.findUnique({ where: { id }, select: { suiteId: true } });
+
   await db.galleryImage.update({
     where: { id },
     data: {
       category,
       suiteId,
+      // Its part of the suite means nothing in another suite.
+      ...(before?.suiteId !== suiteId ? { suiteSpace: null } : {}),
       altFr,
       altEn: text("altEn") || altFr,
       altEs: text("altEs") || altFr,

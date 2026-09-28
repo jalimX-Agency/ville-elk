@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db/client";
 import { deleteUnusedImage } from "@/lib/storage/cleanup";
+import { isSuiteSpace, sortBySpace } from "@/lib/content/types";
 import { requireUser, refreshPublicPages } from "./guard";
 
 /**
@@ -10,7 +11,9 @@ import { requireUser, refreshPublicPages } from "./guard";
  *
  * They are gallery photos linked to the suite, ordered by the gallery's
  * `position`. Reordering them hands the suite's own set of positions out again
- * in the new order, so the photos of other spaces keep their places.
+ * in the new order, so the photos of other spaces keep their places. Every
+ * change also groups them by part of the suite (bedroom, bathroom…), so the
+ * order in the database is the order the page shows.
  */
 
 function refresh(suiteId: string) {
@@ -36,42 +39,62 @@ async function assignOrder(suiteId: string, orderedIds: string[]) {
   );
 }
 
-async function suitePhotoIds(suiteId: string) {
-  const rows = await db.galleryImage.findMany({
+async function suitePhotos(suiteId: string) {
+  return db.galleryImage.findMany({
     where: { suiteId },
     orderBy: { position: "asc" },
-    select: { id: true },
+    select: { id: true, suiteSpace: true },
   });
-  return rows.map((row) => row.id);
 }
+
+/** Writes the order grouped by part, keeping the given order inside each part. */
+async function assignGroupedOrder(suiteId: string, rows: { id: string; suiteSpace: string | null }[]) {
+  await assignOrder(suiteId, sortBySpace(rows, (row) => row.suiteSpace).map((row) => row.id));
+}
+
+const spaceOrNull = (space: string | null | undefined) => (space && isSuiteSpace(space) ? space : null);
 
 /** Saves the order the owner arranged. Unknown or foreign ids are ignored. */
 export async function reorderSuitePhotos(suiteId: string, orderedIds: string[]) {
   await requireUser();
-  const current = await suitePhotoIds(suiteId);
-  const mine = new Set(current);
-  const next = orderedIds.filter((id) => mine.has(id));
+  const current = await suitePhotos(suiteId);
+  const byId = new Map(current.map((row) => [row.id, row]));
+  const next = orderedIds.flatMap((id) => byId.get(id) ?? []);
   // Anything the page did not know about (added in another tab) keeps its turn at the end.
-  for (const id of current) if (!next.includes(id)) next.push(id);
-  await assignOrder(suiteId, next);
+  for (const row of current) if (!orderedIds.includes(row.id)) next.push(row);
+  await assignGroupedOrder(suiteId, next);
   refresh(suiteId);
 }
 
-/** Links gallery photos to the suite, after the ones it already has. */
-export async function addPhotosToSuite(suiteId: string, photoIds: string[]) {
+/** Links gallery photos to the suite, at the end of the part they go in. */
+export async function addPhotosToSuite(suiteId: string, photoIds: string[], space: string | null) {
   await requireUser();
   if (!(await db.suite.findUnique({ where: { id: suiteId }, select: { id: true } }))) return;
-  const current = await suitePhotoIds(suiteId);
-  const added = photoIds.filter((id) => !current.includes(id));
+  const current = await suitePhotos(suiteId);
+  const added = photoIds.filter((id) => !current.some((row) => row.id === id));
   if (added.length === 0) return;
-  await assignOrder(suiteId, [...current, ...added]);
+  const suiteSpace = spaceOrNull(space);
+  await db.galleryImage.updateMany({ where: { id: { in: added } }, data: { suiteSpace } });
+  await assignGroupedOrder(suiteId, [...current, ...added.map((id) => ({ id, suiteSpace }))]);
+  refresh(suiteId);
+}
+
+/** Moves a photo to another part of the suite, at the end of that part. */
+export async function setSuitePhotoSpace(suiteId: string, photoId: string, space: string | null) {
+  await requireUser();
+  const current = await suitePhotos(suiteId);
+  const photo = current.find((row) => row.id === photoId);
+  if (!photo) return;
+  const suiteSpace = spaceOrNull(space);
+  await db.galleryImage.update({ where: { id: photoId }, data: { suiteSpace } });
+  await assignGroupedOrder(suiteId, [...current.filter((row) => row.id !== photoId), { id: photoId, suiteSpace }]);
   refresh(suiteId);
 }
 
 /** Unlinks a photo from the suite. It stays in the gallery. */
 export async function removePhotoFromSuite(suiteId: string, photoId: string) {
   await requireUser();
-  await db.galleryImage.updateMany({ where: { id: photoId, suiteId }, data: { suiteId: null } });
+  await db.galleryImage.updateMany({ where: { id: photoId, suiteId }, data: { suiteId: null, suiteSpace: null } });
   refresh(suiteId);
 }
 

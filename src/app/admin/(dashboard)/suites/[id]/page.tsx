@@ -6,6 +6,7 @@ import { SuiteForm } from "@/components/admin/SuiteForm";
 import { DeleteButton } from "@/components/admin/DeleteButton";
 import { deleteSuite } from "@/app/admin/site-actions";
 import { SuitePhotos } from "@/components/admin/SuitePhotos";
+import { sortBySpace } from "@/lib/content/types";
 
 export default async function EditSuitePage({
   params,
@@ -22,13 +23,16 @@ export default async function EditSuitePage({
   ]);
   if (!suite) notFound();
 
-  const photos = gallery
-    .filter((p) => p.suiteId === suite.id)
-    .map((p) => ({
+  // Grouped by part of the suite, the way the public page shows them.
+  const photos = sortBySpace(
+    gallery.filter((p) => p.suiteId === suite.id),
+    (p) => p.suiteSpace,
+  ).map((p) => ({
       id: p.id,
       imageUrl: p.imageUrl,
       category: p.category,
       suiteId: p.suiteId,
+      suiteSpace: p.suiteSpace,
       published: p.published,
       altFr: p.altFr,
       altEn: p.altEn,

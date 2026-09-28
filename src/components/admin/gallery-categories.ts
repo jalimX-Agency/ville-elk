@@ -1,4 +1,4 @@
-import type { GalleryCategory } from "@/lib/content/types";
+import type { GalleryCategory, SuiteSpace } from "@/lib/content/types";
 
 /** The dashboard is in French; these are the names the owner picks from. */
 export const CATEGORY_OPTIONS: { value: GalleryCategory; label: string }[] = [
@@ -7,4 +7,13 @@ export const CATEGORY_OPTIONS: { value: GalleryCategory; label: string }[] = [
   { value: "sous-sol", label: "Sous-sol" },
   { value: "suites", label: "Suites" },
   { value: "rooftop", label: "Rooftop" },
+];
+
+/** The parts of a suite, in the order the suite page shows them. */
+export const SPACE_OPTIONS: { value: SuiteSpace; label: string }[] = [
+  { value: "bedroom", label: "Chambre" },
+  { value: "desk", label: "Coin bureau" },
+  { value: "bathroom", label: "Salle de bain" },
+  { value: "balcony", label: "Balcon" },
+  { value: "details", label: "Détails" },
 ];

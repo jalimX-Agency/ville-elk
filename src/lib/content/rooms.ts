@@ -1,6 +1,6 @@
 import { db } from "@/lib/db/client";
 import type { GalleryImageModel, SuiteModel } from "@/generated/prisma/models";
-import { isGalleryCategory, type GalleryPhoto, type Suite } from "./types";
+import { isGalleryCategory, isSuiteSpace, sortBySpace, type GalleryPhoto, type Suite } from "./types";
 
 function toSuite(row: SuiteModel): Suite {
   return {
@@ -44,6 +44,7 @@ function toPhoto(row: GalleryImageModel): GalleryPhoto {
     id: row.id,
     // A value the gallery does not know still shows under "all".
     category: isGalleryCategory(row.category) ? row.category : "rdc",
+    space: row.suiteSpace && isSuiteSpace(row.suiteSpace) ? row.suiteSpace : null,
     image: {
       src: row.imageUrl,
       alt: { fr: row.altFr, en: row.altEn, es: row.altEs, ar: row.altAr },
@@ -66,7 +67,9 @@ export async function getSuite(slug: string): Promise<{ suite: Suite; photos: Ga
     include: { photos: { where: { published: true }, orderBy: { position: "asc" } } },
   });
   if (!row) return null;
-  return { suite: toSuite(row), photos: row.photos.map(toPhoto) };
+  // Grouped by part of the suite, in the owner's order within each part.
+  const photos = sortBySpace(row.photos.map(toPhoto), (photo) => photo.space);
+  return { suite: toSuite(row), photos };
 }
 
 /** Slugs of the published suites, for prerendering their pages. */

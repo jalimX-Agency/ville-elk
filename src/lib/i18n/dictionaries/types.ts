@@ -62,6 +62,8 @@ export interface Dictionary {
     photosUnit: string;
     ctaTitle: string;
     suiteLabel: string;
+    /** Names of the parts of a suite its photographs are sorted into. */
+    spaces: Record<"bedroom" | "desk" | "bathroom" | "balcony" | "details" | "other", string>;
   };
   gallery: {
     meta: { title: string; description: string };

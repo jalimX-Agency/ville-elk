@@ -4,6 +4,7 @@ import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { addGalleryImages } from "@/app/admin/actions";
 import { CATEGORY_OPTIONS } from "./gallery-categories";
+import { SpaceSelect } from "./SpaceSelect";
 
 /**
  * Several photographs at once, because a shoot arrives as a folder. Each file
@@ -18,6 +19,7 @@ export function GalleryUploader({ suiteId }: { suiteId?: string } = {}) {
   const [failed, setFailed] = useState<string[]>([]);
   const [saving, startSaving] = useTransition();
   const [category, setCategory] = useState<string>(suiteId ? "suites" : "rdc");
+  const [space, setSpace] = useState<string>("");
 
   async function upload(files: File[]) {
     setBusy(true);
@@ -49,7 +51,10 @@ export function GalleryUploader({ suiteId }: { suiteId?: string } = {}) {
     if (urls.length > 0) {
       const form = new FormData();
       form.set("category", category);
-      if (suiteId) form.set("suiteId", suiteId);
+      if (suiteId) {
+        form.set("suiteId", suiteId);
+        form.set("suiteSpace", space);
+      }
       for (const url of urls) form.append("imageUrl", url);
       startSaving(async () => {
         await addGalleryImages({}, form);
@@ -79,7 +84,12 @@ export function GalleryUploader({ suiteId }: { suiteId?: string } = {}) {
       />
 
       <div className="flex flex-wrap items-center gap-3">
-        {!suiteId && (
+        {suiteId ? (
+          <label className="flex items-center gap-2 text-sm">
+            <span className="text-muted-foreground">Dans</span>
+            <SpaceSelect value={space} onChange={setSpace} disabled={working} />
+          </label>
+        ) : (
         <label className="flex items-center gap-2 text-sm">
           <span className="text-muted-foreground">Espace</span>
           <select

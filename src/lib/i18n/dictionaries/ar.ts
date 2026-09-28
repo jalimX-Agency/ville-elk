@@ -103,6 +103,14 @@ export const ar = {
     photosUnit: "صورة",
     ctaTitle: "الفيلا كاملة، لكم وحدكم",
     suiteLabel: "جناح",
+    spaces: {
+      bedroom: "غرفة النوم",
+      desk: "ركن المكتب",
+      bathroom: "الحمّام",
+      balcony: "الشرفة",
+      details: "التفاصيل",
+      other: "صور أخرى",
+    },
   },
   gallery: {
     meta: {
