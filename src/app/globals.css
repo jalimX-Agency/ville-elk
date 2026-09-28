@@ -420,3 +420,38 @@ body {
     background: var(--onyx);
   }
 }
+
+/* The booking sheet: an A4 page on screen, and exactly one sheet on paper. */
+.fiche-page {
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 18mm 16mm;
+  background: #fffdf9;
+  color: #2a2420;
+  font-size: 15px;
+  line-height: 1.55;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 12px 40px rgb(0 0 0 / 0.08);
+}
+@media (max-width: 640px) {
+  .fiche-page {
+    padding: 28px 18px;
+    box-shadow: none;
+  }
+}
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  .fiche-page {
+    box-shadow: none;
+    max-width: none;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

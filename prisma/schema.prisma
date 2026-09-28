@@ -84,6 +84,21 @@ model Enquiry {
   /// When the status last changed, for "confirmée le …".
   statusChangedAt DateTime?
 
+  /// The booking sheet ("fiche de réservation") sent on confirmation.
+  /// Price agreed for the stay, before the tourist tax; null until set.
+  priceDh      Int?
+  /// Deposit already received.
+  depositDh    Int?
+  checkInTime  String    @default("15:00")
+  checkOutTime String    @default("11:00")
+  /// A line from the team printed on the sheet, in the guest's language.
+  ficheNote    String    @default("")
+  /// The language of the sheet; the guest's own by default.
+  ficheLocale  String?
+  /// Unguessable key of the guest's own link to the sheet.
+  ficheToken   String?   @unique
+  ficheSentAt  DateTime?
+
   @@index([status, createdAt])
 }
 

@@ -29,7 +29,7 @@ export function estimate({ arrival, departure, guests }: Pick<ReplyInput, "arriv
   return { nights, stay, tax, total: stay + tax };
 }
 
-const INTL: Record<string, string> = { fr: "fr-FR", en: "en-GB", es: "es-ES", ar: "ar-MA-u-nu-latn" };
+const INTL: Record<string, string> = { fr: "fr-FR", en: "en-GB", es: "es-ES", ar: "ar-u-nu-latn" };
 
 function date(value: string, locale: string) {
   return new Date(`${value}T00:00:00Z`).toLocaleDateString(INTL[locale] ?? "fr-FR", {

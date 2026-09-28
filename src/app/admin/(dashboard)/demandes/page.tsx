@@ -23,6 +23,14 @@ export default async function EnquiriesPage() {
     createdAt: row.createdAt.toISOString(),
     statusChangedAt: row.statusChangedAt?.toISOString() ?? null,
     notified: row.notifiedAt !== null,
+    priceDh: row.priceDh,
+    depositDh: row.depositDh,
+    checkInTime: row.checkInTime,
+    checkOutTime: row.checkOutTime,
+    ficheNote: row.ficheNote,
+    ficheLocale: row.ficheLocale,
+    ficheSentAt: row.ficheSentAt?.toISOString() ?? null,
+    ficheToken: row.ficheToken,
   }));
 
   return (

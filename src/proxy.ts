@@ -29,8 +29,8 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // `admin` is the dashboard: it is not translated, so it must not be
-    // redirected into a locale segment.
-    "/((?!_next/static|_next/image|favicon.ico|images|api|admin|.*\\..*).*)",
+    // `admin` is the dashboard and `fiche` a guest's booking sheet: neither is
+    // translated by URL, so neither is redirected into a locale segment.
+    "/((?!_next/static|_next/image|favicon.ico|images|api|admin|fiche|.*\\..*).*)",
   ],
 };

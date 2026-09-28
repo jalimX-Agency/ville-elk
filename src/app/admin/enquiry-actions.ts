@@ -1,10 +1,13 @@
 "use server";
 
+import { randomBytes } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db/client";
 import { MAX_GUESTS } from "@/lib/booking/enquiry";
 import { isLocale } from "@/lib/i18n/locales";
 import { requireUser } from "./guard";
+import { isFicheLocale } from "@/lib/booking/fiche";
+import { ficheLocaleOf, sendFiche } from "@/lib/booking/fiche-server";
 
 /**
  * The booking requests' own actions: notes, deletion, and stays the owner
@@ -91,4 +94,91 @@ export async function createManualBooking(_state: ManualState, formData: FormDat
 
   refresh();
   return { created: created.id };
+}
+
+export type FicheFields = {
+  priceDh: string;
+  depositDh: string;
+  checkInTime: string;
+  checkOutTime: string;
+  ficheNote: string;
+  ficheLocale: string;
+};
+
+export type FicheResult = { error?: string; sent?: boolean; saved?: boolean };
+
+const TIME = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+function readFiche(fields: FicheFields) {
+  const amount = (value: string) => {
+    const digits = value.replace(/[\s.,]/g, "");
+    if (!digits) return null;
+    const n = Number(digits);
+    return Number.isInteger(n) && n >= 0 && n < 100_000_000 ? n : NaN;
+  };
+  const priceDh = amount(fields.priceDh);
+  const depositDh = amount(fields.depositDh);
+  if (Number.isNaN(priceDh)) return { error: "Le prix doit être un nombre de dirhams." };
+  if (Number.isNaN(depositDh)) return { error: "L'acompte doit être un nombre de dirhams." };
+  if (!TIME.test(fields.checkInTime) || !TIME.test(fields.checkOutTime)) {
+    return { error: "Les heures s'écrivent comme 15:00." };
+  }
+  return {
+    data: {
+      priceDh,
+      depositDh,
+      checkInTime: fields.checkInTime,
+      checkOutTime: fields.checkOutTime,
+      ficheNote: fields.ficheNote.slice(0, 1000),
+      ficheLocale: isFicheLocale(fields.ficheLocale) ? fields.ficheLocale : null,
+    },
+  };
+}
+
+/** Saves what the booking sheet shows, without confirming or sending. */
+export async function saveFiche(id: string, fields: FicheFields): Promise<FicheResult> {
+  await requireUser();
+  const parsed = readFiche(fields);
+  if ("error" in parsed) return { error: parsed.error };
+  await db.enquiry.update({ where: { id }, data: parsed.data });
+  refresh();
+  return { saved: true };
+}
+
+/**
+ * Confirms the stay and, when asked and possible, emails the booking sheet to
+ * the guest. The confirmation stands even if the email fails; the panel says
+ * so and offers to send it again.
+ */
+export async function confirmWithFiche(id: string, fields: FicheFields, send: boolean): Promise<FicheResult> {
+  await requireUser();
+  const parsed = readFiche(fields);
+  if ("error" in parsed) return { error: parsed.error };
+
+  const current = await db.enquiry.findUnique({ where: { id } });
+  if (!current) return { error: "Cette demande n'existe plus." };
+
+  const row = await db.enquiry.update({
+    where: { id },
+    data: {
+      ...parsed.data,
+      ...(current.status !== "CONFIRMED" ? { status: "CONFIRMED" as const, statusChangedAt: new Date() } : {}),
+      // The guest's link to their sheet; made once, kept for good.
+      ficheToken: current.ficheToken ?? randomBytes(18).toString("base64url"),
+    },
+  });
+  refresh();
+
+  if (!send) return { saved: true };
+  if (!row.email) return { saved: true, error: "Pas d'email pour ce client : envoyez le lien de la fiche par WhatsApp." };
+
+  try {
+    await sendFiche({ ...row, ficheToken: row.ficheToken! }, ficheLocaleOf(row));
+    await db.enquiry.update({ where: { id }, data: { ficheSentAt: new Date() } });
+    refresh();
+    return { saved: true, sent: true };
+  } catch (error) {
+    console.error("Could not email the booking sheet", error);
+    return { saved: true, error: "Le séjour est confirmé, mais l'email n'est pas parti. Réessayez dans un instant." };
+  }
 }

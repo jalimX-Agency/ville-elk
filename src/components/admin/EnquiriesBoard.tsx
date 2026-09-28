@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { setEnquiryStatus } from "@/app/admin/actions";
 import { createManualBooking, deleteEnquiry, saveEnquiryNotes, type ManualState } from "@/app/admin/enquiry-actions";
+import { FicheSection } from "./FicheSection";
 import { draftReply, estimate, NIGHTLY_RATE_DH, TOURIST_TAX_DH, type ReplyKind } from "@/lib/booking/replies";
 
 export type EnquiryRow = {
@@ -36,6 +37,14 @@ export type EnquiryRow = {
   createdAt: string; // ISO
   statusChangedAt: string | null;
   notified: boolean;
+  priceDh: number | null;
+  depositDh: number | null;
+  checkInTime: string;
+  checkOutTime: string;
+  ficheNote: string;
+  ficheLocale: string | null;
+  ficheSentAt: string | null;
+  ficheToken: string | null;
 };
 
 const STATUS = {
@@ -331,6 +340,7 @@ function EnquiryCard({
         {past && e.status !== "CANCELLED" && <span className="admin-pill admin-pill-off">Passé</span>}
         {!e.notified && <span className="admin-pill admin-pill-warn">Email non envoyé</span>}
         {e.notes && <span className="admin-pill admin-pill-off">Note</span>}
+        {e.ficheSentAt && <span className="admin-pill admin-pill-live">Fiche envoyée</span>}
       </span>
     </button>
   );
@@ -384,7 +394,18 @@ function EnquirySheet({
             )}
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
-            {NEXT[e.status].map((next) => (
+            {NEXT[e.status].map((next) =>
+              // Confirming goes through the booking sheet, which sets the price and tells the guest.
+              next.to === "CONFIRMED" ? (
+                <button
+                  key={next.to}
+                  type="button"
+                  onClick={() => document.getElementById(`fiche-${e.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                  className={next.primary ? "admin-button" : "admin-button-quiet"}
+                >
+                  {next.label}
+                </button>
+              ) : (
               <form key={next.to} action={setEnquiryStatus}>
                 <input type="hidden" name="id" value={e.id} />
                 <input type="hidden" name="status" value={next.to} />
@@ -392,7 +413,8 @@ function EnquirySheet({
                   {next.label}
                 </button>
               </form>
-            ))}
+              ),
+            )}
           </div>
         </section>
 
@@ -466,6 +488,8 @@ function EnquirySheet({
             </div>
           )}
         </section>
+
+        <FicheSection enquiry={e} />
 
         {/* Reply, drafted in their language */}
         <section className="admin-card p-4">
