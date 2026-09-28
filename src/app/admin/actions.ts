@@ -7,6 +7,7 @@ import { signIn, signOut } from "@/auth";
 import { requireUser, refreshPublicPages } from "./guard";
 import { deleteUnusedImage } from "@/lib/storage/cleanup";
 import { isStoredImage } from "@/lib/storage/r2";
+import { confirmedOverlap } from "@/lib/booking/availability-server";
 import { isGalleryCategory, isSuiteSpace } from "@/lib/content/types";
 
 export type LoginState = { error?: string };
@@ -157,6 +158,12 @@ export async function setEnquiryStatus(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   const status = String(formData.get("status") ?? "");
   if (!ENQUIRY_STATUSES.includes(status as EnquiryStatus)) return;
+
+  // Two confirmed stays can never share a night.
+  if (status === "CONFIRMED") {
+    const enquiry = await db.enquiry.findUnique({ where: { id }, select: { arrival: true, departure: true } });
+    if (!enquiry || (await confirmedOverlap(enquiry.arrival, enquiry.departure, id))) return;
+  }
 
   await db.enquiry.update({ where: { id }, data: { status: status as EnquiryStatus, statusChangedAt: new Date() } });
   revalidatePath("/admin/demandes");

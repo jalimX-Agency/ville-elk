@@ -105,6 +105,16 @@ export interface Dictionary {
       submit: string;
       submitting: string;
       nights: string;
+      booked: string;
+      pickArrival: string;
+      pickDeparture: string;
+      clear: string;
+      done: string;
+      previousMonth: string;
+      nextMonth: string;
+      fewer: string;
+      more: string;
+      datePlaceholder: string;
     };
     success: { title: string; body: string; again: string };
     errors: {
@@ -116,6 +126,7 @@ export interface Dictionary {
       past: string;
       guests: string;
       minStay: string;
+      unavailable: string;
       generic: string;
     };
   };

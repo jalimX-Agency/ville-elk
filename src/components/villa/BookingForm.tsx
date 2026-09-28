@@ -1,26 +1,12 @@
 "use client";
 
-import { useActionState, useId, useMemo, useState } from "react";
+import { useActionState, useEffect, useId, useState } from "react";
 import { submitEnquiry, type EnquiryState } from "@/app/actions/booking";
-import { MAX_GUESTS, MIN_NIGHTS, nightsBetween } from "@/lib/booking/enquiry";
+import { MAX_GUESTS, MIN_NIGHTS } from "@/lib/booking/enquiry";
+import type { BookedRange } from "@/lib/booking/availability";
+import { GuestsStepper, StayPicker } from "./StayPicker";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 import type { Locale } from "@/lib/i18n/locales";
-
-function todayISO(): string {
-  return new Date().toISOString().slice(0, 10);
-}
-
-/** The first departure the minimum stay allows after a given arrival. */
-function earliestDeparture(arrival: string): string | undefined {
-  const date = parseISO(arrival);
-  if (!date) return undefined;
-  date.setUTCDate(date.getUTCDate() + MIN_NIGHTS);
-  return date.toISOString().slice(0, 10);
-}
-
-function parseISO(value: string): Date | null {
-  return /^\d{4}-\d{2}-\d{2}$/.test(value) ? new Date(`${value}T00:00:00Z`) : null;
-}
 
 type Values = {
   name: string;
@@ -65,14 +51,19 @@ export function BookingForm({
     (value: string) =>
       setValues((current) => ({ ...current, [field]: value }));
 
-  // Shown live so nobody has to count nights in their head.
-  const nights = useMemo(() => {
-    const from = parseISO(values.arrival);
-    const to = parseISO(values.departure);
-    if (!from || !to) return null;
-    const count = nightsBetween(from, to);
-    return count > 0 ? count : null;
-  }, [values.arrival, values.departure]);
+  // Confirmed nights, so the calendar can strike them out. The server checks
+  // every request anyway; this only saves the guest a refused form.
+  const [booked, setBooked] = useState<BookedRange[]>([]);
+  useEffect(() => {
+    let live = true;
+    fetch("/api/availability")
+      .then((response) => response.json() as Promise<{ booked?: BookedRange[] }>)
+      .then((data) => live && setBooked(data.booked ?? []))
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, [state]);
 
   const errorFor = (field: string) =>
     state.status === "error" && state.field === field ? state.message : undefined;
@@ -133,57 +124,26 @@ export function BookingForm({
       />
 
       <div className="grid gap-5 sm:grid-cols-3">
-        <Field
-          id={`${id}-arrival`}
-          name="arrival"
-          type="date"
-          label={copy.form.arrival}
-          min={todayISO()}
-          required
-          value={values.arrival}
-          onChange={set("arrival")}
-          error={errorFor("arrival")}
+        <StayPicker
+          locale={locale}
+          labels={{ ...copy.form, minStay: dict.stay.minStay }}
+          booked={booked}
+          minNights={MIN_NIGHTS}
+          arrival={values.arrival}
+          departure={values.departure}
+          onChange={(arrival, departure) => setValues((current) => ({ ...current, arrival, departure }))}
+          errors={{ arrival: errorFor("arrival"), departure: errorFor("departure") }}
         />
-        <Field
-          id={`${id}-departure`}
-          name="departure"
-          type="date"
-          label={copy.form.departure}
-          min={earliestDeparture(values.arrival) ?? todayISO()}
-          required
-          value={values.departure}
-          onChange={set("departure")}
-          error={errorFor("departure")}
+        <GuestsStepper
+          label={copy.form.guests}
+          value={Number(values.guests)}
+          onChange={(count) => set("guests")(String(count))}
+          max={MAX_GUESTS}
+          fewer={copy.form.fewer}
+          more={copy.form.more}
+          error={errorFor("guests")}
         />
-        <label htmlFor={`${id}-guests`} className="block">
-          <span className="field-label">{copy.form.guests}</span>
-          <select
-            id={`${id}-guests`}
-            name="guests"
-            value={values.guests}
-            onChange={(event) => set("guests")(event.target.value)}
-            className="field-input mt-2 h-[2.85rem]"
-          >
-            {Array.from({ length: MAX_GUESTS }, (_, index) => index + 1).map((count) => (
-              <option key={count} value={count}>
-                {count}
-              </option>
-            ))}
-          </select>
-          {errorFor("guests") && (
-            <span role="alert" className="mt-1.5 block text-sm text-primary">
-              {errorFor("guests")}
-            </span>
-          )}
-        </label>
       </div>
-
-      {nights !== null && (
-        <p aria-live="polite" className={"text-sm " + (nights < MIN_NIGHTS ? "text-primary" : "text-muted-foreground")}>
-          {nights} {copy.form.nights}
-          {nights < MIN_NIGHTS && ` — ${dict.stay.minStay}`}
-        </p>
-      )}
 
       <label htmlFor={`${id}-message`} className="block">
         <span className="field-label">{copy.form.message}</span>

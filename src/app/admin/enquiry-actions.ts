@@ -8,6 +8,15 @@ import { isLocale } from "@/lib/i18n/locales";
 import { requireUser } from "./guard";
 import { isFicheLocale } from "@/lib/booking/fiche";
 import { ficheLocaleOf, sendFiche } from "@/lib/booking/fiche-server";
+import { confirmedOverlap } from "@/lib/booking/availability-server";
+
+/** Why a stay cannot be confirmed: it would share nights with one that is. */
+async function clashMessage(arrival: Date, departure: Date, exceptId?: string): Promise<string | null> {
+  const other = await confirmedOverlap(arrival, departure, exceptId);
+  if (!other) return null;
+  const day = (d: Date) => d.toLocaleDateString("fr-FR", { day: "numeric", month: "long", timeZone: "UTC" });
+  return `Ces dates croisent le séjour confirmé de ${other.name} (du ${day(other.arrival)} au ${day(other.departure)}). Annulez-le ou changez les dates avant de confirmer.`;
+}
 
 /**
  * The booking requests' own actions: notes, deletion, and stays the owner
@@ -71,6 +80,10 @@ export async function createManualBooking(_state: ManualState, formData: FormDat
 
   const rawLocale = text("locale");
   const status = text("status") === "CONTACTED" ? "CONTACTED" : "CONFIRMED";
+  if (status === "CONFIRMED") {
+    const clash = await clashMessage(arrival, departure);
+    if (clash) return { error: clash, field: "arrival" };
+  }
 
   const created = await db.enquiry.create({
     data: {
@@ -157,6 +170,10 @@ export async function confirmWithFiche(id: string, fields: FicheFields, send: bo
 
   const current = await db.enquiry.findUnique({ where: { id } });
   if (!current) return { error: "Cette demande n'existe plus." };
+  if (current.status !== "CONFIRMED") {
+    const clash = await clashMessage(current.arrival, current.departure, id);
+    if (clash) return { error: clash };
+  }
 
   const row = await db.enquiry.update({
     where: { id },

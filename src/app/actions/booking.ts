@@ -5,6 +5,7 @@ import { getDictionary } from "@/lib/content/site";
 import { isLocale, defaultLocale, type Locale } from "@/lib/i18n/locales";
 import { readEnquiry } from "@/lib/booking/enquiry";
 import { acknowledgeGuest, notifyOwner } from "@/lib/booking/notify";
+import { confirmedOverlap } from "@/lib/booking/availability-server";
 
 export type EnquiryState = {
   status: "idle" | "sent" | "error";
@@ -28,6 +29,17 @@ export async function submitEnquiry(
   const parsed = readEnquiry(form, dict);
   if (!parsed.ok) {
     return { status: "error", field: parsed.error.field, message: parsed.error.message };
+  }
+
+  // Nights already confirmed for someone else cannot be asked for again.
+  try {
+    if (await confirmedOverlap(parsed.value.arrival, parsed.value.departure)) {
+      return { status: "error", field: "arrival", message: dict.reserve.errors.unavailable };
+    }
+  } catch (error) {
+    // If the check itself fails the request still goes through: the owner sees
+    // the clash in the dashboard, which beats losing a guest.
+    console.error("Could not check availability", error);
   }
 
   let id: string;
