@@ -178,6 +178,17 @@ export const en = {
       more: "More guests",
       datePlaceholder: "Select",
     },
+    wizard: {
+      step: "Step",
+      datesTitle: "Your dates",
+      detailsTitle: "Your details",
+      continue: "Continue",
+      edit: "Change",
+      available: "These dates are available.",
+      summary: "Your stay",
+      estimate: "Estimate",
+      estimateNote: "at the base rate, tourist tax extra",
+    },
     success: {
       title: "Request sent",
       body: "Thank you. Our team will come back to you within 24 hours with the rate and availability for your dates.",

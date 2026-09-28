@@ -178,6 +178,17 @@ export const fr = {
       more: "Plus d'invités",
       datePlaceholder: "Choisir",
     },
+    wizard: {
+      step: "Étape",
+      datesTitle: "Vos dates",
+      detailsTitle: "Vos coordonnées",
+      continue: "Continuer",
+      edit: "Modifier",
+      available: "Ces dates sont disponibles.",
+      summary: "Votre séjour",
+      estimate: "Estimation",
+      estimateNote: "au tarif de base, taxe de séjour en sus",
+    },
     success: {
       title: "Demande envoyée",
       body: "Merci. Notre équipe revient vers vous sous 24 heures avec le tarif et la disponibilité de vos dates.",

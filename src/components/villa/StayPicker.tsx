@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
-import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
+import { useId, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { addDays, isBookedNight, latestDeparture, type BookedRange } from "@/lib/booking/availability";
 import type { Locale } from "@/lib/i18n/locales";
 
@@ -30,11 +30,12 @@ const shiftMonth = (month: string, by: number) => {
 };
 
 /**
- * Arrival and departure in one calendar, in the villa's own style rather than
- * the browser's date box: nights already confirmed are struck through and
- * cannot be chosen, and the minimum stay is built into what can be picked.
+ * Arrival and departure in one calendar, always open: it is the first thing a
+ * guest sees, so availability is answered before anything is asked of them.
+ * Nights already confirmed are struck through and cannot be chosen, and the
+ * minimum stay is built into what can be picked.
  */
-export function StayPicker({
+export function StayCalendar({
   locale,
   labels,
   booked,
@@ -42,7 +43,6 @@ export function StayPicker({
   arrival,
   departure,
   onChange,
-  errors,
 }: {
   locale: Locale;
   labels: StayLabels;
@@ -51,30 +51,11 @@ export function StayPicker({
   arrival: string;
   departure: string;
   onChange: (arrival: string, departure: string) => void;
-  errors: { arrival?: string; departure?: string };
 }) {
-  const [open, setOpen] = useState(false);
   const [month, setMonth] = useState(() => monthStart(arrival || todayISO()));
-  const root = useRef<HTMLDivElement>(null);
-  const id = useId();
   const rtl = locale === "ar";
   const intl = INTL[locale];
   const today = todayISO();
-
-  // Close on a tap outside or on Escape, like any other menu.
-  useEffect(() => {
-    if (!open) return;
-    const onDown = (event: PointerEvent) => {
-      if (root.current && !root.current.contains(event.target as Node)) setOpen(false);
-    };
-    const onKey = (event: KeyboardEvent) => event.key === "Escape" && setOpen(false);
-    document.addEventListener("pointerdown", onDown);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("pointerdown", onDown);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
 
   const choosingDeparture = Boolean(arrival) && !departure;
   const limit = arrival ? latestDeparture(arrival, booked) : null;
@@ -90,18 +71,13 @@ export function StayPicker({
     Boolean(arrival) && date >= addDays(arrival, minNights) && (!limit || date <= limit);
 
   function pick(date: string) {
-    if (choosingDeparture && date > arrival) {
-      if (canDepart(date)) {
-        onChange(arrival, date);
-        setOpen(false);
-      }
+    if (choosingDeparture && date > arrival && canDepart(date)) {
+      onChange(arrival, date);
       return;
     }
+    // Any other tap starts again from a new arrival.
     if (canArrive(date)) onChange(date, "");
   }
-
-  const display = (date: string) =>
-    new Date(`${date}T00:00:00Z`).toLocaleDateString(intl, { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
 
   const weekdays = Array.from({ length: 7 }, (_, i) =>
     // 5 January 2026 was a Monday: the week starts there.
@@ -122,8 +98,8 @@ export function StayPicker({
           {d.toLocaleDateString(intl, { month: "long", year: "numeric", timeZone: "UTC" })}
         </p>
         <div className="grid grid-cols-7 text-center text-xs text-muted-foreground">
-          {weekdays.map((w) => (
-            <span key={w} className="pb-2">
+          {weekdays.map((w, i) => (
+            <span key={`${w}-${i}`} className="pb-2">
               {w}
             </span>
           ))}
@@ -179,108 +155,50 @@ export function StayPicker({
   const canGoBack = month > monthStart(today);
 
   return (
-    <div ref={root} className="relative sm:col-span-2">
-      <div className="grid grid-cols-2 gap-3">
-        {(["arrival", "departure"] as const).map((which) => {
-          const value = which === "arrival" ? arrival : departure;
-          const error = errors[which];
-          return (
-            <div key={which}>
-              <span id={`${id}-${which}`} className="field-label">
-                {labels[which]}
-              </span>
-              <button
-                type="button"
-                aria-labelledby={`${id}-${which}`}
-                aria-expanded={open}
-                aria-describedby={error ? `${id}-${which}-error` : undefined}
-                onClick={() => {
-                  if (which === "arrival" && departure) onChange(arrival, "");
-                  setMonth(monthStart(value || arrival || today));
-                  setOpen(true);
-                }}
-                className={
-                  "field-input mt-2 flex min-h-[2.85rem] items-center gap-2 text-start " +
-                  (open && ((which === "arrival" && !choosingDeparture) || (which === "departure" && choosingDeparture))
-                    ? "border-[var(--ring)] outline outline-2 outline-offset-1 outline-[var(--ring)]"
-                    : "")
-                }
-              >
-                <CalendarDays className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                <span className={value ? "truncate" : "truncate text-muted-foreground"}>
-                  {value ? display(value) : labels.datePlaceholder}
-                </span>
-              </button>
-              {error && (
-                <span id={`${id}-${which}-error`} role="alert" className="mt-1.5 block text-sm text-primary">
-                  {error}
-                </span>
-              )}
-            </div>
-          );
-        })}
+    <div className="border border-border bg-card p-4 sm:p-5">
+      <div className="flex items-center justify-between gap-3">
+        <button
+          type="button"
+          onClick={() => setMonth(shiftMonth(month, -1))}
+          disabled={!canGoBack}
+          aria-label={labels.previousMonth}
+          className="grid h-11 w-11 place-items-center hover:bg-muted disabled:opacity-30"
+        >
+          <Prev className="h-5 w-5" />
+        </button>
+        <p aria-live="polite" className="text-center text-sm font-medium text-primary">
+          {choosingDeparture ? labels.pickDeparture : arrival && departure ? `${nights} ${labels.nights}` : labels.pickArrival}
+        </p>
+        <button
+          type="button"
+          onClick={() => setMonth(shiftMonth(month, 1))}
+          aria-label={labels.nextMonth}
+          className="grid h-11 w-11 place-items-center hover:bg-muted"
+        >
+          <Next className="h-5 w-5" />
+        </button>
       </div>
 
-      <input type="hidden" name="arrival" value={arrival} />
-      <input type="hidden" name="departure" value={departure} />
+      {/* One month on a phone, two where there is room for both at a thumb's size */}
+      <div className="mt-3 grid gap-8 xl:grid-cols-2">
+        {renderMonth(month)}
+        <div className="hidden xl:block">{renderMonth(shiftMonth(month, 1))}</div>
+      </div>
 
-      {open && (
-        <div
-          role="dialog"
-          aria-label={choosingDeparture ? labels.pickDeparture : labels.pickArrival}
-          // Full width of the fields on phones; on a desk wide enough for two months side by side.
-          className="absolute inset-x-0 top-full z-30 mt-2 border border-border bg-card p-4 shadow-xl sm:p-5 lg:end-auto lg:w-[40rem]"
-        >
-          <div className="flex items-center justify-between gap-3">
-            <button
-              type="button"
-              onClick={() => setMonth(shiftMonth(month, -1))}
-              disabled={!canGoBack}
-              aria-label={labels.previousMonth}
-              className="grid h-11 w-11 place-items-center hover:bg-muted disabled:opacity-30"
-            >
-              <Prev className="h-5 w-5" />
-            </button>
-            <p aria-live="polite" className="text-center text-sm font-medium text-primary">
-              {choosingDeparture ? labels.pickDeparture : arrival && departure ? `${nights} ${labels.nights}` : labels.pickArrival}
-            </p>
-            <button
-              type="button"
-              onClick={() => setMonth(shiftMonth(month, 1))}
-              aria-label={labels.nextMonth}
-              className="grid h-11 w-11 place-items-center hover:bg-muted"
-            >
-              <Next className="h-5 w-5" />
-            </button>
-          </div>
-
-          <div className="mt-3 grid gap-8 lg:grid-cols-2">
-            {renderMonth(month)}
-            <div className="hidden lg:block">
-              {renderMonth(shiftMonth(month, 1))}
-            </div>
-          </div>
-
-          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-border pt-4 text-sm text-muted-foreground">
-            <span className="flex items-center gap-2">
-              <span className="text-foreground/60 line-through decoration-primary">12</span> {labels.booked}
-            </span>
-            <span>{labels.minStay}</span>
-          </div>
-          <div className="mt-3 flex items-center justify-between gap-3">
-            <button
-              type="button"
-              onClick={() => onChange("", "")}
-              className="min-h-11 text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
-            >
-              {labels.clear}
-            </button>
-            <button type="button" onClick={() => setOpen(false)} className="btn-primary">
-              {labels.done}
-            </button>
-          </div>
-        </div>
-      )}
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-x-5 gap-y-2 border-t border-border pt-4 text-sm text-muted-foreground">
+        <span className="flex items-center gap-2">
+          <span className="text-foreground/60 line-through decoration-primary">12</span> {labels.booked}
+        </span>
+        {(arrival || departure) && (
+          <button
+            type="button"
+            onClick={() => onChange("", "")}
+            className="min-h-11 underline underline-offset-4 hover:text-foreground"
+          >
+            {labels.clear}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

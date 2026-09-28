@@ -116,6 +116,18 @@ export interface Dictionary {
       more: string;
       datePlaceholder: string;
     };
+    /** The two steps of the booking form: dates first, then contact details. */
+    wizard: {
+      step: string;
+      datesTitle: string;
+      detailsTitle: string;
+      continue: string;
+      edit: string;
+      available: string;
+      summary: string;
+      estimate: string;
+      estimateNote: string;
+    };
     success: { title: string; body: string; again: string };
     errors: {
       name: string;

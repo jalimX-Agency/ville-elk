@@ -135,6 +135,15 @@ const WORDS: Record<string, string> = {
   more: "Bouton « plus d'invités »",
   datePlaceholder: "Date vide",
   unavailable: "Dates déjà réservées",
+  step: "Le mot « Étape »",
+  datesTitle: "Étape 1 — titre",
+  detailsTitle: "Étape 2 — titre",
+  continue: "Bouton « continuer »",
+  edit: "Bouton « modifier »",
+  available: "Message « dates disponibles »",
+  summary: "Titre du résumé",
+  estimate: "Le mot « estimation »",
+  estimateNote: "Précision sous l'estimation",
   concierge: "Conciergerie",
   conciergeLink: "Lien vers la conciergerie",
   minStay: "Séjour minimum",
@@ -169,6 +178,7 @@ const GROUPS: Record<string, string> = {
   viewer: "Visionneuse",
   photos: "Photo",
   spaces: "Parties de la suite",
+  wizard: "Étapes du formulaire",
 };
 
 /** "tour.levels.2.photos.main" → "Niveau +1 — Photo — description de la photo principale". */

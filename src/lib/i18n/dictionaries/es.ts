@@ -178,6 +178,17 @@ export const es = {
       more: "Más huéspedes",
       datePlaceholder: "Elegir",
     },
+    wizard: {
+      step: "Paso",
+      datesTitle: "Sus fechas",
+      detailsTitle: "Sus datos",
+      continue: "Continuar",
+      edit: "Modificar",
+      available: "Estas fechas están disponibles.",
+      summary: "Su estancia",
+      estimate: "Estimación",
+      estimateNote: "a tarifa base, tasa turística aparte",
+    },
     success: {
       title: "Solicitud enviada",
       body: "Gracias. Nuestro equipo le responderá en 24 horas con la tarifa y la disponibilidad de sus fechas.",

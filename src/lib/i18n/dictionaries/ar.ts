@@ -178,6 +178,17 @@ export const ar = {
       more: "ضيوف أكثر",
       datePlaceholder: "اختيار",
     },
+    wizard: {
+      step: "الخطوة",
+      datesTitle: "تواريخكم",
+      detailsTitle: "معلوماتكم",
+      continue: "متابعة",
+      edit: "تعديل",
+      available: "هذه التواريخ متاحة.",
+      summary: "إقامتكم",
+      estimate: "تقدير",
+      estimateNote: "بالسعر الأساسي، دون ضريبة الإقامة",
+    },
     success: {
       title: "تم إرسال الطلب",
       body: "شكراً لكم. سيعود إليكم فريقنا في ظرف 24 ساعة بالثمن وتوفّر التواريخ التي اخترتموها.",
