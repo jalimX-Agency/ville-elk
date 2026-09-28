@@ -1,5 +1,5 @@
 import { isLocale, locales, type Locale } from "@/lib/i18n/locales";
-import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { getDictionary } from "@/lib/content/site";
 import { Hero } from "@/components/villa/Hero";
 import { LevelsTour } from "@/components/villa/LevelsTour";
 import { Prestations } from "@/components/villa/Prestations";
@@ -7,7 +7,7 @@ import { Explore } from "@/components/villa/Explore";
 import { Location } from "@/components/villa/Location";
 import { getAmenities } from "@/lib/content/amenities";
 import { notFound } from "next/navigation";
-import { CONTACT } from "@/lib/contact";
+import { getContact, getSettings } from "@/lib/content/site";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -20,7 +20,13 @@ export default async function HomePage({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale as Locale);
+  const dict = await getDictionary(locale as Locale);
+  const CONTACT = await getContact();
+  const settings = await getSettings();
+  const shots = ([0, 1, 2, 3] as const).map((i) => ({
+    main: settings[`image.levels.${i}.main`],
+    detail: settings[`image.levels.${i}.detail`],
+  }));
   const amenities = await getAmenities();
 
   const lodgingSchema = {
@@ -60,8 +66,8 @@ export default async function HomePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(lodgingSchema) }}
       />
-      <Hero dict={dict} />
-      <LevelsTour dict={dict} />
+      <Hero dict={dict} image={settings["image.hero"]} />
+      <LevelsTour dict={dict} shots={shots} />
       <Prestations dict={dict} locale={locale as Locale} amenities={amenities} />
       <Location dict={dict} />
       <Explore dict={dict} locale={locale as Locale} />

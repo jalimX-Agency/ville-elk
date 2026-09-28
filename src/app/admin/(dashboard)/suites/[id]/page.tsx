@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db/client";
 import { SuiteForm } from "@/components/admin/SuiteForm";
+import { DeleteButton } from "@/components/admin/DeleteButton";
+import { deleteSuite } from "@/app/admin/site-actions";
 
 export default async function EditSuitePage({
   params,
@@ -19,6 +21,7 @@ export default async function EditSuitePage({
       </Link>
       <h1 className="mt-4 text-2xl font-light">{suite.nameFr}</h1>
       <SuiteForm suite={suite} />
+      <DeleteButton action={deleteSuite} id={suite.id} what="cette suite" />
     </>
   );
 }

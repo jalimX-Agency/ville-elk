@@ -3,14 +3,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MessageCircle, Mail, AtSign, MapPin } from "lucide-react";
 import { isLocale, locales, type Locale } from "@/lib/i18n/locales";
-import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { getDictionary } from "@/lib/content/site";
 import { allPageParams, hrefFor, pageForSlug, type PageKey } from "@/lib/i18n/routes";
 import { BookingForm } from "@/components/villa/BookingForm";
 import { SuitesList } from "@/components/villa/SuitesList";
 import { GalleryGrid } from "@/components/villa/GalleryGrid";
 import { getGallery, getSuites } from "@/lib/content/rooms";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
-import { CONTACT } from "@/lib/contact";
+import { getContact } from "@/lib/content/site";
 
 const SITE = "https://www.villaelk.com";
 
@@ -52,7 +52,7 @@ export async function generateMetadata({
   const resolved = resolve(locale, slug);
   if (!resolved) return {};
 
-  const dict = getDictionary(resolved.locale);
+  const dict = await getDictionary(resolved.locale);
   const meta = metaFor(resolved.page, dict);
 
   return {
@@ -83,7 +83,7 @@ export default async function LocalePage({
   const resolved = resolve(locale, slug);
   if (!resolved) notFound();
 
-  const dict = getDictionary(resolved.locale);
+  const dict = await getDictionary(resolved.locale);
 
   switch (resolved.page) {
     case "suites":
@@ -151,7 +151,8 @@ async function GalleryPage({ dict, locale }: { dict: Dictionary; locale: Locale 
   );
 }
 
-function ContactPage({ dict, locale }: { dict: Dictionary; locale: Locale }) {
+async function ContactPage({ dict, locale }: { dict: Dictionary; locale: Locale }) {
+  const CONTACT = await getContact();
   const schema = {
     "@context": "https://schema.org",
     "@type": "LodgingBusiness",
@@ -232,7 +233,8 @@ function ContactPage({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   );
 }
 
-function BookingPage({ dict, locale }: { dict: Dictionary; locale: Locale }) {
+async function BookingPage({ dict, locale }: { dict: Dictionary; locale: Locale }) {
+  const CONTACT = await getContact();
   const copy = dict.reserve;
   const href = hrefFor("booking", locale);
 

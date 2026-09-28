@@ -160,3 +160,25 @@ model GalleryImage {
   @@index([category, position])
   @@index([suiteId, position])
 }
+
+/// A change to one piece of the site's copy, in one language. Only changes are
+/// stored: a key with no row shows the text written in the code, so removing a
+/// row restores the original.
+model SiteText {
+  locale    String
+  /// Dot path into the dictionary, e.g. "hero.subtitle" or "tour.levels.0.body".
+  key       String
+  /// A string, or a list of strings for fields shown as lists.
+  value     Json
+  updatedAt DateTime @updatedAt
+
+  @@id([locale, key])
+}
+
+/// One site-wide setting: contact details and the photographs the pages use
+/// outside the gallery. A missing key falls back to the default in the code.
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}

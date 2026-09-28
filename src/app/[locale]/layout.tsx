@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Antic_Didone, Albert_Sans, IBM_Plex_Mono, Amiri, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { notFound } from "next/navigation";
 import { locales, localeDirections, isLocale, type Locale } from "@/lib/i18n/locales";
-import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { getDictionary } from "@/lib/content/site";
 import { Navigation } from "@/components/villa/Navigation";
 import { Footer } from "@/components/villa/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -60,7 +60,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const dict = getDictionary(locale);
+  const dict = await getDictionary(locale);
 
   return {
     metadataBase: new URL("https://www.villaelk.com"),
@@ -95,7 +95,7 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale as Locale);
+  const dict = await getDictionary(locale as Locale);
   const dir = localeDirections[locale as Locale];
 
   return (

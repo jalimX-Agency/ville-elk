@@ -1,6 +1,6 @@
 import "server-only";
 import { Resend } from "resend";
-import { CONTACT } from "@/lib/contact";
+import { getContact } from "@/lib/content/site";
 import { nightsBetween, type EnquiryInput } from "./enquiry";
 
 /**
@@ -11,8 +11,8 @@ import { nightsBetween, type EnquiryInput } from "./enquiry";
 const FROM = "Villa Elk <reservations@villaelk.com>";
 
 /** Where requests land. Overridable so staging never writes to the real inbox. */
-function destination(): string {
-  return process.env.BOOKING_NOTIFY_EMAIL || CONTACT.email;
+async function destination(): Promise<string> {
+  return process.env.BOOKING_NOTIFY_EMAIL || (await getContact()).email;
 }
 
 function day(date: Date): string {
@@ -55,7 +55,7 @@ export async function notifyOwner(enquiry: EnquiryInput, locale: string): Promis
 
   await new Resend(key).emails.send({
     from: FROM,
-    to: destination(),
+    to: await destination(),
     replyTo: enquiry.email,
     subject: `Demande — ${enquiry.name}, ${day(enquiry.arrival)} → ${day(enquiry.departure)} (${enquiry.guests} invités)`,
     html:

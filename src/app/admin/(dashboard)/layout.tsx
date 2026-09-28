@@ -18,7 +18,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
             <span className="sr-only">Villa Elk — administration</span>
           </Link>
 
-          <nav className="flex items-center gap-5 text-sm">
+          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
             <Link href="/admin/suites" className="hover:text-primary">
               Suites
             </Link>
@@ -30,6 +30,15 @@ export default async function DashboardLayout({ children }: { children: React.Re
             </Link>
             <Link href="/admin/demandes" className="hover:text-primary">
               Demandes
+            </Link>
+            <Link href="/admin/textes" className="hover:text-primary">
+              Textes
+            </Link>
+            <Link href="/admin/reglages" className="hover:text-primary">
+              Réglages
+            </Link>
+            <Link href="/admin/compte" className="hover:text-primary">
+              Compte
             </Link>
             <Link href="/fr" target="_blank" className="hover:text-primary">
               Voir le site ↗

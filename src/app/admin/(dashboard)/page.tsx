@@ -10,6 +10,7 @@ export default async function DashboardHome() {
     db.enquiry.count({ where: { status: "NEW" } }),
     db.enquiry.count(),
   ]);
+  const texts = await db.siteText.count();
   const [suites, photos, missingAlt] = await Promise.all([
     db.suite.count({ where: { published: true } }),
     db.galleryImage.count({ where: { published: true } }),
@@ -25,6 +26,26 @@ export default async function DashboardHome() {
       </p>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        <Link
+          href="/admin/textes"
+          className="block border border-border bg-card p-6 transition-colors hover:border-primary"
+        >
+          <p className="field-label">Textes du site</p>
+          <p className="mt-3 text-3xl font-light">{texts}</p>
+          <p className="mt-3 text-sm text-muted-foreground">
+            {texts ? "textes modifiés, dans les quatre langues." : "Tous les textes, dans les quatre langues."}
+          </p>
+        </Link>
+
+        <Link
+          href="/admin/reglages"
+          className="block border border-border bg-card p-6 transition-colors hover:border-primary"
+        >
+          <p className="field-label">Réglages</p>
+          <p className="mt-3 text-lg font-light">Coordonnées et photos des pages</p>
+          <p className="mt-3 text-sm text-muted-foreground">WhatsApp, email, Instagram, photo d&apos;ouverture…</p>
+        </Link>
+
         <Link
           href="/admin/prestations"
           className="block border border-border bg-card p-6 transition-colors hover:border-primary"

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MessageCircle, Mail } from "lucide-react";
 import { hrefFor } from "@/lib/i18n/routes";
-import { CONTACT } from "@/lib/contact";
+import { getContact, getSettings } from "@/lib/content/site";
 import type { Locale } from "@/lib/i18n/locales";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 
@@ -11,19 +11,21 @@ import type { Dictionary } from "@/lib/i18n/dictionaries/types";
  * the pictures are what a visitor wants next, and the booking page is the one
  * thing the villa is asking of them.
  */
-export function Explore({ dict, locale }: { dict: Dictionary; locale: Locale }) {
+export async function Explore({ dict, locale }: { dict: Dictionary; locale: Locale }) {
+  const CONTACT = await getContact();
+  const settings = await getSettings();
   const doors = [
     {
       href: hrefFor("suites", locale),
       eyebrow: dict.suites.eyebrow,
       title: dict.suites.title,
-      image: "/images/villa-elk/suite-parentale.jpg",
+      image: settings["image.explore.suites"],
     },
     {
       href: hrefFor("gallery", locale),
       eyebrow: dict.gallery.eyebrow,
       title: dict.gallery.title,
-      image: "/images/villa-elk/salon-europeen.jpg",
+      image: settings["image.explore.gallery"],
     },
   ];
 

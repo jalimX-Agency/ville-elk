@@ -6,24 +6,18 @@ import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScro
 import { GATE_OUTLINE, GATE_SILHOUETTE } from "@/components/brand/logo-paths";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 
-// Photos per level, in dictionary order (0, −1, +1, +2). The alt text lives
-// with the level in the dictionary, so each language describes its own pictures.
-const SHOTS: { main: string; detail: string }[] = [
-  { main: "piscine-terrasse.jpg", detail: "salon-marocain.jpg" },
-  { main: "hammam.jpg", detail: "salle-de-sport.jpg" },
-  { main: "suite-parentale.jpg", detail: "suite-parentale-baignoire.jpg" },
-  { main: "sta7.jpg", detail: "sta7-four-a-pizza.jpg" },
-];
+/** Photos per level, in dictionary order (0, −1, +1, +2), from the site settings. */
+export type LevelShot = { main: string; detail: string };
 
 const ELEVATION: Record<string, number> = { "+2": 2, "+1": 1, "0": 0, "−1": -1 };
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export function LevelsTour({ dict }: { dict: Dictionary }) {
+export function LevelsTour({ dict, shots: SHOTS }: { dict: Dictionary; shots: LevelShot[] }) {
   const reduce = useReducedMotion();
   if (reduce) {
     return (
       <section id="niveaux" aria-labelledby="tour-title" className="relative">
-        <StackedTour dict={dict} />
+        <StackedTour dict={dict} shots={SHOTS} />
       </section>
     );
   }
@@ -31,16 +25,16 @@ export function LevelsTour({ dict }: { dict: Dictionary }) {
     <section id="niveaux" aria-labelledby="tour-title" className="relative">
       {/* Phones swipe through the levels; pinning the page under a finger reads as a stuck screen. */}
       <div className="lg:hidden">
-        <SwipeTour dict={dict} />
+        <SwipeTour dict={dict} shots={SHOTS} />
       </div>
       <div className="hidden lg:block">
-        <PinnedTour dict={dict} />
+        <PinnedTour dict={dict} shots={SHOTS} />
       </div>
     </section>
   );
 }
 
-function SwipeTour({ dict }: { dict: Dictionary }) {
+function SwipeTour({ dict, shots: SHOTS }: { dict: Dictionary; shots: LevelShot[] }) {
   const levels = dict.tour.levels;
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -113,7 +107,7 @@ function SwipeTour({ dict }: { dict: Dictionary }) {
 
             <div className="relative mt-5 aspect-[4/5] overflow-hidden bg-muted">
               <Image
-                src={`/images/villa-elk/${SHOTS[i].main}`}
+                src={SHOTS[i].main}
                 alt={lvl.photos.main}
                 fill
                 sizes="84vw"
@@ -122,7 +116,7 @@ function SwipeTour({ dict }: { dict: Dictionary }) {
               />
               <div className="absolute bottom-0 start-0 aspect-[4/5] w-[34%] overflow-hidden border-[5px] border-background bg-muted">
                 <Image
-                  src={`/images/villa-elk/${SHOTS[i].detail}`}
+                  src={SHOTS[i].detail}
                   alt={lvl.photos.detail}
                   fill
                   sizes="30vw"
@@ -151,7 +145,7 @@ function SwipeTour({ dict }: { dict: Dictionary }) {
   );
 }
 
-function PinnedTour({ dict }: { dict: Dictionary }) {
+function PinnedTour({ dict, shots: SHOTS }: { dict: Dictionary; shots: LevelShot[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [dir, setDir] = useState(1); // +1 going up the building, -1 going down
@@ -182,7 +176,7 @@ function PinnedTour({ dict }: { dict: Dictionary }) {
             transition={{ duration: 0.9, ease: EASE }}
             className="absolute inset-0"
           >
-            <Image src={`/images/villa-elk/${shots.main}`} alt={level.photos.main} fill sizes="(max-width: 1024px) 80vw, 45vw" quality={85} className="object-cover" />
+            <Image src={shots.main} alt={level.photos.main} fill sizes="(max-width: 1024px) 80vw, 45vw" quality={85} className="object-cover" />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -195,7 +189,7 @@ function PinnedTour({ dict }: { dict: Dictionary }) {
             transition={{ duration: 0.9, delay: 0.12, ease: EASE }}
             className="absolute inset-0"
           >
-            <Image src={`/images/villa-elk/${shots.detail}`} alt={level.photos.detail} fill sizes="(max-width: 1024px) 30vw, 20vw" className="object-cover" />
+            <Image src={shots.detail} alt={level.photos.detail} fill sizes="(max-width: 1024px) 30vw, 20vw" className="object-cover" />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -276,7 +270,7 @@ function PinnedTour({ dict }: { dict: Dictionary }) {
   );
 }
 
-function StackedTour({ dict }: { dict: Dictionary }) {
+function StackedTour({ dict, shots: SHOTS }: { dict: Dictionary; shots: LevelShot[] }) {
   const levels = dict.tour.levels;
   return (
     <div className="mx-auto max-w-3xl px-6 py-24">
@@ -306,10 +300,10 @@ function StackedTour({ dict }: { dict: Dictionary }) {
             </ul>
             <div className="mt-8 grid grid-cols-[1fr_0.55fr] items-end gap-3">
               <div className="relative aspect-[4/5] overflow-hidden bg-muted">
-                <Image src={`/images/villa-elk/${SHOTS[i].main}`} alt={level.photos.main} fill sizes="60vw" quality={85} className="object-cover" />
+                <Image src={SHOTS[i].main} alt={level.photos.main} fill sizes="60vw" quality={85} className="object-cover" />
               </div>
               <div className="relative aspect-[4/5] overflow-hidden bg-muted">
-                <Image src={`/images/villa-elk/${SHOTS[i].detail}`} alt={level.photos.detail} fill sizes="35vw" className="object-cover" />
+                <Image src={SHOTS[i].detail} alt={level.photos.detail} fill sizes="35vw" className="object-cover" />
               </div>
             </div>
           </li>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { db } from "@/lib/db/client";
 import { moveSuite, toggleSuite } from "@/app/admin/actions";
+import { CreateForm } from "@/components/admin/AdminForms";
 
 export default async function SuitesPage() {
   const suites = await db.suite.findMany({ orderBy: { position: "asc" } });
@@ -15,6 +16,8 @@ export default async function SuitesPage() {
         à une quand le reportage professionnel arrive — rien d&apos;autre ne
         change.
       </p>
+
+      <CreateForm kind="suite" />
 
       <ul className="mt-8 border-t border-border">
         {suites.map((suite, index) => (

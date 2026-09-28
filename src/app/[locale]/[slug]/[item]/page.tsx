@@ -4,12 +4,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MessageCircle } from "lucide-react";
 import { isLocale, locales, type Locale } from "@/lib/i18n/locales";
-import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { getDictionary } from "@/lib/content/site";
 import { hrefFor, pageForSlug, slugFor, suiteHref } from "@/lib/i18n/routes";
 import { getSuite, getSuiteSlugs, getSuites } from "@/lib/content/rooms";
 import { pick, type GalleryPhoto } from "@/lib/content/types";
 import { SuiteCarousel } from "@/components/villa/SuiteCarousel";
-import { CONTACT } from "@/lib/contact";
+import { getContact } from "@/lib/content/site";
 
 const SITE = "https://www.villaelk.com";
 const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
@@ -86,7 +86,8 @@ export default async function SuitePage({
 
   const { suite } = found;
   const lang: Locale = found.locale;
-  const dict = getDictionary(lang);
+  const dict = await getDictionary(lang);
+  const CONTACT = await getContact();
   const copy = dict.suites;
   const name = pick(suite.name, lang);
   const features = suite.features[lang].length ? suite.features[lang] : suite.features.fr;

@@ -1,31 +1,12 @@
 "use server";
 
 import { AuthError } from "next-auth";
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db/client";
-import { auth, signIn, signOut } from "@/auth";
+import { signIn, signOut } from "@/auth";
+import { requireUser, refreshPublicPages } from "./guard";
 import { deleteImage } from "@/lib/storage/r2";
 import { isGalleryCategory } from "@/lib/content/types";
-
-/**
- * Server Actions are reachable by direct POST, so every one of them checks the
- * session itself rather than trusting the page that rendered the form.
- */
-async function requireUser() {
-  const session = await auth();
-  if (!session?.user) redirect("/admin/login");
-  return session.user;
-}
-
-/**
- * The public pages are prerendered. A content change can show on any of them —
- * an amenity on the home page, a photograph in the gallery and on its suite's
- * page — so everything under the public layout is refreshed, in every language.
- */
-function refreshPublicPages() {
-  revalidatePath("/[locale]", "layout");
-}
 
 export type LoginState = { error?: string };
 

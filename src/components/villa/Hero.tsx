@@ -53,7 +53,7 @@ function gateTransform(size: Size, progress: number) {
   return `translate(${px - ORIGIN.x * k} ${py - ORIGIN.y * k}) scale(${k})`;
 }
 
-export function Hero({ dict }: { dict: Dictionary }) {
+export function Hero({ dict, image }: { dict: Dictionary; image: string }) {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -118,7 +118,7 @@ export function Hero({ dict }: { dict: Dictionary }) {
           className="absolute inset-0"
         >
           <Image
-            src="/images/villa-elk/piscine.jpg"
+            src={image}
             quality={85}
             alt=""
             fill

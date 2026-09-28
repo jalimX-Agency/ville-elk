@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { db } from "@/lib/db/client";
 import { moveAmenity, toggleAmenity } from "@/app/admin/actions";
+import { CreateForm } from "@/components/admin/AdminForms";
 
 export default async function PrestationsPage() {
   const amenities = await db.amenity.findMany({ orderBy: { position: "asc" } });
@@ -14,6 +15,8 @@ export default async function PrestationsPage() {
         L&apos;ordre ci-dessous est celui du site. Une prestation dépubliée
         disparaît de toutes les langues.
       </p>
+
+      <CreateForm kind="amenity" />
 
       <ul className="mt-8 border-t border-border">
         {amenities.map((amenity, index) => (
