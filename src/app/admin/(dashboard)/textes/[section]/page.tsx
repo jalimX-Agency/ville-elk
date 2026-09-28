@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db/client";
 import { locales } from "@/lib/i18n/locales";
@@ -6,6 +5,7 @@ import { getDefaultDictionary } from "@/lib/i18n/get-dictionary";
 import { getAt, setAt } from "@/lib/content/dictionary-paths";
 import { SECTIONS, fieldLabel, isSectionKey, sectionFields } from "@/lib/content/site-sections";
 import { SectionForm, type EditableField } from "@/components/admin/SectionForm";
+import { PageHeader } from "@/components/admin/PageHeader";
 
 export default async function SectionPage({ params }: { params: Promise<{ section: string }> }) {
   const { section } = await params;
@@ -41,11 +41,11 @@ export default async function SectionPage({ params }: { params: Promise<{ sectio
 
   return (
     <>
-      <Link href="/admin/textes" className="text-sm text-muted-foreground hover:text-primary">
-        ← Textes du site
-      </Link>
-      <h1 className="mt-4 text-2xl font-light">{meta.title}</h1>
-      {meta.hint && <p className="mt-2 max-w-prose text-muted-foreground">{meta.hint}</p>}
+      <PageHeader
+        title={meta.title}
+        description={meta.hint || undefined}
+        back={{ href: "/admin/textes", label: "Textes du site" }}
+      />
       <SectionForm section={section} fields={fields} />
     </>
   );

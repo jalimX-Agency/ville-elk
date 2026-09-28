@@ -1,7 +1,10 @@
 "use client";
 
 import { useActionState } from "react";
+import { RotateCcw } from "lucide-react";
 import { saveSection, resetField, type FormState } from "@/app/admin/site-actions";
+import { LangProvider, PerLang } from "./LangTabs";
+import { SaveBar } from "./SaveBar";
 
 export type EditableField = {
   path: string;
@@ -14,102 +17,92 @@ export type EditableField = {
   long: boolean;
 };
 
-const LANGUAGES = [
-  { code: "fr", label: "Français", dir: "ltr" },
-  { code: "en", label: "English", dir: "ltr" },
-  { code: "es", label: "Español", dir: "ltr" },
-  { code: "ar", label: "العربية", dir: "rtl" },
-] as const;
-
 export function SectionForm({ section, fields }: { section: string; fields: EditableField[] }) {
   const [state, action, pending] = useActionState<FormState, FormData>(saveSection, {});
 
   return (
     <>
-    <form action={action} className="mt-8">
-      <input type="hidden" name="section" value={section} />
+      <form action={action}>
+        <input type="hidden" name="section" value={section} />
 
-      <div className="space-y-8">
-        {fields.map((field) => (
-          <fieldset key={field.path} className="border-t border-border pt-6">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <legend className="text-base font-medium">
-                {field.label}
-                {field.modified && (
-                  <span className="field-label ms-3 inline text-primary">modifié</span>
-                )}
-              </legend>
-              {field.modified && (
-                // Submits its own small form below — forms cannot nest, and a
-                // server-action formAction would rename the button and lose
-                // which field to reset.
-                <button
-                  type="submit"
-                  form={`reset-${field.path}`}
-                  className="text-sm text-muted-foreground underline hover:text-primary"
-                >
-                  Revenir au texte d&apos;origine
-                </button>
-              )}
-            </div>
+        <LangProvider>
+          <div className="space-y-4">
+            {fields.map((field) => (
+              <div key={field.path} className="admin-card p-4 sm:p-5">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="field-label">
+                    {field.label}
+                    {field.modified && <span className="admin-pill admin-pill-new ms-2 align-middle">modifié</span>}
+                  </p>
+                  {field.modified && (
+                    // Submits its own small form below: forms cannot nest, and a
+                    // server-action formAction renames the button and loses
+                    // which field to reset.
+                    <button
+                      type="submit"
+                      form={`reset-${field.path}`}
+                      className="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2 text-sm text-muted-foreground hover:text-primary"
+                    >
+                      <RotateCcw className="h-4 w-4" />
+                      Texte d&apos;origine
+                    </button>
+                  )}
+                </div>
 
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              {LANGUAGES.map((language) => {
-                const name = `${language.code}|${field.path}`;
-                const value = field.values[language.code];
-                return (
-                  <label key={language.code} className="block">
-                    <span className="text-sm text-muted-foreground">{language.label}</span>
-                    {field.kind === "list" || field.long ? (
-                      <textarea
-                        name={name}
-                        dir={language.dir}
-                        defaultValue={value}
-                        rows={field.kind === "list" ? Math.max(3, value.split("\n").length + 1) : 4}
-                        className="field-input mt-1.5 resize-y"
-                      />
-                    ) : (
-                      <input name={name} dir={language.dir} defaultValue={value} className="field-input mt-1.5" />
-                    )}
-                  </label>
-                );
-              })}
-            </div>
-            {field.kind === "list" && (
-              <p className="mt-2 text-sm text-muted-foreground">Un élément par ligne.</p>
-            )}
-          </fieldset>
+                <PerLang>
+                  {(lang) => {
+                    const name = `${lang.code}|${field.path}`;
+                    const value = field.values[lang.code];
+                    return (
+                      <>
+                        {field.kind === "list" || field.long ? (
+                          <textarea
+                            name={name}
+                            dir={lang.dir}
+                            lang={lang.code}
+                            aria-label={`${field.label} — ${lang.label}`}
+                            defaultValue={value}
+                            rows={field.kind === "list" ? Math.max(3, value.split("\n").length + 1) : 3}
+                            className="field-input mt-3 resize-y"
+                          />
+                        ) : (
+                          <input
+                            name={name}
+                            dir={lang.dir}
+                            lang={lang.code}
+                            aria-label={`${field.label} — ${lang.label}`}
+                            defaultValue={value}
+                            className="field-input mt-3"
+                          />
+                        )}
+                        {field.kind === "list" && (
+                          <p className="mt-1.5 text-sm text-muted-foreground">Un élément par ligne.</p>
+                        )}
+                        {lang.code !== "fr" && field.values.fr && (
+                          <p className="mt-2 border-s-2 border-border ps-3 text-sm text-muted-foreground" dir="ltr">
+                            <span className="font-semibold">FR :</span>{" "}
+                            <span className="whitespace-pre-line">{field.values.fr}</span>
+                          </p>
+                        )}
+                      </>
+                    );
+                  }}
+                </PerLang>
+              </div>
+            ))}
+          </div>
+        </LangProvider>
+
+        <SaveBar pending={pending} state={state} hint="Un champ vidé reprend son texte d'origine." />
+      </form>
+
+      {fields
+        .filter((field) => field.modified)
+        .map((field) => (
+          <form key={field.path} id={`reset-${field.path}`} action={resetField} hidden>
+            <input type="hidden" name="reset" value={field.path} />
+          </form>
         ))}
-      </div>
-
-      {/* Stays in reach at the bottom of a long screen */}
-      <div className="sticky bottom-0 mt-10 flex flex-wrap items-center gap-4 border-t border-border bg-background/95 py-4 backdrop-blur">
-        <button type="submit" disabled={pending} className="admin-button">
-          {pending ? "Enregistrement…" : "Enregistrer et publier"}
-        </button>
-        {state.error && (
-          <p role="alert" className="text-sm text-[var(--terracotta-dark)]">
-            {state.error}
-          </p>
-        )}
-        {state.saved && !pending && (
-          <p role="status" className="text-sm text-muted-foreground">
-            Enregistré — le site est à jour.
-          </p>
-        )}
-        <p className="text-sm text-muted-foreground">
-          Un champ vidé reprend son texte d&apos;origine.
-        </p>
-      </div>
-    </form>
-
-    {fields
-      .filter((field) => field.modified)
-      .map((field) => (
-        <form key={field.path} id={`reset-${field.path}`} action={resetField} hidden>
-          <input type="hidden" name="reset" value={field.path} />
-        </form>
-      ))}
     </>
   );
 }

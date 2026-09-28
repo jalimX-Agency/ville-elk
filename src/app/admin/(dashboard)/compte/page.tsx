@@ -1,14 +1,12 @@
-import { auth } from "@/auth";
+import { PageHeader } from "@/components/admin/PageHeader";
+import { getAdminUser } from "@/app/admin/guard";
 import { PasswordForm } from "@/components/admin/AdminForms";
 
 export default async function AccountPage() {
-  const session = await auth();
+  const user = await getAdminUser();
   return (
     <>
-      <h1 className="text-2xl font-light">Mon compte</h1>
-      <p className="mt-2 text-muted-foreground">
-        {session?.user?.name} · {session?.user?.email}
-      </p>
+      <PageHeader title="Mon compte" description={`${user?.name ?? ""} · ${user?.email ?? ""}`} />
       <PasswordForm />
     </>
   );

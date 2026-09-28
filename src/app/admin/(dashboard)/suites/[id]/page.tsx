@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PageHeader } from "@/components/admin/PageHeader";
 import { db } from "@/lib/db/client";
 import { SuiteForm } from "@/components/admin/SuiteForm";
 import { DeleteButton } from "@/components/admin/DeleteButton";
@@ -16,10 +17,18 @@ export default async function EditSuitePage({
 
   return (
     <>
-      <Link href="/admin/suites" className="text-sm text-muted-foreground hover:text-primary">
-        ← Suites
-      </Link>
-      <h1 className="mt-4 text-2xl font-light">{suite.nameFr}</h1>
+      <PageHeader
+        title={suite.nameFr}
+        back={{ href: "/admin/suites", label: "Suites" }}
+        description={suite.published ? undefined : "Cette suite est masquée : publiez-la depuis la liste des suites quand elle est prête."}
+        action={
+          suite.published ? (
+            <Link href={`/fr/suites/${suite.slug}`} target="_blank" className="admin-button-quiet">
+              Voir la page ↗
+            </Link>
+          ) : undefined
+        }
+      />
       <SuiteForm suite={suite} />
       <DeleteButton action={deleteSuite} id={suite.id} what="cette suite" />
     </>

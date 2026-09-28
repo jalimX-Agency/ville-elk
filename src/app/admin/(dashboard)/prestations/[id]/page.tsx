@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PageHeader } from "@/components/admin/PageHeader";
 import { db } from "@/lib/db/client";
 import { AmenityForm } from "@/components/admin/AmenityForm";
 import { DeleteButton } from "@/components/admin/DeleteButton";
@@ -16,10 +16,10 @@ export default async function EditAmenityPage({
 
   return (
     <>
-      <Link href="/admin/prestations" className="text-sm text-muted-foreground hover:text-primary">
-        ← Prestations
-      </Link>
-      <h1 className="mt-4 text-2xl font-light">{amenity.nameFr}</h1>
+      <PageHeader
+        title={amenity.nameFr}
+        back={{ href: "/admin/prestations", label: "Prestations" }}
+      />
       <AmenityForm amenity={amenity} />
       <DeleteButton action={deleteAmenity} id={amenity.id} what="cette prestation" />
     </>

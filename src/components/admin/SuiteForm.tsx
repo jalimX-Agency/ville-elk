@@ -3,6 +3,8 @@
 import { useActionState } from "react";
 import { saveSuite, type SuiteState } from "@/app/admin/actions";
 import { ImageField } from "./ImageField";
+import { LangProvider, PerLang } from "./LangTabs";
+import { SaveBar } from "./SaveBar";
 
 type Values = {
   id: string;
@@ -27,139 +29,117 @@ type Values = {
   altAr: string | null;
 };
 
-const LANGUAGES = [
-  { code: "Fr", label: "Français", dir: "ltr" },
-  { code: "En", label: "English", dir: "ltr" },
-  { code: "Es", label: "Español", dir: "ltr" },
-  { code: "Ar", label: "العربية", dir: "rtl" },
-] as const;
+const NEWLINE = String.fromCharCode(10);
+const suffix = (code: string) => (code[0].toUpperCase() + code.slice(1)) as "Fr" | "En" | "Es" | "Ar";
 
 export function SuiteForm({ suite }: { suite: Values }) {
   const [state, action, pending] = useActionState<SuiteState, FormData>(saveSuite, {});
 
   return (
-    <form action={action} className="mt-8 space-y-10">
+    <form action={action} className="space-y-4">
       <input type="hidden" name="id" value={suite.id} />
 
-      <fieldset className="grid gap-4 sm:grid-cols-2">
-        <legend className="field-label mb-4">Emplacement</legend>
-        <label className="block">
-          <span className="text-sm text-muted-foreground">Niveau</span>
-          <select name="level" defaultValue={suite.level} className="field-input mt-1.5 h-[2.85rem]">
-            <option value="+1">Étage</option>
-            <option value="0">Rez-de-chaussée</option>
-          </select>
-        </label>
-        <label className="block">
-          <span className="text-sm text-muted-foreground">
-            Surface en m² — laissez vide si elle n&apos;est pas connue
-          </span>
-          <input
-            name="areaSqm"
-            type="number"
-            min={1}
-            max={2000}
-            defaultValue={suite.areaSqm ?? ""}
-            className="field-input mt-1.5"
-          />
-        </label>
-      </fieldset>
-
-      <fieldset>
-        <legend className="field-label">Nom</legend>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          {LANGUAGES.map((language) => (
-            <label key={language.code} className="block">
-              <span className="text-sm text-muted-foreground">{language.label}</span>
-              <input
-                name={`name${language.code}`}
-                dir={language.dir}
-                defaultValue={suite[`name${language.code}`]}
-                required={language.code === "Fr"}
-                className="field-input mt-1.5"
-              />
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend className="field-label">Description</legend>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          {LANGUAGES.map((language) => (
-            <label key={language.code} className="block">
-              <span className="text-sm text-muted-foreground">{language.label}</span>
-              <textarea
-                name={`description${language.code}`}
-                dir={language.dir}
-                rows={4}
-                defaultValue={suite[`description${language.code}`]}
-                className="field-input mt-1.5 resize-y"
-              />
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend className="field-label">Équipements</legend>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Un équipement par ligne. Ils s&apos;affichent en liste sur la page de la suite.
-        </p>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          {LANGUAGES.map((language) => (
-            <label key={language.code} className="block">
-              <span className="text-sm text-muted-foreground">{language.label}</span>
-              <textarea
-                name={`features${language.code}`}
-                dir={language.dir}
-                rows={7}
-                defaultValue={suite[`features${language.code}`].join("\n")}
-                className="field-input mt-1.5 resize-y"
-              />
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend className="field-label">Photographie</legend>
-        <ImageField name="imageUrl" folder="suites" initialUrl={suite.imageUrl} />
-
-        <p className="mt-6 text-sm text-muted-foreground">
-          Description de la photo, lue par les moteurs de recherche et les
-          lecteurs d&apos;écran.
-        </p>
-        <div className="mt-3 grid gap-4 sm:grid-cols-2">
-          {LANGUAGES.map((language) => (
-            <label key={language.code} className="block">
-              <span className="text-sm text-muted-foreground">{language.label}</span>
-              <input
-                name={`alt${language.code}`}
-                dir={language.dir}
-                defaultValue={suite[`alt${language.code}`] ?? ""}
-                className="field-input mt-1.5"
-              />
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <div className="flex items-center gap-4">
-        <button type="submit" disabled={pending} className="admin-button">
-          {pending ? "Enregistrement…" : "Enregistrer"}
-        </button>
-        {state.error && (
-          <p role="alert" className="text-sm text-[var(--terracotta-dark)]">
-            {state.error}
+      <div className="grid gap-4 lg:grid-cols-5">
+        <section className="admin-card p-4 sm:p-6 lg:col-span-3">
+          <h2 className="font-semibold">Photo principale</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Sur la page Suites et dans « les autres suites ». Les photos de la
+            page de la suite se choisissent dans la Galerie.
           </p>
-        )}
-        {state.saved && !pending && (
-          <p role="status" className="text-sm text-muted-foreground">
-            Enregistré et publié.
-          </p>
-        )}
+          <ImageField name="imageUrl" folder="suites" initialUrl={suite.imageUrl} />
+        </section>
+
+        <section className="admin-card space-y-4 p-4 sm:p-6 lg:col-span-2">
+          <h2 className="font-semibold">Emplacement</h2>
+          <label className="block">
+            <span className="field-label">Niveau</span>
+            <select name="level" defaultValue={suite.level} className="field-input mt-1.5 h-11">
+              <option value="+1">Étage</option>
+              <option value="0">Rez-de-chaussée</option>
+            </select>
+          </label>
+          <label className="block">
+            <span className="field-label">Surface (m²)</span>
+            <span className="block text-sm text-muted-foreground">Laissez vide si elle n&apos;est pas connue.</span>
+            <input
+              name="areaSqm"
+              type="number"
+              inputMode="numeric"
+              min={1}
+              max={2000}
+              defaultValue={suite.areaSqm ?? ""}
+              className="field-input mt-1.5"
+            />
+          </label>
+        </section>
       </div>
+
+      <section className="admin-card p-4 sm:p-6">
+        <h2 className="mb-4 font-semibold">Textes</h2>
+        <LangProvider>
+          <PerLang>
+            {(lang) => {
+              const s = suffix(lang.code);
+              const reference = (text: string) =>
+                lang.code !== "fr" && text ? (
+                  <p className="mt-1.5 whitespace-pre-line text-sm text-muted-foreground">FR : {text}</p>
+                ) : null;
+              return (
+                <div className="space-y-5">
+                  <label className="block">
+                    <span className="field-label">
+                      Nom {lang.code === "fr" && <span className="text-[#8f3d22]">*</span>}
+                    </span>
+                    <input
+                      name={`name${s}`}
+                      dir={lang.dir}
+                      defaultValue={suite[`name${s}`]}
+                      required={lang.code === "fr"}
+                      className="field-input mt-1.5"
+                    />
+                    {reference(suite.nameFr)}
+                  </label>
+                  <label className="block">
+                    <span className="field-label">Description</span>
+                    <textarea
+                      name={`description${s}`}
+                      dir={lang.dir}
+                      rows={5}
+                      defaultValue={suite[`description${s}`]}
+                      className="field-input mt-1.5 resize-y"
+                    />
+                    {reference(suite.descriptionFr)}
+                  </label>
+                  <label className="block">
+                    <span className="field-label">Équipements</span>
+                    <span className="block text-sm text-muted-foreground">Un par ligne — affichés en liste numérotée.</span>
+                    <textarea
+                      name={`features${s}`}
+                      dir={lang.dir}
+                      rows={Math.max(5, suite[`features${s}`].length + 1)}
+                      defaultValue={suite[`features${s}`].join(NEWLINE)}
+                      className="field-input mt-1.5 resize-y"
+                    />
+                    {reference(suite.featuresFr.join(NEWLINE))}
+                  </label>
+                  <label className="block">
+                    <span className="field-label">Description de la photo principale</span>
+                    <span className="block text-sm text-muted-foreground">Lue par Google et les lecteurs d&apos;écran.</span>
+                    <input
+                      name={`alt${s}`}
+                      dir={lang.dir}
+                      defaultValue={suite[`alt${s}`] ?? ""}
+                      className="field-input mt-1.5"
+                    />
+                  </label>
+                </div>
+              );
+            }}
+          </PerLang>
+        </LangProvider>
+      </section>
+
+      <SaveBar pending={pending} state={state} hint="Une langue laissée vide reprend le texte français." />
     </form>
   );
 }

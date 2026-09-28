@@ -6,17 +6,21 @@ import { PrismaClient } from "@/generated/prisma/client";
  * the right target at runtime — the migration CLI uses DIRECT_URL instead.
  */
 
-/**
- * Neon suspends an idle database and wakes it on the next connection, so the
- * first query after a quiet spell can time out before the instance is up.
- * These are failures to *open* a connection, which means the statement never
- * reached Postgres — retrying cannot duplicate a write.
- */
-const TRANSIENT = new Set(["ETIMEDOUT", "ECONNRESET", "ECONNREFUSED", "EPIPE", "P1001", "P1017"]);
+// Neon suspends an idle database and wakes it on the next connection, so the
+// first query after a quiet spell can fail before the instance is up.
+// Two kinds of failure. A connection that never opened means the statement
+// never reached Postgres, so anything may be retried. A connection that dropped
+// mid-way may have run the statement already, so only reads are retried —
+// retrying a write there could, say, record one booking request twice.
+const NEVER_CONNECTED = /connection terminated due to connection timeout|timeout exceeded when trying to connect|ECONNREFUSED|P1001/i;
+const DROPPED = /connection terminated unexpectedly|ECONNRESET|EPIPE|ETIMEDOUT|P1017/i;
+const READS = new Set(["findUnique", "findUniqueOrThrow", "findFirst", "findFirstOrThrow", "findMany", "count", "aggregate", "groupBy"]);
 
-function isTransient(error: unknown): boolean {
-  const code = (error as { code?: unknown })?.code;
-  return typeof code === "string" && TRANSIENT.has(code);
+function canRetry(error: unknown, operation: string): boolean {
+  const e = error as { code?: unknown; message?: unknown; cause?: { message?: unknown; code?: unknown } };
+  const text = [e?.code, e?.message, e?.cause?.code, e?.cause?.message].filter((v) => typeof v === "string").join(" ");
+  if (NEVER_CONNECTED.test(text)) return true;
+  return DROPPED.test(text) && READS.has(operation);
 }
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -33,7 +37,7 @@ function createClient() {
 
   return client.$extends({
     query: {
-      async $allOperations({ args, query }) {
+      async $allOperations({ args, query, operation }) {
         let lastError: unknown;
         // Three tries, backing off, so a waking database costs a slow page
         // rather than a broken one.
@@ -41,7 +45,7 @@ function createClient() {
           try {
             return await query(args);
           } catch (error) {
-            if (!isTransient(error)) throw error;
+            if (!canRetry(error, operation)) throw error;
             lastError = error;
             await wait(250 * 2 ** attempt);
           }

@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/admin/PageHeader";
 import { getContact, getSettings, type SettingKey } from "@/lib/content/site";
 import { SettingsForm } from "@/components/admin/SettingsForm";
 
@@ -24,11 +25,7 @@ export default async function SettingsPage() {
 
   return (
     <>
-      <h1 className="text-2xl font-light">Réglages</h1>
-      <p className="mt-2 max-w-prose text-muted-foreground">
-        Les coordonnées de la villa et les photos des pages. Les photos des
-        suites, des prestations et de la galerie se changent dans leurs sections.
-      </p>
+      <PageHeader title="Réglages" description="Les coordonnées de la villa et les photos des pages. Les photos des suites, des prestations et de la galerie se changent dans leurs sections." />
       <SettingsForm contact={contact} images={images} />
     </>
   );

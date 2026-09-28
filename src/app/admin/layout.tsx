@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={`${albert.variable} ${plexMono.variable}`}>
-      <body className="antialiased">{children}</body>
+      <body className="admin-app antialiased">{children}</body>
     </html>
   );
 }

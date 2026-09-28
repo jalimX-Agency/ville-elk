@@ -3,6 +3,8 @@
 import { useActionState } from "react";
 import { saveAmenity, type AmenityState } from "@/app/admin/actions";
 import { ImageField } from "./ImageField";
+import { LangProvider, PerLang } from "./LangTabs";
+import { SaveBar } from "./SaveBar";
 
 type Values = {
   id: string;
@@ -17,76 +19,60 @@ type Values = {
   altAr: string | null;
 };
 
-const LANGUAGES = [
-  { code: "Fr", label: "Français", dir: "ltr" },
-  { code: "En", label: "English", dir: "ltr" },
-  { code: "Es", label: "Español", dir: "ltr" },
-  { code: "Ar", label: "العربية", dir: "rtl" },
-] as const;
+const suffix = (code: string) => code[0].toUpperCase() + code.slice(1); // "fr" → "Fr"
 
 export function AmenityForm({ amenity }: { amenity: Values }) {
   const [state, action, pending] = useActionState<AmenityState, FormData>(saveAmenity, {});
 
   return (
-    <form action={action} className="mt-8 space-y-10">
+    <form action={action} className="space-y-4">
       <input type="hidden" name="id" value={amenity.id} />
 
-      <fieldset>
-        <legend className="field-label">Nom affiché</legend>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          {LANGUAGES.map((language) => (
-            <label key={language.code} className="block">
-              <span className="text-sm text-muted-foreground">{language.label}</span>
-              <input
-                name={`name${language.code}`}
-                dir={language.dir}
-                defaultValue={amenity[`name${language.code}`]}
-                required={language.code === "Fr"}
-                className="field-input mt-1.5"
-              />
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend className="field-label">Photographie</legend>
-        <ImageField name="imageUrl" folder="amenities" initialUrl={amenity.imageUrl} />
-
-        <p className="mt-6 text-sm text-muted-foreground">
-          Description de la photo, lue par les moteurs de recherche et les
-          lecteurs d&apos;écran.
+      <section className="admin-card p-4 sm:p-6">
+        <h2 className="font-semibold">Photo</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Montrée au survol de la prestation sur ordinateur, en vignette sur téléphone.
         </p>
-        <div className="mt-3 grid gap-4 sm:grid-cols-2">
-          {LANGUAGES.map((language) => (
-            <label key={language.code} className="block">
-              <span className="text-sm text-muted-foreground">{language.label}</span>
-              <input
-                name={`alt${language.code}`}
-                dir={language.dir}
-                defaultValue={amenity[`alt${language.code}`] ?? ""}
-                className="field-input mt-1.5"
-              />
-            </label>
-          ))}
-        </div>
-      </fieldset>
+        <ImageField name="imageUrl" folder="amenities" initialUrl={amenity.imageUrl} />
+      </section>
 
-      <div className="flex items-center gap-4">
-        <button type="submit" disabled={pending} className="admin-button">
-          {pending ? "Enregistrement…" : "Enregistrer"}
-        </button>
-        {state.error && (
-          <p role="alert" className="text-sm text-[var(--terracotta-dark)]">
-            {state.error}
-          </p>
-        )}
-        {state.saved && !pending && (
-          <p role="status" className="text-sm text-muted-foreground">
-            Enregistré et publié.
-          </p>
-        )}
-      </div>
+      <section className="admin-card p-4 sm:p-6">
+        <h2 className="mb-4 font-semibold">Textes</h2>
+        <LangProvider>
+          <PerLang>
+            {(lang) => {
+              const s = suffix(lang.code) as "Fr" | "En" | "Es" | "Ar";
+              return (
+                <div className="space-y-5">
+                  <label className="block">
+                    <span className="field-label">Nom affiché {lang.code === "fr" && <span className="text-[#8f3d22]">*</span>}</span>
+                    <input
+                      name={`name${s}`}
+                      dir={lang.dir}
+                      defaultValue={amenity[`name${s}`]}
+                      required={lang.code === "fr"}
+                      className="field-input mt-1.5"
+                    />
+                    {lang.code !== "fr" && <p className="mt-1.5 text-sm text-muted-foreground">FR : {amenity.nameFr}</p>}
+                  </label>
+                  <label className="block">
+                    <span className="field-label">Description de la photo</span>
+                    <span className="block text-sm text-muted-foreground">Lue par Google et les lecteurs d&apos;écran.</span>
+                    <input
+                      name={`alt${s}`}
+                      dir={lang.dir}
+                      defaultValue={amenity[`alt${s}`] ?? ""}
+                      className="field-input mt-1.5"
+                    />
+                  </label>
+                </div>
+              );
+            }}
+          </PerLang>
+        </LangProvider>
+      </section>
+
+      <SaveBar pending={pending} state={state} hint="Une langue laissée vide reprend le nom français." />
     </form>
   );
 }

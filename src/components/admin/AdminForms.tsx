@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { Plus } from "lucide-react";
 import {
   changePassword,
   createAmenity,
@@ -29,7 +30,8 @@ function Status({ state, pending, saved }: { state: FormState; pending: boolean;
 export function PasswordForm() {
   const [state, action, pending] = useActionState<FormState, FormData>(changePassword, {});
   return (
-    <form action={action} className="mt-8 max-w-md space-y-4">
+    <form action={action} className="admin-card max-w-lg space-y-4 p-5 sm:p-6">
+      <p className="font-semibold">Changer le mot de passe</p>
       <label className="block">
         <span className="text-sm text-muted-foreground">Mot de passe actuel</span>
         <input name="current" type="password" autoComplete="current-password" required className="field-input mt-1.5" />
@@ -59,11 +61,10 @@ export function CreateForm({ kind }: { kind: "amenity" | "suite" }) {
     {},
   );
   return (
-    <form action={action} className="mt-6 flex flex-wrap items-end gap-3 border border-dashed border-border p-4">
+    <form action={action} className="admin-card mt-4 flex flex-wrap items-end gap-3 border-dashed p-4 sm:p-5">
+      <p className="w-full font-semibold">{kind === "amenity" ? "Ajouter une prestation" : "Ajouter une suite"}</p>
       <label className="block min-w-56 flex-1">
-        <span className="text-sm text-muted-foreground">
-          {kind === "amenity" ? "Nouvelle prestation — nom en français" : "Nouvelle suite — nom en français"}
-        </span>
+        <span className="text-sm text-muted-foreground">Nom en français — les autres langues se remplissent ensuite</span>
         <input name="nameFr" required className="field-input mt-1.5" />
       </label>
       {kind === "suite" && (
@@ -76,6 +77,7 @@ export function CreateForm({ kind }: { kind: "amenity" | "suite" }) {
         </label>
       )}
       <button type="submit" disabled={pending} className="admin-button">
+        <Plus className="h-4 w-4" />
         {pending ? "…" : "Ajouter"}
       </button>
       <Status state={state} pending={pending} saved="" />

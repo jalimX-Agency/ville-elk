@@ -63,7 +63,8 @@ export function GalleryUploader() {
   const working = busy || saving;
 
   return (
-    <div className="border border-dashed border-border p-6">
+    <div className="admin-card border-dashed p-4 sm:p-5">
+      <p className="mb-3 font-semibold">Ajouter des photos</p>
       <input
         ref={input}
         type="file"

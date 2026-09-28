@@ -1,60 +1,22 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Logo } from "@/components/brand/Logo";
-import { auth } from "@/auth";
+import { getAdminUser } from "@/app/admin/guard";
+import { db } from "@/lib/db/client";
 import { logout } from "@/app/admin/actions";
+import { AdminShell } from "@/components/admin/AdminShell";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth();
-  if (!session?.user) redirect("/admin/login");
-  const user = session.user;
+  const user = await getAdminUser();
+  if (!user) redirect("/admin/login");
+
+  const newRequests = await db.enquiry.count({ where: { status: "NEW" } }).catch(() => 0);
 
   return (
-    <div className="min-h-screen">
-      <header className="border-b border-border bg-card">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-6 gap-y-3 px-6 py-4">
-          <Link href="/admin" className="shrink-0">
-            <Logo variant="horizontal" className="h-7 w-auto" hairline />
-            <span className="sr-only">Villa Elk — administration</span>
-          </Link>
-
-          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-            <Link href="/admin/suites" className="hover:text-primary">
-              Suites
-            </Link>
-            <Link href="/admin/galerie" className="hover:text-primary">
-              Galerie
-            </Link>
-            <Link href="/admin/prestations" className="hover:text-primary">
-              Prestations
-            </Link>
-            <Link href="/admin/demandes" className="hover:text-primary">
-              Demandes
-            </Link>
-            <Link href="/admin/textes" className="hover:text-primary">
-              Textes
-            </Link>
-            <Link href="/admin/reglages" className="hover:text-primary">
-              Réglages
-            </Link>
-            <Link href="/admin/compte" className="hover:text-primary">
-              Compte
-            </Link>
-            <Link href="/fr" target="_blank" className="hover:text-primary">
-              Voir le site ↗
-            </Link>
-          </nav>
-
-          <form action={logout} className="ms-auto flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">{user.name}</span>
-            <button type="submit" className="text-sm underline hover:text-primary">
-              Déconnexion
-            </button>
-          </form>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-5xl px-6 py-10">{children}</main>
-    </div>
+    <AdminShell
+      user={{ name: user.name, email: user.email }}
+      newRequests={newRequests}
+      logout={logout}
+    >
+      {children}
+    </AdminShell>
   );
 }

@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { getAdminUser } from "@/app/admin/guard";
 import { identifyImage, uploadImage, MAX_UPLOAD_BYTES } from "@/lib/storage/r2";
 
 /**
@@ -6,8 +6,7 @@ import { identifyImage, uploadImage, MAX_UPLOAD_BYTES } from "@/lib/storage/r2";
  * at 1 MB, and a photograph off a real camera is many times that.
  */
 export async function POST(request: Request) {
-  const session = await auth();
-  if (!session?.user) {
+  if (!(await getAdminUser())) {
     return Response.json({ error: "Non autorisé." }, { status: 401 });
   }
 

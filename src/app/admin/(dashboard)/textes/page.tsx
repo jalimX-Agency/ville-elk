@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import { db } from "@/lib/db/client";
 import { SECTIONS } from "@/lib/content/site-sections";
+import { PageHeader } from "@/components/admin/PageHeader";
 
 export default async function TextsPage() {
   const rows = await db.siteText.findMany({ select: { key: true } });
@@ -9,26 +11,25 @@ export default async function TextsPage() {
 
   return (
     <>
-      <h1 className="text-2xl font-light">Textes du site</h1>
-      <p className="mt-2 max-w-prose text-muted-foreground">
-        Tous les textes visibles sur le site, dans les quatre langues. Seuls vos
-        changements sont gardés : chaque texte peut revenir à l&apos;original.
-      </p>
+      <PageHeader
+        title="Textes du site"
+        description="Tous les textes visibles sur le site, en quatre langues. Seuls vos changements sont gardés : chaque texte peut revenir à l'original."
+      />
 
-      <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+      <ul className="grid gap-3 sm:grid-cols-2">
         {SECTIONS.map((section) => {
           const count = modified(section.key);
           return (
             <li key={section.key}>
-              <Link
-                href={`/admin/textes/${section.key}`}
-                className="block h-full border border-border bg-card p-5 transition-colors hover:border-primary"
-              >
-                <p className="text-lg">{section.title}</p>
-                {section.hint && <p className="mt-2 text-sm text-muted-foreground">{section.hint}</p>}
-                <p className="field-label mt-4">
-                  {count ? `${count} texte${count > 1 ? "s" : ""} modifié${count > 1 ? "s" : ""}` : "Textes d'origine"}
-                </p>
+              <Link href={`/admin/textes/${section.key}`} className="admin-card flex h-full items-center gap-4 p-4 sm:p-5">
+                <span className="min-w-0 flex-1">
+                  <span className="block font-semibold">{section.title}</span>
+                  {section.hint && <span className="mt-1 block text-sm text-muted-foreground">{section.hint}</span>}
+                  <span className={"mt-3 " + (count ? "admin-pill admin-pill-new" : "admin-pill admin-pill-off")}>
+                    {count ? `${count} modifié${count > 1 ? "s" : ""}` : "Texte d'origine"}
+                  </span>
+                </span>
+                <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground rtl:rotate-180" />
               </Link>
             </li>
           );

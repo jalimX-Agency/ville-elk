@@ -313,3 +313,101 @@ body {
     animation: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Dashboard shell. Scoped to .admin-app so the villa's pages are untouched.
+   The owner uses this on a phone as much as a desk: readable labels in the
+   body face (not small mono capitals), 44px targets, one clear primary action
+   per screen, and status shown in words as well as colour.
+   --------------------------------------------------------------------------- */
+@layer components {
+  .admin-app {
+    --radius: 8px;
+    --admin-bg: #f3efe8;
+    --sidebar: var(--onyx);
+    --sidebar-foreground: #d9cfc2;
+    --sidebar-muted: #9a8e80;
+    background: var(--admin-bg);
+    font-size: 0.95rem;
+  }
+  .admin-app .field-label {
+    font-family: var(--body-face);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--foreground);
+  }
+
+  .admin-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(31, 28, 25, 0.04);
+  }
+  a.admin-card,
+  button.admin-card {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  a.admin-card:hover,
+  button.admin-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 6px 20px -12px rgba(31, 28, 25, 0.35);
+  }
+
+  .admin-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 999px;
+    padding: 0.2rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .admin-pill::before {
+    content: "";
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 999px;
+    background: currentColor;
+  }
+  .admin-pill-live {
+    background: #e4eee6;
+    color: #2d5a3a;
+  }
+  .admin-pill-off {
+    background: #ece7e0;
+    color: #5d5249;
+  }
+  .admin-pill-new {
+    background: #f6e8cf;
+    color: #74500f;
+  }
+  .admin-pill-warn {
+    background: #f7e1d8;
+    color: #8f3d22;
+  }
+
+  .admin-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2.5rem;
+    padding: 0 1rem;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--muted-foreground);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .admin-tab:hover {
+    color: var(--foreground);
+  }
+  .admin-tab[aria-selected="true"],
+  .admin-tab[aria-pressed="true"] {
+    background: var(--onyx);
+    color: #f5efe6;
+  }
+}
