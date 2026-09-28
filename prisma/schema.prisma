@@ -76,6 +76,14 @@ model Enquiry {
   /// When the owner's notification email went out; null means it never did.
   notifiedAt DateTime?
 
+  /// Where it came from: "site" (the booking form) or "manual" (added by the
+  /// owner for a stay arranged by phone or WhatsApp).
+  source String @default("site")
+  /// The owner's private notes; never shown to the guest.
+  notes String @default("")
+  /// When the status last changed, for "confirmée le …".
+  statusChangedAt DateTime?
+
   @@index([status, createdAt])
 }
 

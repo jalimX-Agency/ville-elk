@@ -158,9 +158,9 @@ export async function setEnquiryStatus(formData: FormData) {
   const status = String(formData.get("status") ?? "");
   if (!ENQUIRY_STATUSES.includes(status as EnquiryStatus)) return;
 
-  await db.enquiry.update({ where: { id }, data: { status: status as EnquiryStatus } });
+  await db.enquiry.update({ where: { id }, data: { status: status as EnquiryStatus, statusChangedAt: new Date() } });
   revalidatePath("/admin/demandes");
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
 }
 
 export type SuiteState = { error?: string; saved?: boolean };
