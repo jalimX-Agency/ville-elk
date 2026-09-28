@@ -209,7 +209,7 @@ export const fr = {
     per: "la nuit",
     approx: "environ 350 €",
     taxLabel: "Taxe de séjour",
-    tax: "31 DH par personne et par jour",
+    tax: "31 DH par personne et par nuit",
     taxApprox: "environ 3 €",
     minStay: "Séjour minimum de 3 nuits afin de garantir une expérience privilégiée.",
     languages: "Notre équipe vous parle arabe, français et anglais.",

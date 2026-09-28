@@ -5,6 +5,7 @@ import { hrefFor } from "@/lib/i18n/routes";
 import { getContact, getSettings } from "@/lib/content/site";
 import type { Locale } from "@/lib/i18n/locales";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
+import { StayFacts } from "./StayFacts";
 
 // One mark per chapter, in the order the owner wrote them; a chapter added
 // from the dictionary without a mark of its own simply goes without.
@@ -50,6 +51,14 @@ export async function ConciergePage({ dict, locale }: { dict: Dictionary; locale
           />
         </div>
       </header>
+
+      {/* The owner's menu starts with the price of the house itself */}
+      <section className="mx-auto max-w-[1400px] px-6 pt-20 lg:px-[5vw] lg:pt-28">
+        <div className="grid gap-8 border-y border-border py-10 lg:grid-cols-12 lg:gap-x-16">
+          <StayFacts dict={dict} className="lg:col-span-6" />
+          <p className="body-copy self-end lg:col-span-6">{dict.stay.languages}</p>
+        </div>
+      </section>
 
       {/* The service book */}
       <section aria-label={copy.eyebrow} className="mx-auto max-w-[1400px] px-6 pt-20 lg:px-[5vw] lg:pt-32">
@@ -115,7 +124,6 @@ export async function ConciergePage({ dict, locale }: { dict: Dictionary; locale
           <div className="mt-14 max-w-3xl space-y-3 border-t border-white/15 pt-6 text-sm text-white/65">
             <p className="text-white/85">{copy.exclusive}</p>
             <p>{copy.terms}</p>
-            <p>{dict.stay.languages}</p>
           </div>
         </div>
       </section>

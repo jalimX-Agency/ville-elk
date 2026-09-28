@@ -131,7 +131,7 @@ export interface Dictionary {
     whatsappCta: string;
     emailCta: string;
   };
-  /** Rates and house rules, shown on the booking page, the menu and the home page. */
+  /** Rates and house rules, shown on the concierge page, the booking page and the home page. */
   stay: {
     eyebrow: string;
     from: string;

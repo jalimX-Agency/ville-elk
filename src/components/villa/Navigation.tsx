@@ -9,7 +9,6 @@ import { hrefFor, translatePath } from "@/lib/i18n/routes";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/brand/Logo";
-import { StayFacts } from "./StayFacts";
 
 export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const pathname = usePathname();
@@ -85,7 +84,7 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
       </div>
 
       {open && (
-        <div id="mobile-menu" className="fixed inset-0 top-20 flex flex-col items-center justify-center gap-7 overflow-y-auto bg-background/98 py-8 backdrop-blur-xl lg:hidden">
+        <div id="mobile-menu" className="fixed inset-0 top-20 flex flex-col items-center justify-center gap-8 overflow-y-auto bg-background/98 py-8 backdrop-blur-xl lg:hidden">
           {sections.map((s) => (
             <Link
               key={s.href}
@@ -99,7 +98,6 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
           <Link href={bookingHref} onClick={() => setOpen(false)} className="btn-primary mt-2">
             {dict.nav.bookNow}
           </Link>
-          <StayFacts dict={dict} compact className="max-w-xs border-t border-border px-6 pt-6" />
           <div className="flex gap-3 pt-4">
             {locales.map((l) => (
               <Link

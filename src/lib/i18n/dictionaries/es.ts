@@ -209,7 +209,7 @@ export const es = {
     per: "la noche",
     approx: "unos 350 €",
     taxLabel: "Tasa turística",
-    tax: "31 DH por persona y día",
+    tax: "31 DH por persona y noche",
     taxApprox: "unos 3 €",
     minStay: "Estancia mínima de 3 noches para garantizar una experiencia privilegiada.",
     languages: "Nuestro equipo habla árabe, francés e inglés.",

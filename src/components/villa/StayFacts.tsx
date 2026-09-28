@@ -1,39 +1,18 @@
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 
 /**
- * The rate, the tourist tax and the minimum stay, said the same way wherever
- * they appear. The minimum stay is the owner's "phrase importante", so it is
- * never the smallest line.
+ * The rate, the tourist tax and the minimum stay, said the same way on the
+ * booking page and in the concierge menu. The minimum stay is the owner's
+ * "phrase importante", so it is never the smallest line.
  */
 export function StayFacts({
   dict,
-  compact = false,
   className = "",
 }: {
   dict: Dictionary;
-  /** One tight block, for the phone menu and the foot of the home page. */
-  compact?: boolean;
   className?: string;
 }) {
   const stay = dict.stay;
-
-  if (compact) {
-    return (
-      <div className={"text-center " + className}>
-        <p className="eyebrow text-muted-foreground">{stay.from}</p>
-        <p className="mt-1 heading-display text-3xl text-foreground">
-          {stay.price} <span className="text-lg text-muted-foreground">{stay.per}</span>
-        </p>
-        <p className="mt-1 text-sm text-muted-foreground">{stay.approx}</p>
-        <p className="mt-3 text-sm text-foreground/80">{stay.minStay}</p>
-        <p className="mt-3 text-sm text-muted-foreground">
-          <span className="text-foreground/80">{stay.taxLabel}</span>
-          <br />
-          {stay.tax} · {stay.taxApprox}
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className={className}>

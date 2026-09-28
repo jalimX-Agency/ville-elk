@@ -209,7 +209,7 @@ export const en = {
     per: "per night",
     approx: "about €350",
     taxLabel: "Tourist tax",
-    tax: "MAD 31 per person per day",
+    tax: "MAD 31 per person per night",
     taxApprox: "about €3",
     minStay: "Minimum stay of 3 nights, to guarantee a truly privileged experience.",
     languages: "Our team speaks Arabic, French and English.",

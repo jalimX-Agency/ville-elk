@@ -14,7 +14,7 @@ export const SECTIONS = [
   { key: "suites", title: "Page Suites", hint: "Les textes de la page des suites et des pages de chaque suite." },
   { key: "gallery", title: "Page Galerie", hint: "Le titre, l'introduction et les noms des catégories." },
   { key: "reserve", title: "Page Réservation", hint: "Le formulaire, ses messages et l'encadré « Bon à savoir »." },
-  { key: "stay", title: "Tarifs & séjour minimum", hint: "Le prix, la taxe de séjour, le séjour minimum et les langues parlées. Affichés sur la réservation, le menu du téléphone, l'accueil et le pied de page." },
+  { key: "stay", title: "Tarifs & séjour minimum", hint: "Le prix, la taxe de séjour, le séjour minimum et les langues parlées. Affichés sur la page Conciergerie, la réservation et l'accueil ; les langues aussi sur Contact et en pied de page." },
   { key: "concierge", title: "Page Conciergerie", hint: "Le « menu » des services de conciergerie. La photo se change dans « Réglages »." },
   { key: "contact", title: "Contact", hint: "Les textes de la page contact. Le numéro et l'email se modifient dans « Réglages »." },
   { key: "meta", title: "Google — page d'accueil", hint: "Le titre et la description qui apparaissent dans les résultats de recherche." },
