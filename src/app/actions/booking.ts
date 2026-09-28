@@ -5,7 +5,7 @@ import { getDictionary } from "@/lib/content/site";
 import { isLocale, defaultLocale, type Locale } from "@/lib/i18n/locales";
 import { readEnquiry } from "@/lib/booking/enquiry";
 import { acknowledgeGuest, notifyOwner } from "@/lib/booking/notify";
-import { confirmedOverlap } from "@/lib/booking/availability-server";
+import { isUnavailable } from "@/lib/booking/availability-server";
 
 export type EnquiryState = {
   status: "idle" | "sent" | "error";
@@ -31,9 +31,9 @@ export async function submitEnquiry(
     return { status: "error", field: parsed.error.field, message: parsed.error.message };
   }
 
-  // Nights already confirmed for someone else cannot be asked for again.
+  // Nights confirmed for someone else, or closed by the owner, cannot be asked for.
   try {
-    if (await confirmedOverlap(parsed.value.arrival, parsed.value.departure)) {
+    if (await isUnavailable(parsed.value.arrival, parsed.value.departure)) {
       return { status: "error", field: "arrival", message: dict.reserve.errors.unavailable };
     }
   } catch (error) {

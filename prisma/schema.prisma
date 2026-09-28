@@ -209,3 +209,20 @@ model SiteSetting {
   value     String
   updatedAt DateTime @updatedAt
 }
+
+/// A period the villa is closed to bookings: a stay arranged elsewhere, works,
+/// the owner's own use. Blocks the same nights a confirmed stay would, and
+/// the public calendar shows them the same way — the reason stays private.
+model Closure {
+  id        String   @id @default(cuid())
+  /// First night closed.
+  startDate DateTime @db.Date
+  /// The morning it reopens: nights run up to, not including, this day.
+  endDate   DateTime @db.Date
+  /// One of: reservation, travaux, proprietaire, autre.
+  reason    String   @default("autre")
+  note      String   @default("")
+  createdAt DateTime @default(now())
+
+  @@index([startDate, endDate])
+}

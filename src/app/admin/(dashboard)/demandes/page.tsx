@@ -5,7 +5,17 @@ import { EnquiriesBoard, type EnquiryRow } from "@/components/admin/EnquiriesBoa
 const iso = (date: Date) => date.toISOString().slice(0, 10);
 
 export default async function EnquiriesPage() {
-  const rows = await db.enquiry.findMany({ orderBy: { createdAt: "desc" }, take: 1000 });
+  const [rows, closureRows] = await Promise.all([
+    db.enquiry.findMany({ orderBy: { createdAt: "desc" }, take: 1000 }),
+    db.closure.findMany({ orderBy: { startDate: "asc" } }),
+  ]);
+  const closures = closureRows.map((c) => ({
+    id: c.id,
+    start: iso(c.startDate),
+    end: iso(c.endDate),
+    reason: c.reason,
+    note: c.note,
+  }));
 
   const enquiries: EnquiryRow[] = rows.map((row) => ({
     id: row.id,
@@ -39,7 +49,7 @@ export default async function EnquiriesPage() {
         title="Demandes de réservation"
         description="Chaque demande arrive aussi par email. Rien n'est réservé tant que vous ne l'avez pas confirmée. Touchez une demande pour la traiter."
       />
-      <EnquiriesBoard enquiries={enquiries} />
+      <EnquiriesBoard enquiries={enquiries} closures={closures} />
     </>
   );
 }

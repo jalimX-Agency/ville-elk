@@ -8,14 +8,23 @@ import { isLocale } from "@/lib/i18n/locales";
 import { requireUser } from "./guard";
 import { isFicheLocale } from "@/lib/booking/fiche";
 import { ficheLocaleOf, sendFiche } from "@/lib/booking/fiche-server";
-import { confirmedOverlap } from "@/lib/booking/availability-server";
+import { closureOverlap, confirmedOverlap } from "@/lib/booking/availability-server";
+import { CLOSURE_REASONS } from "@/lib/booking/closures";
 
-/** Why a stay cannot be confirmed: it would share nights with one that is. */
+/** Why a stay cannot be confirmed: it would share nights with one that is, or with a closure. */
 async function clashMessage(arrival: Date, departure: Date, exceptId?: string): Promise<string | null> {
-  const other = await confirmedOverlap(arrival, departure, exceptId);
-  if (!other) return null;
   const day = (d: Date) => d.toLocaleDateString("fr-FR", { day: "numeric", month: "long", timeZone: "UTC" });
-  return `Ces dates croisent le séjour confirmé de ${other.name} (du ${day(other.arrival)} au ${day(other.departure)}). Annulez-le ou changez les dates avant de confirmer.`;
+  const other = await confirmedOverlap(arrival, departure, exceptId);
+  if (other) {
+    return `Ces dates croisent le séjour confirmé de ${other.name} (du ${day(other.arrival)} au ${day(other.departure)}). Annulez-le ou changez les dates avant de confirmer.`;
+  }
+  const closure = await closureOverlap(arrival, departure);
+  if (closure) {
+    const last = new Date(closure.endDate.getTime() - 86_400_000);
+    const reason = CLOSURE_REASONS[closure.reason as keyof typeof CLOSURE_REASONS] ?? "Fermeture";
+    return `La villa est fermée du ${day(closure.startDate)} au ${day(last)} inclus (${reason.toLowerCase()}). Rouvrez ces dates dans « Disponibilités » avant de confirmer.`;
+  }
+  return null;
 }
 
 /**

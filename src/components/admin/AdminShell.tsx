@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   BedDouble,
+  CalendarOff,
   ExternalLink,
   Images,
   Inbox,
@@ -35,7 +36,10 @@ const GROUPS: { title: string; items: NavItem[] }[] = [
   },
   {
     title: "Réservations",
-    items: [{ href: "/admin/demandes", label: "Demandes", icon: Inbox, badge: true }],
+    items: [
+      { href: "/admin/demandes", label: "Demandes", icon: Inbox, badge: true },
+      { href: "/admin/disponibilites", label: "Disponibilités", icon: CalendarOff },
+    ],
   },
   {
     title: "Paramètres",

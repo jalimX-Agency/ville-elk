@@ -1,12 +1,11 @@
 "use client";
 
 import { useActionState, useEffect, useMemo, useState, useTransition } from "react";
+import Link from "next/link";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
   AlertTriangle,
   CalendarDays,
-  ChevronLeft,
-  ChevronRight,
   Copy,
   List,
   Mail,
@@ -19,6 +18,8 @@ import {
 import { setEnquiryStatus } from "@/app/admin/actions";
 import { createManualBooking, deleteEnquiry, saveEnquiryNotes, type ManualState } from "@/app/admin/enquiry-actions";
 import { FicheSection } from "./FicheSection";
+import { OccupancyCalendar, type CalendarEntry } from "./OccupancyCalendar";
+import { CLOSURE_REASONS, type ClosureReason } from "@/lib/booking/closures";
 import { draftReply, estimate, NIGHTLY_RATE_DH, TOURIST_TAX_DH, type ReplyKind } from "@/lib/booking/replies";
 
 export type EnquiryRow = {
@@ -99,7 +100,10 @@ const dh = (value: number) => `${value.toLocaleString("fr-FR")} DH`;
 /** Two stays share a night when each starts before the other ends. */
 const overlaps = (a: EnquiryRow, b: EnquiryRow) => a.arrival < b.departure && b.arrival < a.departure;
 
-export function EnquiriesBoard({ enquiries }: { enquiries: EnquiryRow[] }) {
+/** A period the owner closed; same night convention as a stay. */
+export type ClosureRow = { id: string; start: string; end: string; reason: string; note: string };
+
+export function EnquiriesBoard({ enquiries, closures }: { enquiries: EnquiryRow[]; closures: ClosureRow[] }) {
   const [view, setView] = useState<"list" | "calendar">("list");
   const [filter, setFilter] = useState<Filter>("all");
   const [sort, setSort] = useState<Sort>("recent");
@@ -119,6 +123,8 @@ export function EnquiriesBoard({ enquiries }: { enquiries: EnquiryRow[] }) {
     }
     return map;
   }, [active]);
+
+  const closedFor = (e: EnquiryRow) => closures.find((c) => e.arrival < c.end && c.start < e.departure);
 
   const upcoming = active
     .filter((e) => e.status === "CONFIRMED" && e.departure > today)
@@ -254,14 +260,49 @@ export function EnquiriesBoard({ enquiries }: { enquiries: EnquiryRow[] }) {
             <ul className="mt-4 space-y-2">
               {shown.map((e) => (
                 <li key={e.id}>
-                  <EnquiryCard enquiry={e} conflict={conflicts.has(e.id)} past={e.departure <= today} onOpen={() => setOpenId(e.id)} />
+                  <EnquiryCard
+                    enquiry={e}
+                    conflict={conflicts.has(e.id)}
+                    closed={e.status !== "CANCELLED" && Boolean(closedFor(e))}
+                    past={e.departure <= today}
+                    onOpen={() => setOpenId(e.id)}
+                  />
                 </li>
               ))}
             </ul>
           )}
         </section>
       ) : (
-        <Calendar enquiries={active} onOpen={setOpenId} />
+        <div className="mt-4">
+          <OccupancyCalendar
+            entries={[
+              ...active.map(
+                (e): CalendarEntry => ({
+                  id: e.id,
+                  from: e.arrival,
+                  to: e.departure,
+                  kind: e.status === "CONFIRMED" ? "confirmed" : "pending",
+                  title: e.name,
+                  subtitle: `${day(e.arrival)} → ${day(e.departure)} · ${e.guests} invités`,
+                  pill: { label: STATUS[e.status].label, className: STATUS[e.status].pill },
+                }),
+              ),
+              ...closures.map(
+                (c): CalendarEntry => ({
+                  id: c.id,
+                  from: c.start,
+                  to: c.end,
+                  kind: "closed",
+                  title: CLOSURE_REASONS[c.reason as ClosureReason] ?? "Fermeture",
+                  subtitle: c.note || "Villa fermée",
+                  pill: { label: "Fermé", className: "admin-pill-off" },
+                  href: "/admin/disponibilites",
+                }),
+              ),
+            ]}
+            onOpen={(entry) => setOpenId(entry.id)}
+          />
+        </div>
       )}
 
       <Dialog.Root open={open !== null} onOpenChange={(value) => !value && setOpenId(null)}>
@@ -276,6 +317,7 @@ export function EnquiriesBoard({ enquiries }: { enquiries: EnquiryRow[] }) {
                 key={open.id}
                 enquiry={open}
                 conflicts={conflicts.get(open.id) ?? []}
+                closure={open.status !== "CANCELLED" ? closedFor(open) : undefined}
                 onOpen={setOpenId}
                 onDeleted={() => setOpenId(null)}
               />
@@ -309,11 +351,13 @@ export function EnquiriesBoard({ enquiries }: { enquiries: EnquiryRow[] }) {
 function EnquiryCard({
   enquiry: e,
   conflict,
+  closed,
   past,
   onOpen,
 }: {
   enquiry: EnquiryRow;
   conflict: boolean;
+  closed: boolean;
   past: boolean;
   onOpen: () => void;
 }) {
@@ -337,6 +381,7 @@ function EnquiryCard({
       <span className="flex flex-wrap gap-1.5">
         <span className={`admin-pill ${status.pill}`}>{status.label}</span>
         {conflict && <span className="admin-pill admin-pill-warn">Dates en conflit</span>}
+        {closed && <span className="admin-pill admin-pill-warn">Villa fermée</span>}
         {past && e.status !== "CANCELLED" && <span className="admin-pill admin-pill-off">Passé</span>}
         {!e.notified && <span className="admin-pill admin-pill-warn">Email non envoyé</span>}
         {e.notes && <span className="admin-pill admin-pill-off">Note</span>}
@@ -349,11 +394,13 @@ function EnquiryCard({
 function EnquirySheet({
   enquiry: e,
   conflicts,
+  closure,
   onOpen,
   onDeleted,
 }: {
   enquiry: EnquiryRow;
   conflicts: EnquiryRow[];
+  closure?: ClosureRow;
   onOpen: (id: string) => void;
   onDeleted: () => void;
 }) {
@@ -417,6 +464,21 @@ function EnquirySheet({
             )}
           </div>
         </section>
+
+        {closure && (
+          <section role="alert" className="rounded-lg border border-[#e7b9a5] bg-[#f7e1d8] p-4 text-[#8f3d22]">
+            <p className="flex items-center gap-2 font-semibold">
+              <AlertTriangle className="h-4 w-4" /> La villa est fermée sur une partie de ces dates
+            </p>
+            <p className="mt-1 text-sm">
+              {CLOSURE_REASONS[closure.reason as ClosureReason] ?? "Fermeture"} — du {day(closure.start)} au{" "}
+              {day(new Date(Date.parse(closure.end) - 86_400_000).toISOString().slice(0, 10))} inclus.{" "}
+              <Link href="/admin/disponibilites" className="underline underline-offset-2">
+                Voir les disponibilités
+              </Link>
+            </p>
+          </section>
+        )}
 
         {conflicts.length > 0 && (
           <section role="alert" className="rounded-lg border border-[#e7b9a5] bg-[#f7e1d8] p-4 text-[#8f3d22]">
@@ -638,119 +700,6 @@ function EnquirySheet({
         </section>
       </div>
     </>
-  );
-}
-
-const WEEKDAYS = ["lun.", "mar.", "mer.", "jeu.", "ven.", "sam.", "dim."];
-
-/**
- * One month of nights. A night belongs to a stay from its arrival day up to,
- * not including, its departure day — the way a hotel counts.
- */
-function Calendar({ enquiries, onOpen }: { enquiries: EnquiryRow[]; onOpen: (id: string) => void }) {
-  const now = new Date();
-  const [month, setMonth] = useState(() => new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)));
-  const [selected, setSelected] = useState<string | null>(null);
-
-  const year = month.getUTCFullYear();
-  const m = month.getUTCMonth();
-  const daysInMonth = new Date(Date.UTC(year, m + 1, 0)).getUTCDate();
-  const lead = (month.getUTCDay() + 6) % 7; // Monday first
-  const iso = (d: number) => new Date(Date.UTC(year, m, d)).toISOString().slice(0, 10);
-  const staysOn = (date: string) => enquiries.filter((e) => e.arrival <= date && date < e.departure);
-  const today = todayISO();
-
-  const cells: (number | null)[] = [...Array(lead).fill(null), ...Array.from({ length: daysInMonth }, (_, i) => i + 1)];
-  const shift = (by: number) => {
-    setMonth(new Date(Date.UTC(year, m + by, 1)));
-    setSelected(null);
-  };
-
-  const selectedStays = selected ? staysOn(selected) : [];
-
-  return (
-    <section className="admin-card mt-4 max-w-3xl p-4 sm:p-6">
-      <div className="flex items-center justify-between gap-3">
-        <button type="button" onClick={() => shift(-1)} aria-label="Mois précédent" className="grid h-11 w-11 place-items-center rounded-lg hover:bg-muted">
-          <ChevronLeft className="h-5 w-5" />
-        </button>
-        <h2 className="text-lg font-semibold capitalize">
-          {month.toLocaleDateString("fr-FR", { month: "long", year: "numeric", timeZone: "UTC" })}
-        </h2>
-        <button type="button" onClick={() => shift(1)} aria-label="Mois suivant" className="grid h-11 w-11 place-items-center rounded-lg hover:bg-muted">
-          <ChevronRight className="h-5 w-5" />
-        </button>
-      </div>
-
-      <div className="mt-4 grid grid-cols-7 gap-1 text-center text-xs font-medium text-muted-foreground">
-        {WEEKDAYS.map((w) => (
-          <span key={w}>{w}</span>
-        ))}
-      </div>
-      <div className="mt-1 grid grid-cols-7 gap-1">
-        {cells.map((d, index) => {
-          if (d === null) return <span key={`lead-${index}`} />;
-          const date = iso(d);
-          const stays = staysOn(date);
-          const confirmed = stays.some((s) => s.status === "CONFIRMED");
-          const pending = stays.some((s) => s.status !== "CONFIRMED");
-          const clash = stays.length > 1;
-          return (
-            <button
-              key={date}
-              type="button"
-              onClick={() => setSelected(date === selected ? null : date)}
-              aria-pressed={date === selected}
-              aria-label={`${d} — ${stays.length ? stays.map((s) => s.name).join(", ") : "libre"}`}
-              className={
-                "relative flex aspect-square min-h-11 flex-col items-center justify-center rounded-lg text-sm tabular-nums transition-colors " +
-                (confirmed
-                  ? "bg-[var(--terracotta)] font-semibold text-white"
-                  : pending
-                    ? "bg-[#f6e8cf] font-medium text-[#74500f]"
-                    : "hover:bg-muted") +
-                (date === selected ? " ring-2 ring-[var(--onyx)] ring-offset-1" : "") +
-                (date === today ? " underline decoration-2 underline-offset-4" : "")
-              }
-            >
-              {d}
-              {clash && <span className="absolute end-1 top-1 h-2 w-2 rounded-full bg-[#8f3d22] ring-1 ring-white" aria-hidden="true" />}
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
-        <span className="flex items-center gap-2"><span className="h-3 w-3 rounded bg-[var(--terracotta)]" /> Confirmé</span>
-        <span className="flex items-center gap-2"><span className="h-3 w-3 rounded bg-[#f6e8cf]" /> En attente</span>
-        <span className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-[#8f3d22]" /> Plusieurs demandes</span>
-      </div>
-
-      {selected && (
-        <div className="mt-4 border-t border-border pt-4">
-          <p className="font-medium">{day(selected, true)}</p>
-          {selectedStays.length === 0 ? (
-            <p className="mt-1 text-sm text-muted-foreground">Nuit libre.</p>
-          ) : (
-            <ul className="mt-2 space-y-2">
-              {selectedStays.map((s) => (
-                <li key={s.id}>
-                  <button type="button" onClick={() => onOpen(s.id)} className="flex min-h-11 w-full items-center justify-between gap-3 rounded-lg border border-border px-3 py-2 text-start hover:bg-muted">
-                    <span>
-                      <span className="block font-medium">{s.name}</span>
-                      <span className="block text-sm text-muted-foreground">
-                        {day(s.arrival)} → {day(s.departure)} · {s.guests} invités
-                      </span>
-                    </span>
-                    <span className={`admin-pill ${STATUS[s.status].pill}`}>{STATUS[s.status].label}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
-    </section>
   );
 }
 
