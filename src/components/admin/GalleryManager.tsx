@@ -78,7 +78,7 @@ export function GalleryManager({
                 setFilter(f.id);
                 setVisible(PAGE);
               }}
-              className="admin-tab shrink-0 border border-border bg-card"
+              className="admin-tab admin-chip shrink-0"
             >
               {f.label}
               <span className="tabular-nums opacity-70">{f.count}</span>

@@ -10,14 +10,14 @@ import { CATEGORY_OPTIONS } from "./gallery-categories";
  * is uploaded on its own so one failure does not lose the rest, and the URLs
  * are recorded in one go at the end.
  */
-export function GalleryUploader() {
+export function GalleryUploader({ suiteId }: { suiteId?: string } = {}) {
   const input = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const [failed, setFailed] = useState<string[]>([]);
   const [saving, startSaving] = useTransition();
-  const [category, setCategory] = useState<string>("rdc");
+  const [category, setCategory] = useState<string>(suiteId ? "suites" : "rdc");
 
   async function upload(files: File[]) {
     setBusy(true);
@@ -49,6 +49,7 @@ export function GalleryUploader() {
     if (urls.length > 0) {
       const form = new FormData();
       form.set("category", category);
+      if (suiteId) form.set("suiteId", suiteId);
       for (const url of urls) form.append("imageUrl", url);
       startSaving(async () => {
         await addGalleryImages({}, form);
@@ -64,7 +65,7 @@ export function GalleryUploader() {
 
   return (
     <div className="admin-card border-dashed p-4 sm:p-5">
-      <p className="mb-3 font-semibold">Ajouter des photos</p>
+      <p className="mb-3 font-semibold">{suiteId ? "Envoyer de nouvelles photos" : "Ajouter des photos"}</p>
       <input
         ref={input}
         type="file"
@@ -78,6 +79,7 @@ export function GalleryUploader() {
       />
 
       <div className="flex flex-wrap items-center gap-3">
+        {!suiteId && (
         <label className="flex items-center gap-2 text-sm">
           <span className="text-muted-foreground">Espace</span>
           <select
@@ -93,13 +95,14 @@ export function GalleryUploader() {
             ))}
           </select>
         </label>
+        )}
         <button
           type="button"
           disabled={working}
           onClick={() => input.current?.click()}
           className="admin-button"
         >
-          {working ? "Envoi…" : "Ajouter des photos"}
+          {working ? "Envoi…" : suiteId ? "Choisir sur l'appareil" : "Ajouter des photos"}
         </button>
       </div>
 
@@ -110,8 +113,9 @@ export function GalleryUploader() {
       )}
 
       <p className="mt-3 text-sm text-muted-foreground">
-        JPEG, PNG, WebP ou AVIF — 20 Mo par photo. Pensez à écrire la
-        description de chaque photo ensuite.
+        {suiteId
+          ? "Elles s'ajoutent à la fin de cette suite et à la galerie (espace Suites). JPEG, PNG, WebP ou AVIF — 20 Mo par photo."
+          : "JPEG, PNG, WebP ou AVIF — 20 Mo par photo. Pensez à écrire la description de chaque photo ensuite."}
       </p>
 
       {failed.length > 0 && (

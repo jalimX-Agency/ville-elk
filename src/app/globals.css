@@ -394,7 +394,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    min-height: 2.5rem;
+    min-height: 2.75rem;
     padding: 0 1rem;
     border-radius: 999px;
     font-size: 0.875rem;
@@ -409,5 +409,14 @@ body {
   .admin-tab[aria-pressed="true"] {
     background: var(--onyx);
     color: #f5efe6;
+  }
+  /* A filter chip: a tab with its own outline, for rows of filters on the page background. */
+  .admin-chip {
+    border: 1px solid var(--border);
+    background: var(--card);
+  }
+  .admin-chip[aria-pressed="true"] {
+    border-color: var(--onyx);
+    background: var(--onyx);
   }
 }

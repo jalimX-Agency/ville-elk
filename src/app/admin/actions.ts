@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db/client";
 import { signIn, signOut } from "@/auth";
 import { requireUser, refreshPublicPages } from "./guard";
-import { deleteImage } from "@/lib/storage/r2";
+import { deleteUnusedImage } from "@/lib/storage/cleanup";
 import { isGalleryCategory } from "@/lib/content/types";
 
 export type LoginState = { error?: string };
@@ -68,7 +68,7 @@ export async function saveAmenity(_state: AmenityState, formData: FormData): Pro
   // The old photograph is now unreferenced; leaving it would cost storage for
   // every replacement the owner ever makes.
   if (previous?.imageUrl && previous.imageUrl !== imageUrl) {
-    await deleteImage(previous.imageUrl);
+    await deleteUnusedImage(previous.imageUrl);
   }
 
   refreshPublicPages();
@@ -217,7 +217,7 @@ export async function saveSuite(_state: SuiteState, formData: FormData): Promise
   });
 
   if (previous?.imageUrl && previous.imageUrl !== imageUrl) {
-    await deleteImage(previous.imageUrl);
+    await deleteUnusedImage(previous.imageUrl);
   }
 
   refreshPublicPages();
@@ -254,6 +254,7 @@ export async function toggleGalleryImage(formData: FormData) {
   await db.galleryImage.update({ where: { id }, data: { published: !photo.published } });
   refreshPublicPages();
   revalidatePath("/admin/galerie");
+  revalidatePath("/admin/suites", "layout");
 }
 
 export async function moveGalleryImage(formData: FormData) {
@@ -261,6 +262,7 @@ export async function moveGalleryImage(formData: FormData) {
   await swapPosition("galleryImage", String(formData.get("id") ?? ""), formData.get("direction"));
   refreshPublicPages();
   revalidatePath("/admin/galerie");
+  revalidatePath("/admin/suites", "layout");
 }
 
 export async function deleteGalleryImage(formData: FormData) {
@@ -271,10 +273,11 @@ export async function deleteGalleryImage(formData: FormData) {
   if (!photo) return;
 
   await db.galleryImage.delete({ where: { id } });
-  await deleteImage(photo.imageUrl);
+  await deleteUnusedImage(photo.imageUrl);
 
   refreshPublicPages();
   revalidatePath("/admin/galerie");
+  revalidatePath("/admin/suites", "layout");
 }
 
 export type GalleryState = { error?: string; added?: number };
@@ -292,19 +295,26 @@ export async function addGalleryImages(
   const raw = String(formData.get("category") ?? "");
   const category = isGalleryCategory(raw) ? raw : "rdc";
 
+  // Photos sent from a suite's page belong to that suite straight away.
+  const suiteId = String(formData.get("suiteId") ?? "") || null;
+  if (suiteId && !(await db.suite.findUnique({ where: { id: suiteId }, select: { id: true } }))) {
+    return { error: "Cette suite n'existe plus." };
+  }
+
   const last = await db.galleryImage.findFirst({ orderBy: { position: "desc" } });
   let position = (last?.position ?? 0) + 1;
 
   for (const imageUrl of urls) {
     // Alt text starts empty; the owner writes it on the row.
     await db.galleryImage.create({
-      data: { imageUrl, position, category, altFr: "", altEn: "", altEs: "", altAr: "" },
+      data: { imageUrl, position, category, suiteId, altFr: "", altEn: "", altEs: "", altAr: "" },
     });
     position += 1;
   }
 
   refreshPublicPages();
   revalidatePath("/admin/galerie");
+  revalidatePath("/admin/suites", "layout");
   return { added: urls.length };
 }
 
@@ -345,5 +355,6 @@ export async function saveGalleryAlt(
 
   refreshPublicPages();
   revalidatePath("/admin/galerie");
+  revalidatePath("/admin/suites", "layout");
   return { saved: true };
 }

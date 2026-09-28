@@ -43,8 +43,8 @@ export function SuiteForm({ suite }: { suite: Values }) {
         <section className="admin-card p-4 sm:p-6 lg:col-span-3">
           <h2 className="font-semibold">Photo principale</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Sur la page Suites et dans « les autres suites ». Les photos de la
-            page de la suite se choisissent dans la Galerie.
+            Sur la page Suites et dans « les autres suites ». Vous pouvez aussi
+            choisir une des photos ci-dessus avec « Photo principale ».
           </p>
           <ImageField name="imageUrl" folder="suites" initialUrl={suite.imageUrl} />
         </section>

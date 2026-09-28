@@ -9,7 +9,8 @@ import { getDefaultDictionary } from "@/lib/i18n/get-dictionary";
 import { getAt } from "@/lib/content/dictionary-paths";
 import { isSectionKey, sectionFields } from "@/lib/content/site-sections";
 import { SETTING_DEFAULTS, isSettingKey } from "@/lib/content/site";
-import { deleteImage, isStoredImage } from "@/lib/storage/r2";
+import { isStoredImage } from "@/lib/storage/r2";
+import { deleteUnusedImage } from "@/lib/storage/cleanup";
 import { requireUser, refreshPublicPages } from "./guard";
 
 export type FormState = { error?: string; saved?: boolean };
@@ -104,8 +105,7 @@ export async function saveSettings(_state: FormState, formData: FormData): Promi
     if (previous && previous !== value && isStoredImage(previous)) replacedImages.push(previous);
   }
 
-  const stillUsed = new Set((await db.siteSetting.findMany()).map((row) => row.value));
-  for (const url of replacedImages) if (!stillUsed.has(url)) await deleteImage(url);
+  for (const url of replacedImages) await deleteUnusedImage(url);
 
   refreshPublicPages();
   revalidatePath("/admin/reglages");
@@ -145,7 +145,7 @@ export async function deleteAmenity(formData: FormData) {
   const amenity = await db.amenity.findUnique({ where: { id } });
   if (!amenity) return;
   await db.amenity.delete({ where: { id } });
-  if (amenity.imageUrl) await deleteImage(amenity.imageUrl);
+  await deleteUnusedImage(amenity.imageUrl);
   refreshPublicPages();
   redirect("/admin/prestations");
 }
@@ -187,7 +187,7 @@ export async function deleteSuite(formData: FormData) {
   if (!suite) return;
   // Its gallery photographs stay in the gallery; the relation is cleared.
   await db.suite.delete({ where: { id } });
-  if (suite.imageUrl) await deleteImage(suite.imageUrl);
+  await deleteUnusedImage(suite.imageUrl);
   refreshPublicPages();
   redirect("/admin/suites");
 }

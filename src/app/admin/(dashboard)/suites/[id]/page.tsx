@@ -5,6 +5,7 @@ import { db } from "@/lib/db/client";
 import { SuiteForm } from "@/components/admin/SuiteForm";
 import { DeleteButton } from "@/components/admin/DeleteButton";
 import { deleteSuite } from "@/app/admin/site-actions";
+import { SuitePhotos } from "@/components/admin/SuitePhotos";
 
 export default async function EditSuitePage({
   params,
@@ -12,8 +13,37 @@ export default async function EditSuitePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const suite = await db.suite.findUnique({ where: { id } });
+  const [suite, gallery] = await Promise.all([
+    db.suite.findUnique({ where: { id } }),
+    db.galleryImage.findMany({
+      orderBy: { position: "asc" },
+      include: { suite: { select: { nameFr: true } } },
+    }),
+  ]);
   if (!suite) notFound();
+
+  const photos = gallery
+    .filter((p) => p.suiteId === suite.id)
+    .map((p) => ({
+      id: p.id,
+      imageUrl: p.imageUrl,
+      category: p.category,
+      suiteId: p.suiteId,
+      published: p.published,
+      altFr: p.altFr,
+      altEn: p.altEn,
+      altEs: p.altEs,
+      altAr: p.altAr,
+    }));
+  const library = gallery
+    .filter((p) => p.suiteId !== suite.id)
+    .map((p) => ({
+      id: p.id,
+      imageUrl: p.imageUrl,
+      category: p.category,
+      altFr: p.altFr,
+      suiteName: p.suite?.nameFr ?? null,
+    }));
 
   return (
     <>
@@ -29,7 +59,17 @@ export default async function EditSuitePage({
           ) : undefined
         }
       />
-      <SuiteForm suite={suite} />
+      <div className="space-y-4">
+        <SuitePhotos
+          suiteId={suite.id}
+          suiteName={suite.nameFr}
+          coverUrl={suite.imageUrl}
+          photos={photos}
+          library={library}
+        />
+        {/* Remounts when a photo is made the main one, so the field shows it. */}
+        <SuiteForm key={suite.imageUrl ?? ""} suite={suite} />
+      </div>
       <DeleteButton action={deleteSuite} id={suite.id} what="cette suite" />
     </>
   );
