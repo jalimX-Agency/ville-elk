@@ -32,7 +32,20 @@ export async function POST(request: Request) {
   }
 
   const folder = String(form.get("folder") ?? "").replace(/[^a-z0-9-]/g, "") || "uploads";
-  const url = await uploadImage(bytes, kind, folder);
-
-  return Response.json({ url });
+  try {
+    const url = await uploadImage(bytes, kind, folder);
+    return Response.json({ url });
+  } catch (error) {
+    // The owner sees a sentence; the logs keep the detail for whoever fixes it.
+    console.error("Photo upload failed", error);
+    const message = error instanceof Error ? error.message : "";
+    return Response.json(
+      {
+        error: / is not set$/.test(message)
+          ? `Le stockage des photos n'est pas configuré sur le serveur (${message.replace(" is not set", "")} manquant).`
+          : "Le stockage des photos a refusé l'envoi. Réessayez dans un instant.",
+      },
+      { status: 500 },
+    );
+  }
 }

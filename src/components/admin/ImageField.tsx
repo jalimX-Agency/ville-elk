@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import { uploadPhoto } from "./upload";
 
 /**
  * The owner picks a file; it goes straight to storage and the returned URL is
@@ -25,19 +26,9 @@ export function ImageField({
     setError(null);
     setUploading(true);
     try {
-      const body = new FormData();
-      body.set("file", file);
-      body.set("folder", folder);
-
-      const response = await fetch("/api/admin/upload", { method: "POST", body });
-      const result = (await response.json()) as { url?: string; error?: string };
-      if (!response.ok || !result.url) {
-        setError(result.error ?? "L'envoi a échoué.");
-        return;
-      }
-      setUrl(result.url);
-    } catch {
-      setError("L'envoi a échoué. Vérifiez votre connexion.");
+      const result = await uploadPhoto(file, folder);
+      if ("error" in result) setError(result.error);
+      else setUrl(result.url);
     } finally {
       setUploading(false);
       // Let the same file be chosen again after a failure.

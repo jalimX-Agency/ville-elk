@@ -4,6 +4,7 @@ import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { addGalleryImages } from "@/app/admin/actions";
 import { CATEGORY_OPTIONS } from "./gallery-categories";
+import { uploadPhoto } from "./upload";
 import { SpaceSelect } from "./SpaceSelect";
 
 /**
@@ -30,17 +31,9 @@ export function GalleryUploader({ suiteId }: { suiteId?: string } = {}) {
     const errors: string[] = [];
 
     for (const [index, file] of files.entries()) {
-      const body = new FormData();
-      body.set("file", file);
-      body.set("folder", "galerie");
-      try {
-        const response = await fetch("/api/admin/upload", { method: "POST", body });
-        const result = (await response.json()) as { url?: string; error?: string };
-        if (response.ok && result.url) urls.push(result.url);
-        else errors.push(`${file.name} — ${result.error ?? "échec"}`);
-      } catch {
-        errors.push(`${file.name} — échec de l'envoi`);
-      }
+      const result = await uploadPhoto(file, "galerie");
+      if ("error" in result) errors.push(`${file.name} — ${result.error}`);
+      else urls.push(result.url);
       setProgress({ done: index + 1, total: files.length });
     }
 
