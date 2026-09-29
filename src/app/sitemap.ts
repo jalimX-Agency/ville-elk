@@ -4,6 +4,7 @@ import { hrefFor, pageSlugs, suiteHref, type PageKey } from "@/lib/i18n/routes";
 import { getSuiteSlugs } from "@/lib/content/rooms";
 
 const BASE = "https://www.villaelk.com";
+const LEGAL_PAGES: PageKey[] = ["legal", "privacy"];
 
 /**
  * Every page in every language, each one declaring the other three, so search
@@ -25,8 +26,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     locales.map((locale) => ({
       url: `${BASE}${hrefFor(page, locale)}`,
       lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: locale === "fr" ? 0.9 : 0.7,
+      changeFrequency: LEGAL_PAGES.includes(page) ? ("yearly" as const) : ("monthly" as const),
+      priority: LEGAL_PAGES.includes(page) ? 0.2 : locale === "fr" ? 0.9 : 0.7,
       alternates: { languages: alternates((l) => hrefFor(page, l)) },
     })),
   );

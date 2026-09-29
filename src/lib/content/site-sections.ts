@@ -18,6 +18,7 @@ export const SECTIONS = [
   { key: "concierge", title: "Page Conciergerie", hint: "Le « menu » des services de conciergerie. La photo se change dans « Réglages »." },
   { key: "activities", title: "Page Activités", hint: "Le titre, l'introduction et les boutons de la page. Les lieux eux-mêmes se modifient dans « Activités »." },
   { key: "contact", title: "Contact", hint: "Les textes de la page contact. Le numéro et l'email se modifient dans « Réglages »." },
+  { key: "faq", title: "Accueil — questions fréquentes", hint: "Les questions et réponses en bas de la page d'accueil. Google et les assistants IA les lisent aussi : gardez des réponses courtes et précises." },
   { key: "meta", title: "Google — page d'accueil", hint: "Le titre et la description qui apparaissent dans les résultats de recherche." },
   { key: "nav", title: "Menu", hint: "Les liens du menu en haut de chaque page." },
   { key: "footer", title: "Pied de page", hint: "" },
@@ -176,10 +177,27 @@ const WORDS: Record<string, string> = {
   exclusive: "Réservé aux clients",
   terms: "Conditions",
   imageAlt: "Description de la photo",
+  question: "Question",
+  answer: "Réponse",
+  responseTime: "Délai de réponse",
+  whatsappLabel: "Nom WhatsApp",
+  emailLabel: "Nom Email",
+  instagramLabel: "Nom Instagram",
+  directionsCta: "Bouton itinéraire",
+  mapTitle: "Description de la carte (lecteurs d'écran)",
+  plusCodeLabel: "Mot « Plus Code »",
+  gettingThereTitle: "Titre « Venir à la villa »",
+  distance: "Distance et durée",
+  transferNote: "Note transfert aéroport",
+  bookTitle: "Titre au-dessus du bouton Réserver",
+  consent: "Phrase sous le formulaire (données)",
+  consentLink: "Lien politique de confidentialité",
+  legal: "Lien mentions légales",
+  privacy: "Lien politique de confidentialité",
 };
 
 /** Names for the numbered entries of a list: "Rubrique 2 — Service 1 — Nom". */
-const INDEXED: Record<string, string> = { places: "Lieu", groups: "Rubrique", items: "Service" };
+const INDEXED: Record<string, string> = { places: "Lieu", groups: "Rubrique", items: "Service", questions: "Question", gettingThere: "Trajet" };
 
 const GROUPS: Record<string, string> = {
   meta: "Google",

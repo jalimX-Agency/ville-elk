@@ -178,6 +178,8 @@ export const en = {
       fewer: "Fewer guests",
       more: "More guests",
       datePlaceholder: "Select",
+      consent: "We use these details only to answer your request and prepare your stay.",
+      consentLink: "Privacy policy",
     },
     wizard: {
       step: "Step",
@@ -225,6 +227,31 @@ export const en = {
     whatsappCta: "Message on WhatsApp",
     emailCta: "Send an email",
     mapCta: "View on Google Maps",
+    responseTime: "Reply within 24 hours",
+    whatsappLabel: "WhatsApp",
+    emailLabel: "Email",
+    instagramLabel: "Instagram",
+    directionsCta: "Directions to the villa",
+    mapTitle: "Villa Elk on the map of Marrakech",
+    plusCodeLabel: "Plus Code",
+    gettingThereTitle: "Getting to the villa",
+    gettingThere: [
+      {
+        label: "Marrakech-Menara Airport",
+        distance: "6 km · 12 to 15 min",
+      },
+      {
+        label: "Jemaa el-Fna square and the medina",
+        distance: "7 km · 15 to 20 min",
+      },
+      {
+        label: "Noria & Argan golf courses",
+        distance: "3 min",
+      },
+    ],
+    transferNote: "Private airport transfer on request: our concierge will pick you up.",
+    conciergeCta: "See the concierge service",
+    bookTitle: "Know your dates?",
   },
   stay: {
     eyebrow: "Rates",
@@ -357,6 +384,49 @@ export const en = {
     conciergeCta: "Discover the concierge",
     homeLink: "Things to do around the villa",
   },
+  faq: {
+    eyebrow: "Frequently asked questions",
+    title: "Good to know before you book",
+    intro: "Answers to the questions we are asked most. For anything else, write to us: we reply within 24 hours.",
+    questions: [
+      {
+        question: "Where is Villa Elk?",
+        answer: "Villa Elk is a private villa at Golf Argan Resort, in the Agdal district of Marrakech (Plus Code HXFX+F99). It is 12 minutes from Marrakech-Menara Airport and about 15 minutes from Jemaa el-Fna square.",
+      },
+      {
+        question: "How many guests can the villa host?",
+        answer: "The villa has four suites and hosts up to 10 guests, over four levels: a wellness basement (hammam, cinema, gym), the ground floor with the pool, the suites upstairs and the rooftop.",
+      },
+      {
+        question: "How much is a night?",
+        answer: "From 3,700 MAD a night, about €350. Tourist tax is added: 31 MAD per person per night, about €3.",
+      },
+      {
+        question: "Is there a minimum stay?",
+        answer: "Yes: 3 nights minimum, to guarantee an exclusive experience.",
+      },
+      {
+        question: "What is included?",
+        answer: "Private pool, hammam, cinema, gym, Moroccan rooftop with a pizza oven, wifi, air conditioning, home automation, security cameras and housekeeping. A chef is available on request.",
+      },
+      {
+        question: "What are check-in and check-out times?",
+        answer: "Check-in from 3 pm, check-out by 11 am. For another time, mention it in your request.",
+      },
+      {
+        question: "How do I book?",
+        answer: "Pick your dates on the Booking page, which shows availability, then send your request. We reply within 24 hours; the booking is confirmed by a booking form sent by email.",
+      },
+      {
+        question: "Do you arrange airport transfers?",
+        answer: "Yes. Our concierge arranges private transfers to and from the airport, as well as a driver, excursions and a private chef, on request.",
+      },
+      {
+        question: "Which languages does the team speak?",
+        answer: "The team speaks Arabic, French and English, on WhatsApp, by email or in person.",
+      },
+    ],
+  },
   theme: {
     toDark: "Switch to dark mode",
     toLight: "Switch to light mode",
@@ -364,5 +434,7 @@ export const en = {
   footer: {
     description: "Villa Elk — Golf Argan Resort, Agdal, Marrakech.",
     rights: "All rights reserved.",
+    legal: "Legal notice",
+    privacy: "Privacy policy",
   },
 } satisfies Dictionary;

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MessageCircle, Mail, AtSign, MapPin } from "lucide-react";
-import { isLocale, locales, type Locale } from "@/lib/i18n/locales";
+import { isLocale, type Locale } from "@/lib/i18n/locales";
 import { getDictionary } from "@/lib/content/site";
 import { allPageParams, hrefFor, pageForSlug, type PageKey } from "@/lib/i18n/routes";
 import { BookingForm } from "@/components/villa/BookingForm";
@@ -10,13 +9,14 @@ import { SuitesList } from "@/components/villa/SuitesList";
 import { GalleryGrid } from "@/components/villa/GalleryGrid";
 import { getGallery, getSuites } from "@/lib/content/rooms";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
-import { VILLA_GEO, VILLA_LOCATION } from "@/lib/content/location";
 import { getContact } from "@/lib/content/site";
+import { LEGAL } from "@/lib/content/legal";
+import { SITE, breadcrumbSchema, jsonLd, pageMetadata, villaSchema } from "@/lib/seo";
+import { ContactPage } from "@/components/villa/ContactPage";
+import { LegalPage } from "@/components/villa/LegalPage";
 import { ConciergePage } from "@/components/villa/ConciergePage";
 import { ActivitiesPage } from "@/components/villa/ActivitiesPage";
 import { StayFacts } from "@/components/villa/StayFacts";
-
-const SITE = "https://www.villaelk.com";
 
 /**
  * One route for every page below the home page, because each language has its
@@ -34,7 +34,7 @@ function resolve(locale: string, slug: string): { locale: Locale; page: PageKey 
 }
 
 /** Each page's own title and description, so no two share one. */
-function metaFor(page: PageKey, dict: Dictionary) {
+function metaFor(page: PageKey, dict: Dictionary, locale: Locale) {
   switch (page) {
     case "suites":
       return dict.suites.meta;
@@ -48,6 +48,31 @@ function metaFor(page: PageKey, dict: Dictionary) {
       return dict.concierge.meta;
     case "activities":
       return dict.activities.meta;
+    case "legal":
+    case "privacy":
+      return LEGAL[locale][page];
+  }
+}
+
+/** What the page is called in the breadcrumb search results show. */
+function crumbFor(page: PageKey, dict: Dictionary): string {
+  switch (page) {
+    case "suites":
+      return dict.nav.rooms;
+    case "gallery":
+      return dict.nav.gallery;
+    case "contact":
+      return dict.nav.contact;
+    case "booking":
+      return dict.nav.bookNow;
+    case "concierge":
+      return dict.nav.concierge;
+    case "activities":
+      return dict.nav.activities;
+    case "legal":
+      return dict.footer.legal;
+    case "privacy":
+      return dict.footer.privacy;
   }
 }
 
@@ -61,25 +86,15 @@ export async function generateMetadata({
   if (!resolved) return {};
 
   const dict = await getDictionary(resolved.locale);
-  const meta = metaFor(resolved.page, dict);
+  const meta = metaFor(resolved.page, dict, resolved.locale);
+  const page = resolved.page;
 
-  return {
-    metadataBase: new URL(SITE),
+  return pageMetadata({
     title: meta.title,
     description: meta.description,
-    alternates: {
-      canonical: hrefFor(resolved.page, resolved.locale),
-      // Each language points at its own slug, so search engines pair the four.
-      languages: Object.fromEntries(locales.map((l) => [l, hrefFor(resolved.page, l)])),
-    },
-    openGraph: {
-      title: meta.title,
-      description: meta.description,
-      url: `${SITE}${hrefFor(resolved.page, resolved.locale)}`,
-      siteName: "Villa Elk",
-      images: [{ url: "/images/villa-elk/og.jpg", width: 1200, height: 630 }],
-    },
-  };
+    locale: resolved.locale,
+    path: (l) => hrefFor(page, l),
+  });
 }
 
 export default async function LocalePage({
@@ -92,20 +107,37 @@ export default async function LocalePage({
   if (!resolved) notFound();
 
   const dict = await getDictionary(resolved.locale);
+  const crumbs = jsonLd(
+    breadcrumbSchema(resolved.locale, [
+      { name: crumbFor(resolved.page, dict), path: hrefFor(resolved.page, resolved.locale) },
+    ]),
+  );
 
-  switch (resolved.page) {
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: crumbs }} />
+      <PageBody page={resolved.page} dict={dict} locale={resolved.locale} />
+    </>
+  );
+}
+
+function PageBody({ page, dict, locale }: { page: PageKey; dict: Dictionary; locale: Locale }) {
+  switch (page) {
     case "suites":
-      return <SuitesPage dict={dict} locale={resolved.locale} />;
+      return <SuitesPage dict={dict} locale={locale} />;
     case "gallery":
-      return <GalleryPage dict={dict} locale={resolved.locale} />;
+      return <GalleryPage dict={dict} locale={locale} />;
     case "contact":
-      return <ContactPage dict={dict} locale={resolved.locale} />;
+      return <ContactPage dict={dict} locale={locale} />;
     case "booking":
-      return <BookingPage dict={dict} locale={resolved.locale} />;
+      return <BookingPage dict={dict} locale={locale} />;
     case "concierge":
-      return <ConciergePage dict={dict} locale={resolved.locale} />;
+      return <ConciergePage dict={dict} locale={locale} />;
     case "activities":
-      return <ActivitiesPage dict={dict} locale={resolved.locale} />;
+      return <ActivitiesPage dict={dict} locale={locale} />;
+    case "legal":
+    case "privacy":
+      return <LegalPage dict={dict} locale={locale} doc={page} />;
   }
 }
 
@@ -163,126 +195,23 @@ async function GalleryPage({ dict, locale }: { dict: Dictionary; locale: Locale 
   );
 }
 
-async function ContactPage({ dict, locale }: { dict: Dictionary; locale: Locale }) {
-  const CONTACT = await getContact();
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "LodgingBusiness",
-    name: "Villa Elk",
-    url: `${SITE}/${locale}`,
-    email: CONTACT.email,
-    telephone: `+${CONTACT.whatsapp}`,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Golf Argan Resort, extension, Villa 2",
-      addressLocality: "Agdal, Marrakech",
-      addressCountry: "MA",
-    },
-    geo: VILLA_GEO,
-    hasMap: VILLA_LOCATION.mapsUrl,
-  };
-
-  return (
-    <section className={SECTION}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
-      <PageHead
-        eyebrow={dict.contact.eyebrow}
-        title={dict.contact.title}
-        intro={dict.contact.description}
-      />
-
-      <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-x-16">
-        <div className="lg:col-span-7">
-          <h2 className="eyebrow text-muted-foreground">{dict.contact.reachTitle}</h2>
-          <ul className="mt-6 space-y-5">
-            <li>
-              <a
-                href={`https://wa.me/${CONTACT.whatsapp}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-quiet"
-              >
-                <MessageCircle className="h-4 w-4" />
-                {dict.contact.whatsappCta}
-              </a>
-            </li>
-            <li>
-              <a href={`mailto:${CONTACT.email}`} className="btn-quiet">
-                <Mail className="h-4 w-4" />
-                {dict.contact.emailCta}
-              </a>
-            </li>
-            <li>
-              <a
-                href={`https://instagram.com/${CONTACT.instagram}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-quiet"
-              >
-                <AtSign className="h-4 w-4" />
-                {dict.contact.instagramCta}
-              </a>
-            </li>
-          </ul>
-
-          <p className="body-copy mt-10 border-s-2 border-accent ps-4">{dict.stay.languages}</p>
-
-          <Link href={hrefFor("booking", locale)} className="btn-primary mt-10">
-            {dict.nav.bookNow}
-          </Link>
-        </div>
-
-        <aside className="lg:col-span-5">
-          <div className="border-t border-border pt-6">
-            <h2 className="eyebrow text-muted-foreground">{dict.contact.addressTitle}</h2>
-            <p className="body-copy mt-5 flex gap-3 whitespace-pre-line">
-              <MapPin className="mt-1 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-              {dict.contact.address}
-            </p>
-            <a href={VILLA_LOCATION.mapsUrl} target="_blank" rel="noopener noreferrer" className="btn-quiet mt-5">
-              {dict.contact.mapCta}
-            </a>
-          </div>
-        </aside>
-      </div>
-    </section>
-  );
-}
-
 async function BookingPage({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const CONTACT = await getContact();
   const copy = dict.reserve;
   const href = hrefFor("booking", locale);
 
-  const schema = {
-    "@context": "https://schema.org",
+  const schema = jsonLd({
     "@type": "ReserveAction",
     name: copy.title,
     target: `${SITE}${href}`,
-    object: {
-      "@type": "LodgingBusiness",
-      name: "Villa Elk",
-      url: `${SITE}/${locale}`,
-      email: CONTACT.email,
-      telephone: `+${CONTACT.whatsapp}`,
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "Golf Argan Resort, extension, Villa 2",
-        addressLocality: "Agdal, Marrakech",
-        addressCountry: "MA",
-      },
-      geo: VILLA_GEO,
-    },
-  };
+    object: villaSchema(locale, dict, CONTACT),
+  });
 
   return (
     <section className={SECTION}>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: schema }}
       />
       <PageHead eyebrow={copy.eyebrow} title={copy.title} intro={copy.intro} />
 

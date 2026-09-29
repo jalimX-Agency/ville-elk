@@ -3,6 +3,7 @@ import { Antic_Didone, Albert_Sans, IBM_Plex_Mono, Amiri, IBM_Plex_Sans_Arabic }
 import { notFound } from "next/navigation";
 import { locales, localeDirections, isLocale, type Locale } from "@/lib/i18n/locales";
 import { getDictionary } from "@/lib/content/site";
+import { pageMetadata } from "@/lib/seo";
 import { Navigation } from "@/components/villa/Navigation";
 import { Footer } from "@/components/villa/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -62,28 +63,12 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
   const dict = await getDictionary(locale);
 
-  return {
-    metadataBase: new URL("https://www.villaelk.com"),
+  return pageMetadata({
     title: dict.meta.title,
     description: dict.meta.description,
-    alternates: {
-      canonical: `/${locale}`,
-      languages: Object.fromEntries(locales.map((l) => [l, `/${l}`])),
-    },
-    openGraph: {
-      title: dict.meta.title,
-      description: dict.meta.description,
-      url: `https://www.villaelk.com/${locale}`,
-      siteName: "Villa Elk",
-      images: [
-        {
-          url: "/images/villa-elk/og.jpg",
-          width: 1200,
-          height: 630,
-        },
-      ],
-    },
-  };
+    locale,
+    path: (l) => `/${l}`,
+  });
 }
 
 export default async function LocaleLayout({
@@ -112,7 +97,7 @@ export default async function LocaleLayout({
             <div className="flex min-h-screen flex-col">
               <Navigation locale={locale as Locale} dict={dict} />
               <main className="flex-1">{children}</main>
-              <Footer dict={dict} />
+              <Footer dict={dict} locale={locale as Locale} />
             </div>
           </SmoothScroll>
           <ThemeToggle labels={dict.theme} />

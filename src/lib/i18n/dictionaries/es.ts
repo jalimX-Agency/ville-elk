@@ -178,6 +178,8 @@ export const es = {
       fewer: "Menos huéspedes",
       more: "Más huéspedes",
       datePlaceholder: "Elegir",
+      consent: "Usamos estos datos únicamente para responder a su solicitud y preparar su estancia.",
+      consentLink: "Política de privacidad",
     },
     wizard: {
       step: "Paso",
@@ -225,6 +227,31 @@ export const es = {
     whatsappCta: "Escribir por WhatsApp",
     emailCta: "Enviar un email",
     mapCta: "Ver en Google Maps",
+    responseTime: "Respuesta en 24 horas",
+    whatsappLabel: "WhatsApp",
+    emailLabel: "Email",
+    instagramLabel: "Instagram",
+    directionsCta: "Cómo llegar a la villa",
+    mapTitle: "Villa Elk en el mapa de Marrakech",
+    plusCodeLabel: "Plus Code",
+    gettingThereTitle: "Llegar a la villa",
+    gettingThere: [
+      {
+        label: "Aeropuerto Marrakech-Menara",
+        distance: "6 km · 12 a 15 min",
+      },
+      {
+        label: "Plaza Jemaa el-Fna y la medina",
+        distance: "7 km · 15 a 20 min",
+      },
+      {
+        label: "Golfs Noria y Argan",
+        distance: "3 min",
+      },
+    ],
+    transferNote: "Traslado privado desde el aeropuerto bajo petición: nuestra conserjería le recoge.",
+    conciergeCta: "Ver la conserjería",
+    bookTitle: "¿Ya tiene sus fechas?",
   },
   stay: {
     eyebrow: "Tarifas",
@@ -357,6 +384,49 @@ export const es = {
     conciergeCta: "Descubrir la conserjería",
     homeLink: "Actividades alrededor de la villa",
   },
+  faq: {
+    eyebrow: "Preguntas frecuentes",
+    title: "Lo que conviene saber antes de reservar",
+    intro: "Las respuestas a las preguntas que más nos hacen. Para lo demás, escríbanos: respondemos en 24 horas.",
+    questions: [
+      {
+        question: "¿Dónde está Villa Elk?",
+        answer: "Villa Elk es una villa privada en Golf Argan Resort, en el barrio de Agdal de Marrakech (Plus Code HXFX+F99). Está a 12 minutos del aeropuerto Marrakech-Menara y a unos 15 minutos de la plaza Jemaa el-Fna.",
+      },
+      {
+        question: "¿Cuántas personas puede alojar la villa?",
+        answer: "La villa tiene cuatro suites y aloja hasta 10 huéspedes, en cuatro niveles: sótano de bienestar (hammam, cine, gimnasio), planta baja con la piscina, planta alta con las suites y azotea.",
+      },
+      {
+        question: "¿Cuánto cuesta una noche?",
+        answer: "Desde 3.700 DH la noche, unos 350 €. Se añade la tasa turística: 31 DH por persona y noche, unos 3 €.",
+      },
+      {
+        question: "¿Hay una estancia mínima?",
+        answer: "Sí: 3 noches como mínimo, para garantizar una experiencia exclusiva.",
+      },
+      {
+        question: "¿Qué está incluido?",
+        answer: "Piscina privada, hammam, cine, gimnasio, azotea marroquí con horno de pizza, wifi, aire acondicionado, domótica, cámaras de seguridad y servicio de limpieza. Hay un chef disponible bajo petición.",
+      },
+      {
+        question: "¿A qué hora son la llegada y la salida?",
+        answer: "Llegada a partir de las 15 h, salida antes de las 11 h. Si necesita otro horario, indíquelo en su solicitud.",
+      },
+      {
+        question: "¿Cómo reservar?",
+        answer: "Elija sus fechas en la página Reservar, que muestra la disponibilidad, y envíe su solicitud. Respondemos en 24 horas; la reserva se confirma con una ficha de reserva enviada por email.",
+      },
+      {
+        question: "¿Organizan el traslado desde el aeropuerto?",
+        answer: "Sí. Nuestra conserjería organiza traslados privados desde y hacia el aeropuerto, además de chófer, excursiones y chef privado, bajo petición.",
+      },
+      {
+        question: "¿Qué idiomas habla el equipo?",
+        answer: "El equipo habla árabe, francés e inglés, por WhatsApp, por email o en persona.",
+      },
+    ],
+  },
   theme: {
     toDark: "Cambiar a modo oscuro",
     toLight: "Cambiar a modo claro",
@@ -364,5 +434,7 @@ export const es = {
   footer: {
     description: "Villa Elk — Golf Argan Resort, Agdal, Marrakech.",
     rights: "Todos los derechos reservados.",
+    legal: "Aviso legal",
+    privacy: "Política de privacidad",
   },
 } satisfies Dictionary;

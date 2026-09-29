@@ -178,6 +178,8 @@ export const fr = {
       fewer: "Moins d'invités",
       more: "Plus d'invités",
       datePlaceholder: "Choisir",
+      consent: "Nous utilisons ces informations uniquement pour répondre à votre demande et préparer votre séjour.",
+      consentLink: "Politique de confidentialité",
     },
     wizard: {
       step: "Étape",
@@ -225,6 +227,31 @@ export const fr = {
     whatsappCta: "Écrire sur WhatsApp",
     emailCta: "Envoyer un email",
     mapCta: "Voir sur Google Maps",
+    responseTime: "Réponse sous 24 heures",
+    whatsappLabel: "WhatsApp",
+    emailLabel: "Email",
+    instagramLabel: "Instagram",
+    directionsCta: "Itinéraire jusqu'à la villa",
+    mapTitle: "Villa Elk sur la carte de Marrakech",
+    plusCodeLabel: "Plus Code",
+    gettingThereTitle: "Venir à la villa",
+    gettingThere: [
+      {
+        label: "Aéroport Marrakech-Ménara",
+        distance: "6 km · 12 à 15 min",
+      },
+      {
+        label: "Place Jemaa el-Fna et la médina",
+        distance: "7 km · 15 à 20 min",
+      },
+      {
+        label: "Golfs Nouria & Argan",
+        distance: "3 min",
+      },
+    ],
+    transferNote: "Transfert privé depuis l'aéroport sur demande : notre conciergerie vient vous chercher.",
+    conciergeCta: "Voir la conciergerie",
+    bookTitle: "Vos dates sont fixées ?",
   },
   stay: {
     eyebrow: "Tarifs",
@@ -357,6 +384,49 @@ export const fr = {
     conciergeCta: "Découvrir la conciergerie",
     homeLink: "Les activités autour de la villa",
   },
+  faq: {
+    eyebrow: "Questions fréquentes",
+    title: "Tout savoir avant de réserver",
+    intro: "Les réponses aux questions que l'on nous pose le plus souvent. Pour le reste, écrivez-nous : nous répondons sous 24 heures.",
+    questions: [
+      {
+        question: "Où se trouve Villa Elk ?",
+        answer: "Villa Elk est une villa privée à Golf Argan Resort, dans le quartier d'Agdal à Marrakech (Plus Code HXFX+F99). Elle est à 12 minutes de l'aéroport Marrakech-Ménara et à environ 15 minutes de la place Jemaa el-Fna.",
+      },
+      {
+        question: "Combien de personnes la villa peut-elle accueillir ?",
+        answer: "La villa compte quatre suites et accueille jusqu'à 10 invités, sur quatre niveaux : sous-sol bien-être (hammam, cinéma, salle de sport), rez-de-chaussée avec la piscine, étage des suites et rooftop.",
+      },
+      {
+        question: "Quel est le prix d'une nuit ?",
+        answer: "À partir de 3 700 DH la nuit, soit environ 350 €. La taxe de séjour s'ajoute : 31 DH par personne et par nuit, environ 3 €.",
+      },
+      {
+        question: "Y a-t-il un séjour minimum ?",
+        answer: "Oui : 3 nuits minimum, afin de garantir une expérience privilégiée.",
+      },
+      {
+        question: "Qu'est-ce qui est inclus ?",
+        answer: "Piscine privée, hammam, cinéma, salle de sport, rooftop marocain avec four à pizza, wifi, climatisation, maison domotisée, caméras de sécurité et femme de ménage. Un chef est disponible sur demande.",
+      },
+      {
+        question: "À quelle heure arrive-t-on et part-on ?",
+        answer: "Arrivée à partir de 15 h, départ avant 11 h. Pour un autre horaire, précisez-le dans votre demande.",
+      },
+      {
+        question: "Comment réserver ?",
+        answer: "Choisissez vos dates sur la page Réservation, qui affiche les disponibilités, puis envoyez votre demande. Nous répondons sous 24 heures ; la réservation est confirmée par une fiche de réservation envoyée par email.",
+      },
+      {
+        question: "Organisez-vous le transfert depuis l'aéroport ?",
+        answer: "Oui. Notre conciergerie organise les transferts privés depuis et vers l'aéroport, ainsi qu'un chauffeur, des excursions et un chef privé, sur simple demande.",
+      },
+      {
+        question: "Quelles langues parle l'équipe ?",
+        answer: "L'équipe parle arabe, français et anglais, par WhatsApp, par email ou sur place.",
+      },
+    ],
+  },
   theme: {
     toDark: "Passer en mode sombre",
     toLight: "Passer en mode clair",
@@ -364,5 +434,7 @@ export const fr = {
   footer: {
     description: "Villa Elk — Golf Argan Resort, Agdal, Marrakech.",
     rights: "Tous droits réservés.",
+    legal: "Mentions légales",
+    privacy: "Politique de confidentialité",
   },
 } satisfies Dictionary;

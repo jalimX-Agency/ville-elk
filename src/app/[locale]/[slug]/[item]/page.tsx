@@ -10,8 +10,8 @@ import { getSuite, getSuiteSlugs, getSuites } from "@/lib/content/rooms";
 import { pick, type GalleryPhoto } from "@/lib/content/types";
 import { SuiteCarousel } from "@/components/villa/SuiteCarousel";
 import { getContact } from "@/lib/content/site";
+import { SITE, VILLA_ID, breadcrumbSchema, jsonLd, pageMetadata } from "@/lib/seo";
 
-const SITE = "https://www.villaelk.com";
 const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
 
 /**
@@ -57,22 +57,13 @@ export async function generateMetadata({
   const title = `${name} — Villa Elk, Marrakech`;
   const description = summary(pick(suite.description, found.locale));
 
-  return {
-    metadataBase: new URL(SITE),
+  return pageMetadata({
     title,
     description,
-    alternates: {
-      canonical: suiteHref(suite.slug, found.locale),
-      languages: Object.fromEntries(locales.map((l) => [l, suiteHref(suite.slug, l)])),
-    },
-    openGraph: {
-      title,
-      description,
-      url: `${SITE}${suiteHref(suite.slug, found.locale)}`,
-      siteName: "Villa Elk",
-      images: suite.image ? [{ url: absolute(suite.image.src) }] : [{ url: "/images/villa-elk/og.jpg" }],
-    },
-  };
+    locale: found.locale,
+    path: (l) => suiteHref(suite.slug, l),
+    image: suite.image ? absolute(suite.image.src) : undefined,
+  });
 }
 
 export default async function SuitePage({
@@ -104,8 +95,7 @@ export default async function SuitePage({
       ? [{ id: suite.id, category: "suites", image: suite.image }]
       : [];
 
-  const schema = {
-    "@context": "https://schema.org",
+  const schema = jsonLd({
     "@type": "Suite",
     name,
     description: pick(suite.description, lang),
@@ -119,8 +109,11 @@ export default async function SuitePage({
       name: feature,
       value: true,
     })),
-    containedInPlace: { "@type": "LodgingBusiness", name: "Villa Elk", url: `${SITE}/${lang}` },
-  };
+    containedInPlace: { "@type": "LodgingBusiness", "@id": VILLA_ID, name: "Villa Elk", url: `${SITE}/${lang}` },
+  }, breadcrumbSchema(lang, [
+    { name: dict.nav.rooms, path: hrefFor("suites", lang) },
+    { name, path: suiteHref(suite.slug, lang) },
+  ]));
 
   const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -128,7 +121,7 @@ export default async function SuitePage({
     // The header is fixed and 5rem tall; the photographs start below it so the
     // navigation never sits on a dark picture.
     <article className="pt-20">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schema }} />
 
       {photos.length > 0 ? (
         <SuiteCarousel photos={photos} locale={lang} dict={dict}>

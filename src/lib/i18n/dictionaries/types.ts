@@ -116,6 +116,8 @@ export interface Dictionary {
       fewer: string;
       more: string;
       datePlaceholder: string;
+      consent: string;
+      consentLink: string;
     };
     /** The two steps of the booking form: dates first, then contact details. */
     wizard: {
@@ -155,6 +157,18 @@ export interface Dictionary {
     whatsappCta: string;
     emailCta: string;
     mapCta: string;
+    responseTime: string;
+    whatsappLabel: string;
+    emailLabel: string;
+    instagramLabel: string;
+    directionsCta: string;
+    mapTitle: string;
+    plusCodeLabel: string;
+    gettingThereTitle: string;
+    gettingThere: { label: string; distance: string }[];
+    transferNote: string;
+    conciergeCta: string;
+    bookTitle: string;
   };
   /** Rates and house rules, shown on the concierge page, the booking page and the home page. */
   stay: {
@@ -201,6 +215,13 @@ export interface Dictionary {
     conciergeCta: string;
     homeLink: string;
   };
+  /** Questions and answers on the home page, also given to search engines as an FAQ. */
+  faq: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    questions: { question: string; answer: string }[];
+  };
   theme: {
     toDark: string;
     toLight: string;
@@ -208,5 +229,7 @@ export interface Dictionary {
   footer: {
     description: string;
     rights: string;
+    legal: string;
+    privacy: string;
   };
 }

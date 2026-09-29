@@ -10,6 +10,8 @@ import { ficheCopy, isFicheLocale } from "@/lib/booking/fiche";
 import { GuestsStepper, StayCalendar } from "./StayPicker";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 import type { Locale } from "@/lib/i18n/locales";
+import { hrefFor } from "@/lib/i18n/routes";
+import Link from "next/link";
 
 type Values = {
   name: string;
@@ -311,6 +313,12 @@ export function BookingForm({
             </p>
           )}
         </div>
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          {copy.form.consent}{" "}
+          <Link href={hrefFor("privacy", locale)} className="underline decoration-accent underline-offset-4 hover:text-primary">
+            {copy.form.consentLink}
+          </Link>
+        </p>
       </div>
     </form>
   );
