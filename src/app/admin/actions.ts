@@ -101,6 +101,7 @@ const ORDERED_TABLES = {
   amenity: "Amenity",
   suite: "Suite",
   galleryImage: "GalleryImage",
+  activity: "Activity",
 } as const;
 
 type Ordered = { id: string; position: number };
@@ -396,4 +397,21 @@ export async function saveGalleryAlt(
   revalidatePath("/admin/galerie");
   revalidatePath("/admin/suites", "layout");
   return { saved: true };
+}
+
+export async function moveActivity(formData: FormData) {
+  await requireUser();
+  await swapPosition("activity", String(formData.get("id") ?? ""), formData.get("direction"));
+  refreshPublicPages();
+  revalidatePath("/admin/activites");
+}
+
+export async function toggleActivity(formData: FormData) {
+  await requireUser();
+  const id = String(formData.get("id") ?? "");
+  const activity = await db.activity.findUnique({ where: { id }, select: { published: true } });
+  if (!activity) return;
+  await db.activity.update({ where: { id }, data: { published: !activity.published } });
+  refreshPublicPages();
+  revalidatePath("/admin/activites");
 }

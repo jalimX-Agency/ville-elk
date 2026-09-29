@@ -13,6 +13,7 @@ export const fr = {
     amenities: "Prestations",
     contact: "Contact",
     concierge: "Conciergerie",
+    activities: "Activités",
     bookNow: "Réserver",
   },
   hero: {
@@ -331,6 +332,30 @@ export const fr = {
     terms: "Les prestations sont réalisées directement par nos partenaires et sont soumises à disponibilité, réservation préalable et tarification selon les services demandés.",
     cta: "Demander un service",
     imageAlt: "Le salon marocain de la villa",
+  },
+  activities: {
+    meta: {
+      title: "Activités autour de Villa Elk — Golf, parcs aquatiques et loisirs à Marrakech",
+      description: "Golfs, parcs aquatiques, karting, padel, laser game et restaurants : tout ce qu'il y a à faire à quelques minutes de Villa Elk, à Golf Argan, Marrakech.",
+    },
+    eyebrow: "Autour de la villa",
+    title: "Tout, à quelques minutes.",
+    intro: "Golf Argan est un point de départ idéal : deux golfs, deux parcs aquatiques, du sport et de quoi manger pour toutes les envies, à moins de dix minutes en voiture.",
+    timelineTitle: "Depuis la villa, en voiture",
+    minutes: "min",
+    website: "Site officiel",
+    directions: "Itinéraire",
+    categories: {
+      golf: "Golf",
+      loisirs: "Sport & loisirs",
+      aquatique: "Parcs aquatiques",
+      restauration: "Se restaurer",
+    },
+    credit: "Photographies d'illustration : Unsplash.",
+    conciergeTitle: "Envie d'y aller ?",
+    conciergeBody: "Réservations, transferts, chauffeur : notre conciergerie organise vos sorties sur simple demande.",
+    conciergeCta: "Découvrir la conciergerie",
+    homeLink: "Les activités autour de la villa",
   },
   theme: {
     toDark: "Passer en mode sombre",

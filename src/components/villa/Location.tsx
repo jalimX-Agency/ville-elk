@@ -1,10 +1,13 @@
+import Link from "next/link";
+import { hrefFor } from "@/lib/i18n/routes";
+import type { Locale } from "@/lib/i18n/locales";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 
 /**
  * Drive times, set as numbers large enough to read at a glance. A map would
  * need a key or a third-party embed; five destinations need neither.
  */
-export function Location({ dict }: { dict: Dictionary }) {
+export function Location({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const copy = dict.location;
 
   return (
@@ -39,6 +42,10 @@ export function Location({ dict }: { dict: Dictionary }) {
             ))}
           </ul>
           <p className="mt-4 text-sm text-muted-foreground">{copy.note}</p>
+          <Link href={hrefFor("activities", locale)} className="btn-quiet mt-8">
+            {dict.activities.homeLink}
+            <span aria-hidden="true">{locale === "ar" ? "←" : "→"}</span>
+          </Link>
         </div>
       </div>
     </section>

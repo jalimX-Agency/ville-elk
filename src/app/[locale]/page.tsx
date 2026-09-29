@@ -66,7 +66,7 @@ export default async function HomePage({
       <Hero dict={dict} image={settings["image.hero"]} bookingHref={hrefFor("booking", locale as Locale)} />
       <LevelsTour dict={dict} shots={shots} />
       <Prestations dict={dict} locale={locale as Locale} amenities={amenities} />
-      <Location dict={dict} />
+      <Location dict={dict} locale={locale as Locale} />
       <Explore dict={dict} locale={locale as Locale} />
     </>
   );

@@ -12,6 +12,7 @@ import { getGallery, getSuites } from "@/lib/content/rooms";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
 import { getContact } from "@/lib/content/site";
 import { ConciergePage } from "@/components/villa/ConciergePage";
+import { ActivitiesPage } from "@/components/villa/ActivitiesPage";
 import { StayFacts } from "@/components/villa/StayFacts";
 
 const SITE = "https://www.villaelk.com";
@@ -44,6 +45,8 @@ function metaFor(page: PageKey, dict: Dictionary) {
       return dict.reserve.meta;
     case "concierge":
       return dict.concierge.meta;
+    case "activities":
+      return dict.activities.meta;
   }
 }
 
@@ -100,6 +103,8 @@ export default async function LocalePage({
       return <BookingPage dict={dict} locale={resolved.locale} />;
     case "concierge":
       return <ConciergePage dict={dict} locale={resolved.locale} />;
+    case "activities":
+      return <ActivitiesPage dict={dict} locale={resolved.locale} />;
   }
 }
 

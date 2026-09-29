@@ -13,6 +13,7 @@ export const en = {
     amenities: "Amenities",
     contact: "Contact",
     concierge: "Concierge",
+    activities: "Activities",
     bookNow: "Book now",
   },
   hero: {
@@ -331,6 +332,30 @@ export const en = {
     terms: "Services are provided directly by our partners and are subject to availability, advance booking and pricing according to the services requested.",
     cta: "Ask for a service",
     imageAlt: "The villa's Moroccan lounge",
+  },
+  activities: {
+    meta: {
+      title: "Things to do near Villa Elk — Golf, water parks and leisure in Marrakech",
+      description: "Golf courses, water parks, karting, padel, laser tag and places to eat: everything to do a few minutes from Villa Elk, at Golf Argan, Marrakech.",
+    },
+    eyebrow: "Around the villa",
+    title: "Everything, minutes away.",
+    intro: "Golf Argan makes an ideal base: two golf courses, two water parks, sport and food for every mood, all under ten minutes' drive.",
+    timelineTitle: "From the villa, by car",
+    minutes: "min",
+    website: "Official site",
+    directions: "Directions",
+    categories: {
+      golf: "Golf",
+      loisirs: "Sport & leisure",
+      aquatique: "Water parks",
+      restauration: "Eating out",
+    },
+    credit: "Illustrative photographs: Unsplash.",
+    conciergeTitle: "Want to go?",
+    conciergeBody: "Bookings, transfers, a driver: our concierge arranges your outings on request.",
+    conciergeCta: "Discover the concierge",
+    homeLink: "Things to do around the villa",
   },
   theme: {
     toDark: "Switch to dark mode",

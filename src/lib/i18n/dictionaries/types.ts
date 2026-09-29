@@ -10,6 +10,7 @@ export interface Dictionary {
     amenities: string;
     contact: string;
     concierge: string;
+    activities: string;
     bookNow: string;
   };
   hero: {
@@ -182,6 +183,23 @@ export interface Dictionary {
     terms: string;
     cta: string;
     imageAlt: string;
+  };
+  /** The page of things to do near the villa; the places themselves live in the database. */
+  activities: {
+    meta: { title: string; description: string };
+    eyebrow: string;
+    title: string;
+    intro: string;
+    timelineTitle: string;
+    minutes: string;
+    website: string;
+    directions: string;
+    categories: Record<"golf" | "loisirs" | "aquatique" | "restauration", string>;
+    credit: string;
+    conciergeTitle: string;
+    conciergeBody: string;
+    conciergeCta: string;
+    homeLink: string;
   };
   theme: {
     toDark: string;

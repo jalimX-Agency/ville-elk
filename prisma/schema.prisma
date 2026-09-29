@@ -226,3 +226,46 @@ model Closure {
 
   @@index([startDate, endDate])
 }
+
+/// A place worth the drive near the villa, for the "Activités" page: golf,
+/// leisure, water parks, where to eat. Proper names are usually the same in
+/// every language, but each can be adjusted.
+model Activity {
+  id        String  @id @default(cuid())
+  slug      String  @unique
+  position  Int
+  published Boolean @default(true)
+
+  /// One of: golf, loisirs, aquatique, restauration.
+  category String
+  /// Driving time from the villa, as the owner gives it.
+  minutes  Int
+
+  nameFr String
+  nameEn String
+  nameEs String
+  nameAr String
+
+  descriptionFr String @default("")
+  descriptionEn String @default("")
+  descriptionEs String @default("")
+  descriptionAr String @default("")
+
+  imageUrl String?
+  altFr    String  @default("")
+  altEn    String  @default("")
+  altEs    String  @default("")
+  altAr    String  @default("")
+  /// Credit for a stock photograph, e.g. "Photo : Jane Doe / Unsplash".
+  imageCredit String @default("")
+
+  /// The place's own site or social page; empty when it has none.
+  websiteUrl String @default("")
+  /// What Google Maps searches for to give directions from the villa.
+  mapsQuery  String @default("")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([position])
+}
