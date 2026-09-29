@@ -352,7 +352,6 @@ export const es = {
       aquatique: "Parques acuáticos",
       restauration: "Dónde comer",
     },
-    credit: "Fotografías ilustrativas: Unsplash.",
     conciergeTitle: "¿Le apetece ir?",
     conciergeBody: "Reservas, traslados, chófer: nuestra conserjería organiza sus salidas bajo petición.",
     conciergeCta: "Descubrir la conserjería",

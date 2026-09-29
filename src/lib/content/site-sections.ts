@@ -153,7 +153,6 @@ const WORDS: Record<string, string> = {
   loisirs: "Sport & loisirs",
   aquatique: "Parcs aquatiques",
   restauration: "Se restaurer",
-  credit: "Crédit des photos",
   conciergeTitle: "Encadré conciergerie — titre",
   conciergeBody: "Encadré conciergerie — texte",
   conciergeCta: "Encadré conciergerie — bouton",

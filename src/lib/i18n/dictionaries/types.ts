@@ -196,7 +196,6 @@ export interface Dictionary {
     website: string;
     directions: string;
     categories: Record<"golf" | "loisirs" | "aquatique" | "restauration", string>;
-    credit: string;
     conciergeTitle: string;
     conciergeBody: string;
     conciergeCta: string;

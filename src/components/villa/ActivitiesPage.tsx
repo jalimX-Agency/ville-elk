@@ -28,7 +28,6 @@ export async function ActivitiesPage({ dict, locale }: { dict: Dictionary; local
     items: activities.filter((a) => a.category === category),
   })).filter((section) => section.items.length > 0);
 
-  const credits = activities.map((a) => a.image?.credit).filter(Boolean);
 
   return (
     <article className="pt-20">
@@ -173,11 +172,6 @@ export async function ActivitiesPage({ dict, locale }: { dict: Dictionary; local
         </div>
       </section>
 
-      {credits.length > 0 && (
-        <p className="mx-auto max-w-[1400px] px-6 py-6 text-xs text-muted-foreground lg:px-[5vw]">
-          {copy.credit} {credits.join(" · ")}
-        </p>
-      )}
     </article>
   );
 }

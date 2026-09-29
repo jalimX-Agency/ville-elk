@@ -352,7 +352,6 @@ export const ar = {
       aquatique: "حدائق مائية",
       restauration: "أين تأكلون",
     },
-    credit: "صور توضيحية: Unsplash.",
     conciergeTitle: "تودّون الذهاب؟",
     conciergeBody: "حجوزات، نقل، سائق: خدمة الكونسيرج تنظم خرجاتكم عند الطلب.",
     conciergeCta: "اكتشفوا خدمة الكونسيرج",

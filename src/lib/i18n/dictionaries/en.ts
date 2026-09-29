@@ -352,7 +352,6 @@ export const en = {
       aquatique: "Water parks",
       restauration: "Eating out",
     },
-    credit: "Illustrative photographs: Unsplash.",
     conciergeTitle: "Want to go?",
     conciergeBody: "Bookings, transfers, a driver: our concierge arranges your outings on request.",
     conciergeCta: "Discover the concierge",
