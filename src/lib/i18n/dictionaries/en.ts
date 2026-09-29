@@ -224,6 +224,7 @@ export const en = {
       "The Villa Elk team replies within 24h to help plan your stay in Marrakech.",
     whatsappCta: "Message on WhatsApp",
     emailCta: "Send an email",
+    mapCta: "View on Google Maps",
   },
   stay: {
     eyebrow: "Rates",

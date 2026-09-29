@@ -154,6 +154,7 @@ export interface Dictionary {
     description: string;
     whatsappCta: string;
     emailCta: string;
+    mapCta: string;
   };
   /** Rates and house rules, shown on the concierge page, the booking page and the home page. */
   stay: {

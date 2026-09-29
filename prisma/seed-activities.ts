@@ -1,6 +1,7 @@
 /**
  * The places near the villa, from the owner's list of 29 September 2026 with
- * the driving times he gave. Photographs are Unsplash stock (free for
+ * the driving times he gave; each checked on Google Maps from the villa
+ * (HXFX+F99) the same day. Photographs are Unsplash stock (free for
  * commercial use), credited on the page; the owner can swap any of them for
  * the place's own from the dashboard.
  *
@@ -42,7 +43,7 @@ const ACTIVITIES: Seed[] = [
     image: img("golf-noria.jpg"),
     credit: "Michael Mitrakos / Unsplash",
     websiteUrl: "https://www.madaefgolfs.com/nos-golfs/noria-golf-club-marrakech/",
-    mapsQuery: "Noria Golf Club Marrakech",
+    mapsQuery: "Noria Golf Club Marrakech, Km 5 rue de Tahanaout",
   },
   {
     slug: "golf-montgomerie",
@@ -59,7 +60,7 @@ const ACTIVITIES: Seed[] = [
     image: img("golf-montgomerie.jpg"),
     credit: "Matthew McBrayer / Unsplash",
     websiteUrl: "https://www.prestigiagolf.com/montgomerie-marrakech-golf/presentation",
-    mapsQuery: "The Montgomerie Marrakech golf",
+    mapsQuery: "The Montgomerie Marrakech, Avenue Guemassa",
   },
   {
     slug: "laser-game",
@@ -76,13 +77,13 @@ const ACTIVITIES: Seed[] = [
     image: img("laser-game.jpg"),
     credit: "Adhitya Sibikumar / Unsplash",
     websiteUrl: "https://lasergames.ma/",
-    mapsQuery: "Laser Games Marrakech Route d'Amizmiz",
+    mapsQuery: "Laser games Marrakech, Rte d'Ourika",
   },
   {
     slug: "karting",
     category: "loisirs",
     minutes: 6,
-    name: ["Karting", "Karting", "Karting", "الكارتينغ"],
+    name: ["Marrakech Kart Racing", "Marrakech Kart Racing", "Marrakech Kart Racing", "مراكش كارت ريسينغ"],
     description: [
       "Une piste en plein air, des karts pour adultes et pour enfants, et des karts biplaces pour rouler avec les plus petits.",
       "An open-air track, karts for adults and children, and two-seaters to drive with the little ones.",
@@ -93,13 +94,13 @@ const ACTIVITIES: Seed[] = [
     image: img("karting.jpg"),
     credit: "Nicolas Peyrol / Unsplash",
     websiteUrl: "https://www.marrakechgrandprix.com/marrakech-kart-racing/",
-    mapsQuery: "Karting Marrakech",
+    mapsQuery: "Marrakech Kart Racing, Route de l'Ourika",
   },
   {
     slug: "padel",
     category: "loisirs",
     minutes: 3,
-    name: ["Padel", "Padel", "Pádel", "البادل"],
+    name: ["Padel Square Marrakech", "Padel Square Marrakech", "Padel Square Marrakech", "بادل سكوير مراكش"],
     description: [
       "Des terrains récents à trois minutes de la villa, avec club-house et terrasse, pour une partie le matin avant la piscine.",
       "New courts three minutes from the villa, with a club house and terrace, for a morning game before the pool.",
@@ -110,7 +111,7 @@ const ACTIVITIES: Seed[] = [
     image: img("padel.jpg"),
     credit: "Manuel Pappacena / Unsplash",
     websiteUrl: "",
-    mapsQuery: "Padel Square Marrakech Route d'Amizmiz",
+    mapsQuery: "Padel Square Marrakech, Complexe commercial Cherifa",
   },
   {
     slug: "oasiria",
@@ -127,7 +128,7 @@ const ACTIVITIES: Seed[] = [
     image: img("oasiria.jpg"),
     credit: "Meg von Haartman / Unsplash",
     websiteUrl: "https://oasiria.com/",
-    mapsQuery: "Oasiria Water Park Marrakech",
+    mapsQuery: "Oasiria Water Park Marrakech, Km 4 Route d'Amizmiz",
   },
   {
     slug: "eden-aquapark",
@@ -160,14 +161,14 @@ const ACTIVITIES: Seed[] = [
     alt: ["Un espace de jeux et de trampolines", "A play and trampoline area", "Un espacio de juegos y camas elásticas", "فضاء ألعاب وترامبولين"],
     image: img("urban-parc.jpg"),
     credit: "Lawrence Crayton / Unsplash",
-    websiteUrl: "https://www.instagram.com/urbanparc.ma/",
-    mapsQuery: "Urban Parc Marrakech",
+    websiteUrl: "https://urbanparcmaroc.com/",
+    mapsQuery: "URBAN PARC MARRAKECH, Douar Bengaoui",
   },
   {
     slug: "frikis",
     category: "restauration",
     minutes: 3,
-    name: ["Frikis", "Frikis", "Frikis", "فريكيس"],
+    name: ["Atlas Cherifia by Frikiss", "Atlas Cherifia by Frikiss", "Atlas Cherifia by Frikiss", "أطلس الشريفية باي فريكيس"],
     description: [
       "Une adresse marocaine généreuse : grillades choisies à la boucherie et cuites devant vous, tanjia et tajines, dans une grande salle familiale.",
       "A generous Moroccan place: meat chosen at the butcher's counter and grilled in front of you, tanjia and tagines, in a big family dining room.",
@@ -178,7 +179,7 @@ const ACTIVITIES: Seed[] = [
     image: img("frikis.jpg"),
     credit: "Hamid Roshaan / Unsplash",
     websiteUrl: "",
-    mapsQuery: "Atlas Cherifia by Frikiss Marrakech",
+    mapsQuery: "Atlas Cherifia By Frikiss, Marrakech",
   },
   {
     slug: "mcdonalds",
@@ -195,7 +196,7 @@ const ACTIVITIES: Seed[] = [
     image: img("mcdonalds.jpg"),
     credit: "Jonathan Borba / Unsplash",
     websiteUrl: "https://www.mcdonalds.ma/",
-    mapsQuery: "McDonald's Marrakech",
+    mapsQuery: "McDonald's J253+HCW Marrakech",
   },
   {
     slug: "kfc",
@@ -212,7 +213,7 @@ const ACTIVITIES: Seed[] = [
     image: img("kfc.jpg"),
     credit: "Erik Mclean / Unsplash",
     websiteUrl: "",
-    mapsQuery: "KFC Marrakech",
+    mapsQuery: "KFC, Av. du 7ème Art, Marrakech",
   },
 ];
 

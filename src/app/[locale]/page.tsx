@@ -7,6 +7,7 @@ import { Explore } from "@/components/villa/Explore";
 import { Location } from "@/components/villa/Location";
 import { getAmenities } from "@/lib/content/amenities";
 import { notFound } from "next/navigation";
+import { VILLA_GEO, VILLA_LOCATION } from "@/lib/content/location";
 import { getContact, getSettings } from "@/lib/content/site";
 import { hrefFor } from "@/lib/i18n/routes";
 
@@ -45,6 +46,8 @@ export default async function HomePage({
       addressLocality: "Agdal, Marrakech",
       addressCountry: "MA",
     },
+    geo: VILLA_GEO,
+    hasMap: VILLA_LOCATION.mapsUrl,
     priceRange: `${dict.stay.from} ${dict.stay.price} ${dict.stay.per}`,
     // The owner's own list, in the page's language, so it never drifts from what the page shows.
     amenityFeature: amenities.map((amenity) => ({

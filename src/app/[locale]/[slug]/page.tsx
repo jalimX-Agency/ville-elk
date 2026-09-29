@@ -10,6 +10,7 @@ import { SuitesList } from "@/components/villa/SuitesList";
 import { GalleryGrid } from "@/components/villa/GalleryGrid";
 import { getGallery, getSuites } from "@/lib/content/rooms";
 import type { Dictionary } from "@/lib/i18n/dictionaries/types";
+import { VILLA_GEO, VILLA_LOCATION } from "@/lib/content/location";
 import { getContact } from "@/lib/content/site";
 import { ConciergePage } from "@/components/villa/ConciergePage";
 import { ActivitiesPage } from "@/components/villa/ActivitiesPage";
@@ -177,6 +178,8 @@ async function ContactPage({ dict, locale }: { dict: Dictionary; locale: Locale 
       addressLocality: "Agdal, Marrakech",
       addressCountry: "MA",
     },
+    geo: VILLA_GEO,
+    hasMap: VILLA_LOCATION.mapsUrl,
   };
 
   return (
@@ -239,6 +242,9 @@ async function ContactPage({ dict, locale }: { dict: Dictionary; locale: Locale 
               <MapPin className="mt-1 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
               {dict.contact.address}
             </p>
+            <a href={VILLA_LOCATION.mapsUrl} target="_blank" rel="noopener noreferrer" className="btn-quiet mt-5">
+              {dict.contact.mapCta}
+            </a>
           </div>
         </aside>
       </div>
@@ -268,6 +274,7 @@ async function BookingPage({ dict, locale }: { dict: Dictionary; locale: Locale 
         addressLocality: "Agdal, Marrakech",
         addressCountry: "MA",
       },
+      geo: VILLA_GEO,
     },
   };
 

@@ -224,6 +224,7 @@ export const es = {
       "El equipo de Villa Elk responde en menos de 24h para organizar su estancia en Marrakech.",
     whatsappCta: "Escribir por WhatsApp",
     emailCta: "Enviar un email",
+    mapCta: "Ver en Google Maps",
   },
   stay: {
     eyebrow: "Tarifas",

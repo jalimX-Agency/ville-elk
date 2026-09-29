@@ -1,6 +1,7 @@
 import { db } from "@/lib/db/client";
 import type { ActivityModel } from "@/generated/prisma/models";
 import type { ContentImage, Localized } from "./types";
+import { VILLA_LOCATION } from "./location";
 
 export const ACTIVITY_CATEGORIES = ["golf", "loisirs", "aquatique", "restauration"] as const;
 export type ActivityCategory = (typeof ACTIVITY_CATEGORIES)[number];
@@ -17,7 +18,7 @@ export type Activity = {
   description: Localized;
   image: (ContentImage & { credit: string }) | null;
   websiteUrl: string;
-  /** Google Maps directions from wherever the guest is — at the villa, the villa. */
+  /** Google Maps directions from the villa, so the drive time shown is the villa's. */
   directionsUrl: string | null;
 };
 
@@ -38,7 +39,7 @@ export function toActivity(row: ActivityModel): Activity {
       : null,
     websiteUrl: row.websiteUrl,
     directionsUrl: row.mapsQuery
-      ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(row.mapsQuery)}`
+      ? `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(VILLA_LOCATION.mapsQuery)}&destination=${encodeURIComponent(row.mapsQuery)}&travelmode=driving`
       : null,
   };
 }

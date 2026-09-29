@@ -103,6 +103,7 @@ const WORDS: Record<string, string> = {
   suites: "Suites",
   whatsappCta: "Bouton WhatsApp",
   emailCta: "Bouton email",
+  mapCta: "Lien Google Maps",
   instagramCta: "Bouton Instagram",
   addressTitle: "Titre de l'adresse",
   address: "Adresse",
