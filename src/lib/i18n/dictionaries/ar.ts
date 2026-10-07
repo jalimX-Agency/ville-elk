@@ -436,5 +436,6 @@ export const ar = {
     rights: "جميع الحقوق محفوظة.",
     legal: "الإشعار القانوني",
     privacy: "سياسة الخصوصية",
+    credit: "تطوير الموقع:",
   },
 } satisfies Dictionary;

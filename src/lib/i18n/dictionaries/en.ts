@@ -436,5 +436,6 @@ export const en = {
     rights: "All rights reserved.",
     legal: "Legal notice",
     privacy: "Privacy policy",
+    credit: "Website by",
   },
 } satisfies Dictionary;

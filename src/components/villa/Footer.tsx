@@ -55,9 +55,22 @@ export async function Footer({ dict, locale }: { dict: Dictionary; locale: Local
         <p className="body-copy max-w-md text-sm">{dict.stay.languages}</p>
 
         <div className="flex w-full flex-col items-center gap-4 border-t border-border pt-8 sm:flex-row sm:justify-between">
-          <p className="eyebrow text-muted-foreground">
-            © {new Date().getFullYear()} Villa Elk — {dict.footer.rights}
-          </p>
+          <div className="flex flex-col items-center gap-2 sm:items-start">
+            <p className="eyebrow text-muted-foreground">
+              © {new Date().getFullYear()} Villa Elk — {dict.footer.rights}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {dict.footer.credit}{" "}
+              <a
+                href={locale === "fr" ? "https://www.jalimx.com/fr" : "https://www.jalimx.com"}
+                target="_blank"
+                rel="noopener"
+                className="underline decoration-accent underline-offset-4 transition-colors hover:text-primary"
+              >
+                JalimX
+              </a>
+            </p>
+          </div>
           <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2">
             <li>
               <Link href={hrefFor("legal", locale)} className="eyebrow text-muted-foreground transition-colors hover:text-primary">

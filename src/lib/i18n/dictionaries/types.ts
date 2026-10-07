@@ -231,5 +231,7 @@ export interface Dictionary {
     rights: string;
     legal: string;
     privacy: string;
+    /** The words before the studio's name: "Website by". */
+    credit: string;
   };
 }

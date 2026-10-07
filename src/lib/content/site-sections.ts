@@ -194,6 +194,7 @@ const WORDS: Record<string, string> = {
   consentLink: "Lien politique de confidentialité",
   legal: "Lien mentions légales",
   privacy: "Lien politique de confidentialité",
+  credit: "Crédit du site (avant « JalimX »)",
 };
 
 /** Names for the numbered entries of a list: "Rubrique 2 — Service 1 — Nom". */
