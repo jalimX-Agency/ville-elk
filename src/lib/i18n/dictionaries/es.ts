@@ -2,9 +2,9 @@ import type { Dictionary } from "./types";
 
 export const es = {
   meta: {
-    title: "Villa Elk — Villa de lujo en Golf Argan, Marrakech",
+    title: "Villa de lujo en Marrakech con piscina privada — Villa Elk",
     description:
-      "Villa privada de cuatro suites en Golf Argan, Marrakech, a 12 minutos del aeropuerto: piscina, hammam, cine, gimnasio y azotea marroquí. Hasta 10 huéspedes.",
+      "Alquile Villa Elk, villa privada de 4 suites en Golf Argan, Marrakech: piscina privada, hammam, cine, azotea. Hasta 10 huéspedes, desde 3.700 DH la noche. Reserva directa.",
   },
   nav: {
     home: "Inicio",
@@ -17,7 +17,7 @@ export const es = {
     bookNow: "Reservar",
   },
   hero: {
-    eyebrow: "Golf Argan · Agdal · Marrakech",
+    eyebrow: "Villa de lujo · Golf Argan · Marrakech",
     title: "Villa Elk",
     threshold: "Cruce el umbral.",
     scroll: "Entrar",
@@ -87,7 +87,7 @@ export const es = {
   },
   suites: {
     meta: {
-      title: "Suites — Villa Elk, Marrakech",
+      title: "Las 4 suites de la villa — Villa Elk, Marrakech",
       description:
         "Cuatro suites con baño propio, incluida una suite principal de unos 60 m² con bañera de mármol, vestidor y despacho. Balcones privados, ropa de cama de alta gama.",
     },
@@ -117,7 +117,7 @@ export const es = {
   },
   gallery: {
     meta: {
-      title: "Galería — Villa Elk, Golf Argan, Marrakech",
+      title: "Fotos de la villa, piscina y hammam — Villa Elk Marrakech",
       description:
         "La villa en imágenes: piscina, azotea, suites, hammam, cine y gimnasio, en Golf Argan, Agdal, Marrakech.",
     },
