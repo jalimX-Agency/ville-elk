@@ -13,6 +13,7 @@ export const pageSlugs = {
   contact: { fr: "contact", en: "contact", es: "contacto", ar: "ittisal" },
   concierge: { fr: "conciergerie", en: "concierge", es: "conserjeria", ar: "khadamat" },
   activities: { fr: "activites", en: "activities", es: "actividades", ar: "anshita" },
+  blog: { fr: "blog", en: "blog", es: "blog", ar: "mudawwana" },
   legal: { fr: "mentions-legales", en: "legal-notice", es: "aviso-legal", ar: "ishaar-qanouni" },
   privacy: { fr: "confidentialite", en: "privacy", es: "privacidad", ar: "khususiya" },
 } as const satisfies Record<string, Record<Locale, string>>;
@@ -60,4 +61,9 @@ export function translatePath(pathname: string, from: Locale, to: Locale): strin
 /** A suite's own page: /fr/suites/suite-parentale, /ar/ajniha/suite-parentale… */
 export function suiteHref(suiteSlug: string, locale: Locale): string {
   return `${hrefFor("suites", locale)}/${suiteSlug}`;
+}
+
+/** An article: /fr/blog/que-faire-a-marrakech, /ar/mudawwana/… */
+export function postHref(postSlug: string, locale: Locale): string {
+  return `${hrefFor("blog", locale)}/${postSlug}`;
 }

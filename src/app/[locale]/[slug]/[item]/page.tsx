@@ -5,10 +5,12 @@ import { notFound } from "next/navigation";
 import { MessageCircle } from "lucide-react";
 import { isLocale, locales, type Locale } from "@/lib/i18n/locales";
 import { getDictionary } from "@/lib/content/site";
-import { hrefFor, pageForSlug, slugFor, suiteHref } from "@/lib/i18n/routes";
+import { hrefFor, pageForSlug, postHref, slugFor, suiteHref } from "@/lib/i18n/routes";
 import { getSuite, getSuiteSlugs, getSuites } from "@/lib/content/rooms";
 import { pick, type GalleryPhoto } from "@/lib/content/types";
 import { SuiteCarousel } from "@/components/villa/SuiteCarousel";
+import { BlogPostPage } from "@/components/villa/BlogPostPage";
+import { getPost, getPostSlugs } from "@/lib/content/blog";
 import { getContact } from "@/lib/content/site";
 import { SITE, VILLA_ID, breadcrumbSchema, jsonLd, pageMetadata } from "@/lib/seo";
 
@@ -21,10 +23,11 @@ const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
  * Only the suites page has children: /fr/galerie/x is a 404, not a suite.
  */
 export async function generateStaticParams() {
-  const slugs = await getSuiteSlugs();
-  return locales.flatMap((locale) =>
-    slugs.map((item) => ({ locale, slug: slugFor("suites", locale), item })),
-  );
+  const [slugs, posts] = await Promise.all([getSuiteSlugs(), getPostSlugs()]);
+  return locales.flatMap((locale) => [
+    ...slugs.map((item) => ({ locale, slug: slugFor("suites", locale), item })),
+    ...posts.map((item) => ({ locale, slug: slugFor("blog", locale), item })),
+  ]);
 }
 
 async function resolve(locale: string, slug: string, item: string) {
@@ -43,12 +46,31 @@ function summary(text: string): string {
   return `${text.slice(0, text.lastIndexOf(" ", 155))}…`;
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string; slug: string; item: string }>;
-}): Promise<Metadata> {
+type ItemParams = { params: Promise<{ locale: string; slug: string; item: string }> };
+
+/** Under the blog's slug an item is an article; under the suites' slug, a suite. */
+function isArticle(locale: string, slug: string): locale is Locale {
+  return isLocale(locale) && pageForSlug(slug, locale) === "blog";
+}
+
+export async function generateMetadata({ params }: ItemParams): Promise<Metadata> {
   const { locale, slug, item } = await params;
+  if (isArticle(locale, slug)) {
+    const post = await getPost(item);
+    if (!post) return {};
+    const text = pick(post.excerpt, locale);
+    return pageMetadata({
+      title: `${pick(post.title, locale)} — Villa Elk`,
+      description: text,
+      locale,
+      path: (l) => postHref(post.slug, l),
+      image: post.image ? absolute(post.image.src) : undefined,
+    });
+  }
+  return suiteMetadata(locale, slug, item);
+}
+
+async function suiteMetadata(locale: string, slug: string, item: string): Promise<Metadata> {
   const found = await resolve(locale, slug, item);
   if (!found) return {};
 
@@ -66,12 +88,17 @@ export async function generateMetadata({
   });
 }
 
-export default async function SuitePage({
-  params,
-}: {
-  params: Promise<{ locale: string; slug: string; item: string }>;
-}) {
+export default async function ItemPage({ params }: ItemParams) {
   const { locale, slug, item } = await params;
+  if (isArticle(locale, slug)) {
+    const post = await getPost(item);
+    if (!post) notFound();
+    return <BlogPostPage post={post} dict={await getDictionary(locale)} locale={locale} />;
+  }
+  return <SuitePage locale={locale} slug={slug} item={item} />;
+}
+
+async function SuitePage({ locale, slug, item }: { locale: string; slug: string; item: string }) {
   const found = await resolve(locale, slug, item);
   if (!found) notFound();
 

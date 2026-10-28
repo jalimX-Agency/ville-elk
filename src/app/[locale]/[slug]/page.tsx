@@ -14,6 +14,7 @@ import { LEGAL } from "@/lib/content/legal";
 import { SITE, breadcrumbSchema, jsonLd, pageMetadata, villaSchema } from "@/lib/seo";
 import { ContactPage } from "@/components/villa/ContactPage";
 import { LegalPage } from "@/components/villa/LegalPage";
+import { BlogIndex } from "@/components/villa/BlogIndex";
 import { ConciergePage } from "@/components/villa/ConciergePage";
 import { ActivitiesPage } from "@/components/villa/ActivitiesPage";
 import { StayFacts } from "@/components/villa/StayFacts";
@@ -48,6 +49,8 @@ function metaFor(page: PageKey, dict: Dictionary, locale: Locale) {
       return dict.concierge.meta;
     case "activities":
       return dict.activities.meta;
+    case "blog":
+      return dict.blog.meta;
     case "legal":
     case "privacy":
       return LEGAL[locale][page];
@@ -69,6 +72,8 @@ function crumbFor(page: PageKey, dict: Dictionary): string {
       return dict.nav.concierge;
     case "activities":
       return dict.nav.activities;
+    case "blog":
+      return dict.nav.blog;
     case "legal":
       return dict.footer.legal;
     case "privacy":
@@ -135,6 +140,8 @@ function PageBody({ page, dict, locale }: { page: PageKey; dict: Dictionary; loc
       return <ConciergePage dict={dict} locale={locale} />;
     case "activities":
       return <ActivitiesPage dict={dict} locale={locale} />;
+    case "blog":
+      return <BlogIndex dict={dict} locale={locale} />;
     case "legal":
     case "privacy":
       return <LegalPage dict={dict} locale={locale} doc={page} />;

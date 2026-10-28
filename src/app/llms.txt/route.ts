@@ -2,9 +2,10 @@ import { getContact, getDictionary } from "@/lib/content/site";
 import { getSuites } from "@/lib/content/rooms";
 import { getAmenities } from "@/lib/content/amenities";
 import { getActivities } from "@/lib/content/activities";
+import { getPosts } from "@/lib/content/blog";
 import { VILLA_LOCATION } from "@/lib/content/location";
 import { locales } from "@/lib/i18n/locales";
-import { hrefFor, suiteHref, type PageKey } from "@/lib/i18n/routes";
+import { hrefFor, postHref, suiteHref, type PageKey } from "@/lib/i18n/routes";
 import { SITE } from "@/lib/seo";
 import { formatPhone } from "@/lib/content/phone";
 
@@ -16,13 +17,14 @@ export const revalidate = 3600;
  * Built from the same content as the site, so it never contradicts it.
  */
 export async function GET() {
-  const [en, fr, contact, suites, amenities, activities] = await Promise.all([
+  const [en, fr, contact, suites, amenities, activities, posts] = await Promise.all([
     getDictionary("en"),
     getDictionary("fr"),
     getContact(),
     getSuites(),
     getAmenities(),
     getActivities(),
+    getPosts(),
   ]);
 
   const link = (page: PageKey) =>
@@ -77,6 +79,10 @@ ${pages.map(([page, label]) => `- ${label}: ${link(page)}`).join("\n")}
 ## Nearby
 
 ${activities.map((a) => `- ${a.name.en || a.name.fr}: ${a.minutes} min by car`).join("\n")}
+
+## Blog
+
+${posts.length ? posts.map((p) => `- [${p.title.en || p.title.fr}](${SITE}${postHref(p.slug, "en")}): ${p.excerpt.en || p.excerpt.fr}`).join("\n") : "- Coming soon"}
 
 ## Frequently asked questions
 

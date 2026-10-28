@@ -269,3 +269,39 @@ model Activity {
 
   @@index([position])
 }
+
+/// An article of the blog, written in four languages. The body is plain text
+/// with a few marks (## headings, - lists, **bold**, [links](…)) so the owner
+/// can write it in a text box.
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  published   Boolean  @default(false)
+  /// The date shown on the article and used to order the list.
+  publishedAt DateTime @default(now())
+
+  titleFr String
+  titleEn String
+  titleEs String
+  titleAr String
+
+  /// Two sentences: the card on the blog page and the description Google shows.
+  excerptFr String @default("")
+  excerptEn String @default("")
+  excerptEs String @default("")
+  excerptAr String @default("")
+
+  bodyFr String @default("") @db.Text
+  bodyEn String @default("") @db.Text
+  bodyEs String @default("") @db.Text
+  bodyAr String @default("") @db.Text
+
+  imageUrl String?
+  altFr    String  @default("")
+  altEn    String  @default("")
+  altEs    String  @default("")
+  altAr    String  @default("")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

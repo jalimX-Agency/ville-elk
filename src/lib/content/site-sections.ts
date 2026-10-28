@@ -17,6 +17,7 @@ export const SECTIONS = [
   { key: "stay", title: "Tarifs & séjour minimum", hint: "Le prix, la taxe de séjour, le séjour minimum et les langues parlées. Affichés sur la page Conciergerie, la réservation et l'accueil ; les langues aussi sur Contact et en pied de page." },
   { key: "concierge", title: "Page Conciergerie", hint: "Le « menu » des services de conciergerie. La photo se change dans « Réglages »." },
   { key: "activities", title: "Page Activités", hint: "Le titre, l'introduction et les boutons de la page. Les lieux eux-mêmes se modifient dans « Activités »." },
+  { key: "blog", title: "Page Blog", hint: "Le titre, l'introduction et les boutons de la page Blog. Les articles se rédigent dans « Articles »." },
   { key: "contact", title: "Contact", hint: "Les textes de la page contact. Le numéro et l'email se modifient dans « Réglages »." },
   { key: "faq", title: "Accueil — questions fréquentes", hint: "Les questions et réponses en bas de la page d'accueil. Google et les assistants IA les lisent aussi : gardez des réponses courtes et précises." },
   { key: "meta", title: "Google — page d'accueil", hint: "Le titre et la description qui apparaissent dans les résultats de recherche." },
@@ -195,6 +196,12 @@ const WORDS: Record<string, string> = {
   legal: "Lien mentions légales",
   privacy: "Lien politique de confidentialité",
   credit: "Crédit du site (avant « JalimX »)",
+  readingTime: "Mots après le temps de lecture",
+  read: "Lien « Lire l'article »",
+  empty: "Message quand il n'y a pas d'article",
+  related: "Titre « À lire aussi »",
+  endTitle: "Titre de l'encadré de fin d'article",
+  endBody: "Texte de l'encadré de fin d'article",
 };
 
 /** Names for the numbered entries of a list: "Rubrique 2 — Service 1 — Nom". */

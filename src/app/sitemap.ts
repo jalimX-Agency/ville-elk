@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/lib/i18n/locales";
-import { hrefFor, pageSlugs, suiteHref, type PageKey } from "@/lib/i18n/routes";
+import { hrefFor, pageSlugs, postHref, suiteHref, type PageKey } from "@/lib/i18n/routes";
 import { getSuiteSlugs } from "@/lib/content/rooms";
+import { getPosts } from "@/lib/content/blog";
 
 const BASE = "https://www.villaelk.com";
 const LEGAL_PAGES: PageKey[] = ["legal", "privacy"];
@@ -42,5 +43,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   );
 
-  return [...home, ...pages, ...suites];
+  const posts = (await getPosts()).flatMap((post) =>
+    locales.map((locale) => ({
+      url: `${BASE}${postHref(post.slug, locale)}`,
+      lastModified: post.updatedAt,
+      changeFrequency: "monthly" as const,
+      priority: locale === "fr" ? 0.7 : 0.5,
+      alternates: { languages: alternates((l) => postHref(post.slug, l)) },
+    })),
+  );
+
+  return [...home, ...pages, ...suites, ...posts];
 }

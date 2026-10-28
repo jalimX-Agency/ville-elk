@@ -14,6 +14,7 @@ export const es = {
     contact: "Contacto",
     concierge: "Conserjería",
     activities: "Actividades",
+    blog: "Blog",
     bookNow: "Reservar",
   },
   hero: {
@@ -426,6 +427,22 @@ export const es = {
         answer: "El equipo habla árabe, francés e inglés, por WhatsApp, por email o en persona.",
       },
     ],
+  },
+  blog: {
+    meta: {
+      title: "Blog de Villa Elk — Marrakech: consejos, actividades y estancias",
+      description: "Consejos para preparar su estancia en Marrakech: qué hacer, cómo llegar desde el aeropuerto, alquilar una villa en grupo. Por el equipo de Villa Elk.",
+    },
+    eyebrow: "El blog",
+    title: "Marrakech, vista desde la villa",
+    intro: "Consejos prácticos para preparar su estancia: qué hacer alrededor de Golf Argan, cómo llegar, cómo compartir una villa en grupo.",
+    readingTime: "min de lectura",
+    read: "Leer el artículo",
+    back: "Todos los artículos",
+    empty: "Los primeros artículos llegarán pronto.",
+    related: "Lea también",
+    endTitle: "¿Quiere alojarse en la villa?",
+    endBody: "Elija sus fechas: respondemos en 24 horas con la tarifa y la disponibilidad.",
   },
   theme: {
     toDark: "Cambiar a modo oscuro",

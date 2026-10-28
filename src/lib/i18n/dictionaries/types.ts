@@ -11,6 +11,7 @@ export interface Dictionary {
     contact: string;
     concierge: string;
     activities: string;
+    blog: string;
     bookNow: string;
   };
   hero: {
@@ -221,6 +222,19 @@ export interface Dictionary {
     title: string;
     intro: string;
     questions: { question: string; answer: string }[];
+  };
+  blog: {
+    meta: { title: string; description: string };
+    eyebrow: string;
+    title: string;
+    intro: string;
+    readingTime: string;
+    read: string;
+    back: string;
+    empty: string;
+    related: string;
+    endTitle: string;
+    endBody: string;
   };
   theme: {
     toDark: string;

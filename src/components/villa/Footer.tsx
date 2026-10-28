@@ -13,6 +13,7 @@ export async function Footer({ dict, locale }: { dict: Dictionary; locale: Local
     { page: "gallery", label: dict.nav.gallery },
     { page: "concierge", label: dict.nav.concierge },
     { page: "activities", label: dict.nav.activities },
+    { page: "blog", label: dict.nav.blog },
     { page: "contact", label: dict.nav.contact },
     { page: "booking", label: dict.nav.bookNow },
   ];

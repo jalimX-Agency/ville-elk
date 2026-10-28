@@ -17,6 +17,7 @@ export function Navigation({ locale, dict }: { locale: Locale; dict: Dictionary 
     { href: hrefFor("gallery", locale), label: dict.nav.gallery },
     { href: hrefFor("activities", locale), label: dict.nav.activities },
     { href: hrefFor("concierge", locale), label: dict.nav.concierge },
+    { href: hrefFor("blog", locale), label: dict.nav.blog },
     { href: hrefFor("contact", locale), label: dict.nav.contact },
   ];
   const bookingHref = hrefFor("booking", locale);
