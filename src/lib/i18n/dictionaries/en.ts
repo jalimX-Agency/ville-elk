@@ -3,8 +3,7 @@ import type { Dictionary } from "./types";
 export const en = {
   meta: {
     title: "Luxury Villa in Marrakech with Private Pool — Villa Elk",
-    description:
-      "Rent Villa Elk, a private 4-suite villa at Golf Argan, Marrakech: private pool, hammam, cinema, rooftop. Up to 10 guests, from 3,700 MAD a night. Book direct.",
+    description: "Rent Villa Elk, a private 4-suite villa at Golf Argan, Marrakech: private pool, hammam, cinema and rooftop for 10 guests, family or friends. From 3,700 MAD a night.",
   },
   nav: {
     home: "Home",
@@ -18,70 +17,123 @@ export const en = {
     bookNow: "Book now",
   },
   hero: {
-    eyebrow: "Luxury villa · Golf Argan · Marrakech",
+    eyebrow: "Luxury villa rental in Marrakech",
     title: "Villa Elk",
-    threshold: "Step across the threshold.",
-    scroll: "Enter",
-    subtitle:
-      "A contemporary town house on three levels and a rooftop, quiet, twelve minutes from the airport.",
+    threshold: "Your private villa at Golf Argan.",
+    scroll: "Discover",
+    subtitle: "Four suites, a private pool, a hammam and a rooftop for 10 guests, with family or friends. Quiet, and 12 minutes from the airport.",
     cta: "Discover the villa",
     bookCta: "Check availability",
   },
   tour: {
     eyebrow: "The villa",
-    title: "Level by level",
+    title: "Four levels, one house",
     levelLabel: "Level",
     levels: [
       {
         code: "0",
         name: "Ground floor",
-        title: "Gathering",
-        body: "The heart of the house: a double living room, Moroccan and European, around a contemporary fireplace, the dining room and a fully equipped kitchen. Everything opens onto the terrace and its private pool, screened from view by sheer curtains.",
-        spaces: ["Moroccan & European living rooms", "Contemporary fireplace", "Dining room", "Equipped kitchen", "Suite with shower room", "Guest cloakroom", "Private pool", "Terrace, barbecue & outdoor dining", "Secure indoor garage"],
-        photos: { main: "The private pool under its pergola", detail: "The Moroccan living room" },
+        title: "Living together",
+        body: "The heart of the villa: a large living area with a Moroccan lounge and a European lounge, a dining room and a fully equipped kitchen. Everything opens onto the terrace and the private pool, screened from view by sheer curtains.",
+        spaces: [
+          "Moroccan & European lounges",
+          "Living space",
+          "Dining room",
+          "Equipped kitchen",
+          "Suite with shower room",
+          "Guest toilet",
+          "Private pool",
+          "Terrace, barbecue & outdoor table",
+          "Secure indoor garage",
+        ],
+        photos: {
+          main: "The private pool under its pergola",
+          detail: "The Moroccan living room",
+        },
       },
       {
         code: "−1",
         name: "Lower level",
         title: "Unwinding",
-        body: "Below, a whole floor given to wellbeing: a spa with hammam, a gym opening onto a patio, a private cinema and a hair salon. Reason enough not to go out.",
-        spaces: ["Spa & hammam", "Gym onto a patio", "Cinema room", "Hair salon", "Storage"],
-        photos: { main: "The hammam", detail: "The gym opening onto the patio" },
+        body: "A whole floor given to wellbeing: a spa with a hammam, a gym opening onto a patio, a private cinema room and a hair salon. For family film nights and evenings in the hammam.",
+        spaces: [
+          "Spa & hammam",
+          "Gym onto a patio",
+          "Cinema room",
+          "Hair salon",
+          "Storage",
+        ],
+        photos: {
+          main: "The hammam",
+          detail: "The gym opening onto the patio",
+        },
       },
       {
         code: "+1",
         name: "Upper floor",
         title: "Sleeping",
-        body: "Three suites designed like hotel rooms, each with a private balcony. The master suite, about 60 m², brings together a dressing room, a study and a bathroom with a marble bathtub and a walk-in shower.",
-        spaces: ["Master suite · about 60 m²", "Two suites with balconies", "Marble bathtub", "Walk-in showers", "Premium bedding"],
-        photos: { main: "The master suite", detail: "The marble bathtub in the master suite" },
+        body: "Three suites, each with its own bathroom and private balcony. The master suite, about 60 m², has a dressing room, a study and a bathroom with a marble bathtub and a walk-in shower.",
+        spaces: [
+          "Master suite · about 60 m²",
+          "Two suites with balconies",
+          "Marble bathtub",
+          "Walk-in showers",
+          "Premium bedding",
+        ],
+        photos: {
+          main: "The master suite",
+          detail: "The marble bathtub in the master suite",
+        },
       },
       {
         code: "+2",
         name: "Rooftop",
-        title: "The Sta7",
-        body: "At the top, the Sta7 changes the mood: a Moroccan lounge dressed in zellige, a summer kitchen with a pizza oven and barbecue, and the view out to the Atlas. For long lunches and dinners under the Marrakech sky.",
-        spaces: ["Zellige Moroccan lounge", "Summer kitchen", "Pizza oven", "Barbecue", "View of the Atlas"],
-        photos: { main: "The Moroccan lounge on the rooftop", detail: "The rooftop pizza oven" },
+        title: "The rooftop",
+        body: "At the top, the Sta7 (Moroccan Arabic for “the terrace”): a Moroccan lounge dressed in zellige, a summer kitchen with a pizza oven and barbecue, and views to the Atlas. The place for long lunches and dinners with friends under the Marrakech sky.",
+        spaces: [
+          "Zellige Moroccan lounge",
+          "Summer kitchen",
+          "Pizza oven",
+          "Barbecue",
+          "View of the Atlas",
+        ],
+        photos: {
+          main: "The Moroccan lounge on the rooftop",
+          detail: "The rooftop pizza oven",
+        },
       },
     ],
   },
   amenities: {
     eyebrow: "Amenities",
-    title: "What the villa offers",
+    title: "Everything is already at the villa",
     conciergeLink: "Discover the private concierge",
   },
   location: {
     eyebrow: "Location",
-    title: "Quiet, and minutes from everything",
-    intro:
-      "Golf Argan Resort, in the Agdal district: a calm street with no noise, and all of Marrakech within a short drive.",
+    title: "Golf Argan, Marrakech: quiet, and close to everything",
+    intro: "Villa Elk is at Golf Argan Resort, in the Agdal district: a quiet residence away from the city noise, a few minutes' drive from the airport, golf courses and the big shopping centres.",
     places: [
-      { minutes: "12", label: "Marrakech Menara Airport" },
-      { minutes: "3", label: "Nouria & Argan golf courses" },
-      { minutes: "3", label: "Avenue Mohammed VI" },
-      { minutes: "5", label: "Morocco Mall" },
-      { minutes: "5", label: "Al Mazar & Megarama cinema" },
+      {
+        minutes: "12",
+        label: "Marrakech-Menara Airport",
+      },
+      {
+        minutes: "5",
+        label: "Noria Golf Club",
+      },
+      {
+        minutes: "3",
+        label: "Avenue Mohammed VI",
+      },
+      {
+        minutes: "5",
+        label: "Morocco Mall",
+      },
+      {
+        minutes: "5",
+        label: "Al Mazar & Megarama cinema",
+      },
     ],
     unit: "min",
     note: "Driving times.",
@@ -89,14 +141,15 @@ export const en = {
   suites: {
     meta: {
       title: "The 4 suites of the villa — Villa Elk, Marrakech",
-      description:
-        "Four suites with their own bathrooms, including a master suite of about 60 m² with a marble bathtub, dressing room and study. Private balconies, premium bedding.",
+      description: "Four suites with their own bathrooms, including a master suite of about 60 m² with a marble bathtub, dressing room and study. Private balconies, premium bedding.",
     },
-    eyebrow: "Sleeping",
-    title: "Four suites",
-    intro:
-      "Three suites upstairs, each with a private balcony, and a fourth on the ground floor near the living rooms. All have their own bathroom, a television, generous storage and premium bedding chosen for properly restful nights.",
-    levelNames: { ground: "Ground floor", upper: "Upper floor" },
+    eyebrow: "The suites",
+    title: "Four suites, each with its own bathroom",
+    intro: "Three upstairs suites with private balconies, and a fourth on the ground floor, close to the living room and the pool. Each has its own bathroom, a television, storage and premium bedding: even with ten of you, everyone keeps their own space.",
+    levelNames: {
+      ground: "Ground floor",
+      upper: "Upper floor",
+    },
     areaLabel: "About",
     viewSuite: "View the suite",
     backToSuites: "All suites",
@@ -105,7 +158,7 @@ export const en = {
     otherSuites: "The other suites",
     allPhotos: "All photos",
     photosUnit: "photos",
-    ctaTitle: "The whole villa, yours alone",
+    ctaTitle: "The whole villa, just for your group",
     suiteLabel: "Suite",
     spaces: {
       bedroom: "Bedroom",
@@ -119,12 +172,11 @@ export const en = {
   gallery: {
     meta: {
       title: "Villa photos, pool and hammam — Villa Elk Marrakech",
-      description:
-        "The villa in pictures: pool, rooftop, suites, hammam, cinema and gym, at Golf Argan, Agdal, Marrakech.",
+      description: "The villa in pictures: pool, rooftop, suites, hammam, cinema and gym, at Golf Argan, Agdal, Marrakech.",
     },
-    intro: "The villa as it is, level by level — from the lower floor to the rooftop.",
-    eyebrow: "Walkthrough",
-    title: "Inside Villa Elk",
+    intro: "Pool, hammam, cinema, suites and rooftop: tour Villa Elk level by level, from the basement to the roof.",
+    eyebrow: "Gallery",
+    title: "The villa in pictures",
     categories: {
       all: "All",
       exterieur: "Outside",
@@ -136,18 +188,21 @@ export const en = {
     filterLabel: "Filter by space",
     showMore: "Show more photos",
     shownOf: "photos shown of",
-    viewer: { open: "Enlarge photo", close: "Close", previous: "Previous photo", next: "Next photo" },
+    viewer: {
+      open: "Enlarge photo",
+      close: "Close",
+      previous: "Previous photo",
+      next: "Next photo",
+    },
   },
   reserve: {
     meta: {
       title: "Book Villa Elk — Whole-villa rental in Marrakech",
-      description:
-        "Request your dates at Villa Elk, a private villa of four suites at Golf Argan, Marrakech. The whole villa, up to 10 guests. We reply within 24 hours.",
+      description: "Request your dates at Villa Elk, a private villa of four suites at Golf Argan, Marrakech. The whole villa, up to 10 guests. We reply within 24 hours.",
     },
     eyebrow: "Booking",
-    title: "Ask for your dates",
-    intro:
-      "Villa Elk is let whole, to one party at a time. Tell us when you would like to come and how many of you there are: our team replies within 24 hours with the rate and availability.",
+    title: "Book your villa in Marrakech",
+    intro: "Villa Elk is rented whole, to one group at a time. Pick your dates in the calendar and tell us how many guests: our team confirms availability within 24 hours.",
     asideTitle: "Worth knowing",
     asideLines: [
       "The whole villa, never shared",
@@ -195,7 +250,7 @@ export const en = {
     },
     success: {
       title: "Request sent",
-      body: "Thank you. Our team will come back to you within 24 hours with the rate and availability for your dates.",
+      body: "Thank you! Our team will reply within 24 hours to confirm your dates.",
       again: "Send another request",
     },
     errors: {
@@ -214,8 +269,7 @@ export const en = {
   contact: {
     meta: {
       title: "Contact — Villa Elk, Marrakech",
-      description:
-        "Write to Villa Elk on WhatsApp or by email. Golf Argan Resort, Agdal, Marrakech. We reply within 24 hours.",
+      description: "Write to Villa Elk on WhatsApp or by email. Golf Argan Resort, Agdal, Marrakech. We reply within 24 hours.",
     },
     addressTitle: "Address",
     address: "Golf Argan Resort, extension — villa 2\nAgdal, Marrakech, Morocco",
@@ -223,8 +277,7 @@ export const en = {
     reachTitle: "Reach us",
     eyebrow: "Contact",
     title: "Let's plan your stay",
-    description:
-      "The Villa Elk team replies within 24h to help plan your stay in Marrakech.",
+    description: "A question about the villa, your dates or our services? Message us on WhatsApp or by email: the Villa Elk team replies within 24 hours.",
     whatsappCta: "Message on WhatsApp",
     emailCta: "Send an email",
     mapCta: "View on Google Maps",
@@ -246,8 +299,8 @@ export const en = {
         distance: "7 km · 15 to 20 min",
       },
       {
-        label: "Noria & Argan golf courses",
-        distance: "3 min",
+        label: "Noria Golf Club",
+        distance: "5 min",
       },
     ],
     transferNote: "Private airport transfer on request: our concierge will pick you up.",
@@ -272,10 +325,10 @@ export const en = {
       description: "Airport transfers, private chef, excursions, in-villa treatments, childcare: Villa Elk's private concierge arranges your stay in Marrakech, on request.",
     },
     eyebrow: "Private concierge",
-    title: "The Marrakech art of living, made simple.",
+    title: "Private concierge in Marrakech",
     intro: [
-      "Because an exceptional stay is about more than a beautiful villa, Villa Elk opens the door to a private concierge service, designed around your wishes so you can make the most of Marrakech.",
-      "Through our network of carefully selected partners, we look after you before you arrive and throughout your stay, arranging the services you need on simple request.",
+      "A great stay also means a driver waiting at the airport, a good table booked, a chef for dinner at the villa. The Villa Elk concierge takes care of it for you.",
+      "Before you arrive and throughout your stay, we arrange the services you need on request, with partners we have chosen in Marrakech.",
     ],
     groups: [
       {
@@ -351,11 +404,11 @@ export const en = {
     ],
     onDemandTitle: "And anything else you need",
     onDemand: "Something you need that is not on this list? Just ask: we arrange it on request.",
-    stepsTitle: "Your wish, our arrangement",
-    stepsIntro: "At Villa Elk, we want every detail of your stay to be simple, seamless and personal.",
+    stepsTitle: "How it works",
+    stepsIntro: "Two steps, nothing more.",
     steps: [
-      "You tell us what you would like.",
-      "We put you in touch with the right partner.",
+      "Tell us what you need, on WhatsApp or by email.",
+      "We put you in touch with the right partner, who arranges the service with you.",
     ],
     exclusive: "Our concierge service is offered exclusively to Villa Elk guests.",
     terms: "Services are provided directly by our partners and are subject to availability, advance booking and pricing according to the services requested.",
@@ -367,10 +420,10 @@ export const en = {
       title: "Things to do near Villa Elk — Golf, water parks and leisure in Marrakech",
       description: "Golf courses, water parks, karting, padel, laser tag and places to eat: everything to do a few minutes from Villa Elk, at Golf Argan, Marrakech.",
     },
-    eyebrow: "Around the villa",
-    title: "Everything, minutes away.",
-    intro: "Golf Argan makes an ideal base: two golf courses, two water parks, sport and food for every mood, all under ten minutes' drive.",
-    timelineTitle: "From the villa, by car",
+    eyebrow: "Things to do in Marrakech",
+    title: "Golf, water parks and leisure under 10 minutes away",
+    intro: "From Villa Elk, at Golf Argan, two golf courses, two water parks, karting, padel and restaurants are all under ten minutes away by car. Plenty for children and adults, without crossing the city.",
+    timelineTitle: "Drive times from the villa",
     minutes: "min",
     website: "Official site",
     directions: "Directions",
@@ -383,7 +436,7 @@ export const en = {
     conciergeTitle: "Want to go?",
     conciergeBody: "Bookings, transfers, a driver: our concierge arranges your outings on request.",
     conciergeCta: "Discover the concierge",
-    homeLink: "Things to do around the villa",
+    homeLink: "See things to do around the villa",
   },
   faq: {
     eyebrow: "Frequently asked questions",
@@ -392,7 +445,7 @@ export const en = {
     questions: [
       {
         question: "Where is Villa Elk?",
-        answer: "Villa Elk is a private villa at Golf Argan Resort, in the Agdal district of Marrakech (Plus Code HXFX+F99). It is 12 minutes from Marrakech-Menara Airport and about 15 minutes from Jemaa el-Fna square.",
+        answer: "Villa Elk is a private villa at Golf Argan Resort, in the Agdal district of Marrakech (Plus Code HXFX+F99). It is 12 minutes from Marrakech-Menara Airport and 15 to 20 minutes from Jemaa el-Fna square.",
       },
       {
         question: "How many guests can the villa host?",
@@ -408,7 +461,7 @@ export const en = {
       },
       {
         question: "What is included?",
-        answer: "Private pool, hammam, cinema, gym, Moroccan rooftop with a pizza oven, wifi, air conditioning, home automation, security cameras and housekeeping. A chef is available on request.",
+        answer: "Private pool, hammam, cinema, gym, Moroccan rooftop with a pizza oven, wifi, air conditioning, home automation, CCTV on the outside areas and housekeeping. A chef is available on request.",
       },
       {
         question: "What are check-in and check-out times?",
@@ -434,7 +487,7 @@ export const en = {
       description: "Advice to plan your stay in Marrakech: things to do, getting from the airport, renting a villa as a group. By the Villa Elk team.",
     },
     eyebrow: "The blog",
-    title: "Marrakech, seen from the villa",
+    title: "Planning your stay in Marrakech",
     intro: "Practical advice to plan your stay: what to do around Golf Argan, how to arrive, how to share a villa as a group.",
     readingTime: "min read",
     read: "Read the article",
@@ -449,7 +502,7 @@ export const en = {
     toLight: "Switch to light mode",
   },
   footer: {
-    description: "Villa Elk — Golf Argan Resort, Agdal, Marrakech.",
+    description: "Villa Elk — luxury villa rental at Golf Argan, Agdal, Marrakech.",
     rights: "All rights reserved.",
     legal: "Legal notice",
     privacy: "Privacy policy",

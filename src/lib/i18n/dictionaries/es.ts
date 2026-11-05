@@ -3,8 +3,7 @@ import type { Dictionary } from "./types";
 export const es = {
   meta: {
     title: "Villa de lujo en Marrakech con piscina privada — Villa Elk",
-    description:
-      "Alquile Villa Elk, villa privada de 4 suites en Golf Argan, Marrakech: piscina privada, hammam, cine, azotea. Hasta 10 huéspedes, desde 3.700 DH la noche. Reserva directa.",
+    description: "Alquile Villa Elk, villa privada de 4 suites en Golf Argan, Marrakech: piscina privada, hammam, cine y azotea para 10 huéspedes, en familia o con amigos. Desde 3.700 DH la noche.",
   },
   nav: {
     home: "Inicio",
@@ -18,70 +17,123 @@ export const es = {
     bookNow: "Reservar",
   },
   hero: {
-    eyebrow: "Villa de lujo · Golf Argan · Marrakech",
+    eyebrow: "Alquiler de villa de lujo en Marrakech",
     title: "Villa Elk",
-    threshold: "Cruce el umbral.",
-    scroll: "Entrar",
-    subtitle:
-      "Una casa urbana contemporánea en tres niveles y una azotea, tranquila, a doce minutos del aeropuerto.",
+    threshold: "Su villa privada en Golf Argan.",
+    scroll: "Descubrir",
+    subtitle: "Cuatro suites, piscina privada, hammam y azotea para 10 huéspedes, en familia o con amigos. Tranquila, a 12 minutos del aeropuerto.",
     cta: "Descubrir la villa",
-    bookCta: "Consultar disponibilidad",
+    bookCta: "Ver disponibilidad",
   },
   tour: {
     eyebrow: "La villa",
-    title: "Nivel por nivel",
+    title: "Cuatro niveles, una sola casa",
     levelLabel: "Nivel",
     levels: [
       {
         code: "0",
         name: "Planta baja",
-        title: "Recibir",
-        body: "El corazón de la casa: un doble salón, marroquí y europeo, en torno a una chimenea contemporánea, el comedor y una cocina totalmente equipada. Todo se abre a la terraza y su piscina privada, protegida de las miradas por visillos.",
-        spaces: ["Salón marroquí y salón europeo", "Chimenea contemporánea", "Comedor", "Cocina equipada", "Suite con baño", "Aseo de invitados", "Piscina privada", "Terraza, barbacoa y comedor exterior", "Garaje interior seguro"],
-        photos: { main: "La piscina privada bajo su pérgola", detail: "El salón marroquí" },
+        title: "Vivir juntos",
+        body: "El corazón de la villa: un gran salón con sala marroquí y sala europea, comedor y cocina totalmente equipada. Todo se abre a la terraza y a la piscina privada, protegida de las miradas por visillos.",
+        spaces: [
+          "Sala marroquí y sala europea",
+          "Espacio de vida",
+          "Comedor",
+          "Cocina equipada",
+          "Suite con baño",
+          "Aseo de invitados",
+          "Piscina privada",
+          "Terraza, barbacoa y mesa exterior",
+          "Garaje interior seguro",
+        ],
+        photos: {
+          main: "La piscina privada bajo su pérgola",
+          detail: "El salón marroquí",
+        },
       },
       {
         code: "−1",
         name: "Sótano",
-        title: "Descansar",
-        body: "Abajo, una planta entera dedicada al bienestar: un spa con hammam, un gimnasio abierto a un patio, una sala de cine privada y un espacio de peluquería. Sin necesidad de salir.",
-        spaces: ["Spa y hammam", "Gimnasio con patio", "Sala de cine", "Peluquería", "Almacenaje"],
-        photos: { main: "El hammam", detail: "El gimnasio abierto al patio" },
+        title: "Relajarse",
+        body: "Una planta entera dedicada al bienestar: spa con hammam, gimnasio abierto a un patio, sala de cine privada y peluquería. Para las noches de cine en familia y los finales de día en el hammam.",
+        spaces: [
+          "Spa y hammam",
+          "Gimnasio con patio",
+          "Sala de cine",
+          "Peluquería",
+          "Almacenaje",
+        ],
+        photos: {
+          main: "El hammam",
+          detail: "El gimnasio abierto al patio",
+        },
       },
       {
         code: "+1",
         name: "Planta alta",
         title: "Dormir",
-        body: "Tres suites pensadas como habitaciones de hotel, cada una con su balcón privado. La suite principal, de unos 60 m², reúne vestidor, despacho y un baño con bañera de mármol y ducha a ras de suelo.",
-        spaces: ["Suite principal · unos 60 m²", "Dos suites con balcón", "Bañera de mármol", "Duchas a ras de suelo", "Ropa de cama de alta gama"],
-        photos: { main: "La suite principal", detail: "La bañera de mármol de la suite principal" },
+        body: "Tres suites, cada una con su baño y su balcón privado. La suite principal, de unos 60 m², reúne vestidor, escritorio y un baño con bañera de mármol y ducha a ras de suelo.",
+        spaces: [
+          "Suite principal · unos 60 m²",
+          "Dos suites con balcón",
+          "Bañera de mármol",
+          "Duchas a ras de suelo",
+          "Ropa de cama de alta gama",
+        ],
+        photos: {
+          main: "La suite principal",
+          detail: "La bañera de mármol de la suite principal",
+        },
       },
       {
         code: "+2",
         name: "Azotea",
-        title: "El Sta7",
-        body: "Arriba, el Sta7 cambia de ambiente: un salón marroquí revestido de zellige, una cocina de verano con horno de pizza y barbacoa, y vistas hasta el Atlas. Para almuerzos largos y cenas bajo el cielo de Marrakech.",
-        spaces: ["Salón marroquí de zellige", "Cocina de verano", "Horno de pizza", "Barbacoa", "Vistas al Atlas"],
-        photos: { main: "El salón marroquí de la azotea", detail: "El horno de pizza de la azotea" },
+        title: "La azotea",
+        body: "En lo más alto, el Sta7 («la terraza» en árabe marroquí): una sala marroquí revestida de zellige, una cocina de verano con horno de pizza y barbacoa, y vistas al Atlas. El lugar de las comidas largas y las cenas con amigos bajo el cielo de Marrakech.",
+        spaces: [
+          "Salón marroquí de zellige",
+          "Cocina de verano",
+          "Horno de pizza",
+          "Barbacoa",
+          "Vistas al Atlas",
+        ],
+        photos: {
+          main: "El salón marroquí de la azotea",
+          detail: "El horno de pizza de la azotea",
+        },
       },
     ],
   },
   amenities: {
-    eyebrow: "Servicios",
-    title: "Lo que ofrece la villa",
+    eyebrow: "Equipamiento",
+    title: "Todo está ya en la villa",
     conciergeLink: "Descubrir la conserjería privada",
   },
   location: {
     eyebrow: "Ubicación",
-    title: "Tranquila, y a minutos de todo",
-    intro:
-      "Golf Argan Resort, en el barrio de Agdal: una calle tranquila, sin ruido, y todo Marrakech a un corto trayecto en coche.",
+    title: "Golf Argan, Marrakech: tranquila y cerca de todo",
+    intro: "Villa Elk está en Golf Argan Resort, en el barrio de Agdal: una residencia tranquila, lejos del ruido de la ciudad, a pocos minutos en coche del aeropuerto, los campos de golf y los grandes centros comerciales.",
     places: [
-      { minutes: "12", label: "Aeropuerto de Marrakech-Menara" },
-      { minutes: "3", label: "Campos de golf Nouria y Argan" },
-      { minutes: "3", label: "Avenida Mohammed VI" },
-      { minutes: "5", label: "Morocco Mall" },
-      { minutes: "5", label: "Al Mazar y cine Megarama" },
+      {
+        minutes: "12",
+        label: "Aeropuerto Marrakech-Menara",
+      },
+      {
+        minutes: "5",
+        label: "Noria Golf Club",
+      },
+      {
+        minutes: "3",
+        label: "Avenida Mohammed VI",
+      },
+      {
+        minutes: "5",
+        label: "Morocco Mall",
+      },
+      {
+        minutes: "5",
+        label: "Al Mazar y cine Megarama",
+      },
     ],
     unit: "min",
     note: "Tiempos en coche.",
@@ -89,14 +141,15 @@ export const es = {
   suites: {
     meta: {
       title: "Las 4 suites de la villa — Villa Elk, Marrakech",
-      description:
-        "Cuatro suites con baño propio, incluida una suite principal de unos 60 m² con bañera de mármol, vestidor y despacho. Balcones privados, ropa de cama de alta gama.",
+      description: "Cuatro suites con baño propio, incluida una suite principal de unos 60 m² con bañera de mármol, vestidor y despacho. Balcones privados, ropa de cama de alta gama.",
     },
-    eyebrow: "Dormir",
-    title: "Cuatro suites",
-    intro:
-      "Tres suites en la planta alta, cada una con balcón privado, y una cuarta en la planta baja, cerca de los salones. Todas tienen baño propio, televisión, amplio almacenaje y ropa de cama de alta gama elegida para noches de verdadero descanso.",
-    levelNames: { ground: "Planta baja", upper: "Planta alta" },
+    eyebrow: "Las suites",
+    title: "Cuatro suites, cada una con su baño",
+    intro: "Tres suites en la planta alta con balcón privado, y una cuarta en la planta baja, cerca del salón y de la piscina. Cada una tiene su baño, televisión, armarios y ropa de cama de alta gama: aunque sean diez, cada uno conserva su espacio.",
+    levelNames: {
+      ground: "Planta baja",
+      upper: "Planta alta",
+    },
     areaLabel: "Unos",
     viewSuite: "Ver la suite",
     backToSuites: "Todas las suites",
@@ -105,7 +158,7 @@ export const es = {
     otherSuites: "Las otras suites",
     allPhotos: "Todas las fotos",
     photosUnit: "fotos",
-    ctaTitle: "La villa entera, solo para ustedes",
+    ctaTitle: "La villa entera, solo para su grupo",
     suiteLabel: "Suite",
     spaces: {
       bedroom: "Dormitorio",
@@ -119,12 +172,11 @@ export const es = {
   gallery: {
     meta: {
       title: "Fotos de la villa, piscina y hammam — Villa Elk Marrakech",
-      description:
-        "La villa en imágenes: piscina, azotea, suites, hammam, cine y gimnasio, en Golf Argan, Agdal, Marrakech.",
+      description: "La villa en imágenes: piscina, azotea, suites, hammam, cine y gimnasio, en Golf Argan, Agdal, Marrakech.",
     },
-    intro: "La villa tal como es, nivel por nivel — del sótano a la azotea.",
-    eyebrow: "Recorrido",
-    title: "Dentro de Villa Elk",
+    intro: "Piscina, hammam, cine, suites y azotea: recorra Villa Elk nivel a nivel, del sótano a la azotea.",
+    eyebrow: "Galería",
+    title: "La villa en fotos",
     categories: {
       all: "Todo",
       exterieur: "Exterior",
@@ -136,18 +188,21 @@ export const es = {
     filterLabel: "Filtrar por espacio",
     showMore: "Mostrar más fotos",
     shownOf: "fotos mostradas de",
-    viewer: { open: "Ampliar la foto", close: "Cerrar", previous: "Foto anterior", next: "Foto siguiente" },
+    viewer: {
+      open: "Ampliar la foto",
+      close: "Cerrar",
+      previous: "Foto anterior",
+      next: "Foto siguiente",
+    },
   },
   reserve: {
     meta: {
       title: "Reservar Villa Elk — Alquiler de villa completa en Marrakech",
-      description:
-        "Solicite sus fechas en Villa Elk, villa privada de cuatro suites en Golf Argan, Marrakech. La villa entera, hasta 10 huéspedes. Respondemos en 24 horas.",
+      description: "Solicite sus fechas en Villa Elk, villa privada de cuatro suites en Golf Argan, Marrakech. La villa entera, hasta 10 huéspedes. Respondemos en 24 horas.",
     },
     eyebrow: "Reserva",
-    title: "Solicite sus fechas",
-    intro:
-      "Villa Elk se alquila entera, a un solo grupo cada vez. Díganos cuándo desea venir y cuántos serán: nuestro equipo le responde en 24 horas con la tarifa y la disponibilidad.",
+    title: "Reserve su villa en Marrakech",
+    intro: "Villa Elk se alquila entera, a un solo grupo a la vez. Elija sus fechas en el calendario e indique el número de huéspedes: nuestro equipo le confirma la disponibilidad en 24 horas.",
     asideTitle: "Conviene saber",
     asideLines: [
       "La villa entera, nunca compartida",
@@ -195,7 +250,7 @@ export const es = {
     },
     success: {
       title: "Solicitud enviada",
-      body: "Gracias. Nuestro equipo le responderá en 24 horas con la tarifa y la disponibilidad de sus fechas.",
+      body: "¡Gracias! Nuestro equipo le responderá en 24 horas para confirmar sus fechas.",
       again: "Hacer otra solicitud",
     },
     errors: {
@@ -214,8 +269,7 @@ export const es = {
   contact: {
     meta: {
       title: "Contacto — Villa Elk, Marrakech",
-      description:
-        "Escriba a Villa Elk por WhatsApp o por email. Golf Argan Resort, Agdal, Marrakech. Respondemos en 24 horas.",
+      description: "Escriba a Villa Elk por WhatsApp o por email. Golf Argan Resort, Agdal, Marrakech. Respondemos en 24 horas.",
     },
     addressTitle: "Dirección",
     address: "Golf Argan Resort, extensión — villa 2\nAgdal, Marrakech, Marruecos",
@@ -223,8 +277,7 @@ export const es = {
     reachTitle: "Contactarnos",
     eyebrow: "Contacto",
     title: "Planifiquemos su estancia",
-    description:
-      "El equipo de Villa Elk responde en menos de 24h para organizar su estancia en Marrakech.",
+    description: "¿Una pregunta sobre la villa, sus fechas o nuestros servicios? Escríbanos por WhatsApp o por email: el equipo de Villa Elk le responde en 24 horas.",
     whatsappCta: "Escribir por WhatsApp",
     emailCta: "Enviar un email",
     mapCta: "Ver en Google Maps",
@@ -239,15 +292,15 @@ export const es = {
     gettingThere: [
       {
         label: "Aeropuerto Marrakech-Menara",
-        distance: "6 km · 12 a 15 min",
+        distance: "6 km · de 12 a 15 min",
       },
       {
         label: "Plaza Jemaa el-Fna y la medina",
-        distance: "7 km · 15 a 20 min",
+        distance: "7 km · de 15 a 20 min",
       },
       {
-        label: "Golfs Noria y Argan",
-        distance: "3 min",
+        label: "Noria Golf Club",
+        distance: "5 min",
       },
     ],
     transferNote: "Traslado privado desde el aeropuerto bajo petición: nuestra conserjería le recoge.",
@@ -272,10 +325,10 @@ export const es = {
       description: "Traslados, chef privado, excursiones, tratamientos en la villa, cuidado de niños: la conserjería privada de Villa Elk organiza su estancia en Marrakech, bajo petición.",
     },
     eyebrow: "Conserjería privada",
-    title: "El arte de vivir Marrakech, con toda sencillez.",
+    title: "Conserjería privada en Marrakech",
     intro: [
-      "Porque una estancia excepcional no se limita a una villa bonita, Villa Elk le abre las puertas de un servicio de conserjería privado, pensado para responder a sus deseos y hacerle disfrutar plenamente de Marrakech.",
-      "A través de nuestra red de socios cuidadosamente seleccionados, le acompañamos antes de su llegada y durante toda su estancia para organizar, con una simple petición, los servicios que necesite.",
+      "Una buena estancia es también un chófer esperándole en el aeropuerto, una buena mesa reservada, un chef para cenar en la villa. La conserjería de Villa Elk se ocupa de ello por usted.",
+      "Antes de su llegada y durante toda la estancia, organizamos bajo petición los servicios que necesite, con socios que hemos elegido en Marrakech.",
     ],
     groups: [
       {
@@ -351,11 +404,11 @@ export const es = {
     ],
     onDemandTitle: "Y todo lo que necesite",
     onDemand: "¿Necesita algo que no figura en esta lista? Pídanoslo: lo organizamos bajo petición.",
-    stepsTitle: "Su deseo, nuestra organización",
-    stepsIntro: "En Villa Elk queremos que cada detalle de su estancia sea sencillo, fluido y personalizado.",
+    stepsTitle: "Cómo funciona",
+    stepsIntro: "Dos pasos, nada más.",
     steps: [
-      "Nos cuenta lo que desea.",
-      "Le ponemos en contacto con el socio adecuado.",
+      "Nos dice lo que necesita, por WhatsApp o por email.",
+      "Le ponemos en contacto con el socio adecuado, que organiza el servicio con usted.",
     ],
     exclusive: "Nuestro servicio de conserjería se ofrece exclusivamente a los huéspedes de Villa Elk.",
     terms: "Los servicios los prestan directamente nuestros socios y están sujetos a disponibilidad, reserva previa y tarifas según los servicios solicitados.",
@@ -367,10 +420,10 @@ export const es = {
       title: "Actividades cerca de Villa Elk — Golf, parques acuáticos y ocio en Marrakech",
       description: "Campos de golf, parques acuáticos, karting, pádel, laser game y restaurantes: todo lo que hacer a pocos minutos de Villa Elk, en Golf Argan, Marrakech.",
     },
-    eyebrow: "Alrededor de la villa",
-    title: "Todo, a pocos minutos.",
-    intro: "Golf Argan es un punto de partida ideal: dos campos de golf, dos parques acuáticos, deporte y comida para todos los gustos, a menos de diez minutos en coche.",
-    timelineTitle: "Desde la villa, en coche",
+    eyebrow: "Actividades en Marrakech",
+    title: "Golf, parques acuáticos y ocio a menos de 10 minutos",
+    intro: "Desde Villa Elk, en Golf Argan, dos campos de golf, dos parques acuáticos, karting, pádel y restaurantes están a menos de diez minutos en coche. Planes para pequeños y mayores sin cruzar la ciudad.",
+    timelineTitle: "Tiempo de trayecto desde la villa",
     minutes: "min",
     website: "Web oficial",
     directions: "Cómo llegar",
@@ -383,7 +436,7 @@ export const es = {
     conciergeTitle: "¿Le apetece ir?",
     conciergeBody: "Reservas, traslados, chófer: nuestra conserjería organiza sus salidas bajo petición.",
     conciergeCta: "Descubrir la conserjería",
-    homeLink: "Actividades alrededor de la villa",
+    homeLink: "Ver las actividades alrededor de la villa",
   },
   faq: {
     eyebrow: "Preguntas frecuentes",
@@ -392,7 +445,7 @@ export const es = {
     questions: [
       {
         question: "¿Dónde está Villa Elk?",
-        answer: "Villa Elk es una villa privada en Golf Argan Resort, en el barrio de Agdal de Marrakech (Plus Code HXFX+F99). Está a 12 minutos del aeropuerto Marrakech-Menara y a unos 15 minutos de la plaza Jemaa el-Fna.",
+        answer: "Villa Elk es una villa privada en Golf Argan Resort, en el barrio de Agdal de Marrakech (Plus Code HXFX+F99). Está a 12 minutos del aeropuerto Marrakech-Menara y a 15-20 minutos de la plaza Jemaa el-Fna.",
       },
       {
         question: "¿Cuántas personas puede alojar la villa?",
@@ -408,7 +461,7 @@ export const es = {
       },
       {
         question: "¿Qué está incluido?",
-        answer: "Piscina privada, hammam, cine, gimnasio, azotea marroquí con horno de pizza, wifi, aire acondicionado, domótica, cámaras de seguridad y servicio de limpieza. Hay un chef disponible bajo petición.",
+        answer: "Piscina privada, hammam, cine, gimnasio, azotea marroquí con horno de pizza, wifi, aire acondicionado, domótica, videovigilancia en el exterior y servicio de limpieza. Hay un chef disponible bajo petición.",
       },
       {
         question: "¿A qué hora son la llegada y la salida?",
@@ -434,7 +487,7 @@ export const es = {
       description: "Consejos para preparar su estancia en Marrakech: qué hacer, cómo llegar desde el aeropuerto, alquilar una villa en grupo. Por el equipo de Villa Elk.",
     },
     eyebrow: "El blog",
-    title: "Marrakech, vista desde la villa",
+    title: "Preparar su estancia en Marrakech",
     intro: "Consejos prácticos para preparar su estancia: qué hacer alrededor de Golf Argan, cómo llegar, cómo compartir una villa en grupo.",
     readingTime: "min de lectura",
     read: "Leer el artículo",
@@ -449,7 +502,7 @@ export const es = {
     toLight: "Cambiar a modo claro",
   },
   footer: {
-    description: "Villa Elk — Golf Argan Resort, Agdal, Marrakech.",
+    description: "Villa Elk — alquiler de villa de lujo en Golf Argan, Agdal, Marrakech.",
     rights: "Todos los derechos reservados.",
     legal: "Aviso legal",
     privacy: "Política de privacidad",
