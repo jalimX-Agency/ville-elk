@@ -197,7 +197,7 @@ export const en = {
   },
   reserve: {
     meta: {
-      title: "Villa rental in Marrakech for 10 people with pool — Villa Elk",
+      title: "Villa rental Marrakech for 10 people with pool — Villa Elk",
       description: "Rent Villa Elk for 10 people in Marrakech: 4 suites, private pool, hammam and rooftop. From 3,700 MAD a night for the whole villa. Reply within 24 hours.",
     },
     eyebrow: "Booking",

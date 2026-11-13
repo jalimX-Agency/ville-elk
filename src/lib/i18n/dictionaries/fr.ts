@@ -197,7 +197,7 @@ export const fr = {
   },
   reserve: {
     meta: {
-      title: "Location villa Marrakech 10 personnes avec piscine — Villa Elk",
+      title: "Location villa Marrakech 10 personnes, piscine — Villa Elk",
       description: "Louez Villa Elk pour 10 personnes à Marrakech : 4 suites, piscine privée, hammam et rooftop. Dès 3 700 DH la nuit pour la villa entière. Réponse sous 24 h.",
     },
     eyebrow: "Réservation",
