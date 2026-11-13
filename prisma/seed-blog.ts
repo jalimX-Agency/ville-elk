@@ -318,13 +318,13 @@ const POSTS: Post[] = [
 
   {
     slug: "transfert-aeroport-marrakech-taxi-bus-ou-chauffeur",
-    image: "/images/villa-elk/piscine.jpg",
+    image: "/images/blog/transfert-aeroport-marrakech.jpg",
     date: "2026-11-13",
     fr: {
       title: "Transfert aéroport Marrakech : taxi, bus ou chauffeur privé ?",
       excerpt:
         "Taxi, bus ou transfert privé depuis l'aéroport Marrakech-Ménara : tarifs, limites de chaque option et la meilleure solution pour un groupe ou une famille.",
-      alt: "La piscine de Villa Elk, à 12 minutes de l'aéroport de Marrakech",
+      alt: "Une voyageuse tire sa valise à la sortie d'un terminal d'aéroport",
       body: [
         "Pour quitter l'aéroport Marrakech-Ménara, vous avez quatre options : le petit taxi, le grand taxi, le bus et le transfert privé réservé à l'avance. Le bon choix dépend surtout de deux choses : votre nombre de bagages et le nombre de personnes qui voyagent avec vous.",
         "L'aéroport est très fréquenté. Selon l'Office national des aéroports (ONDA), il a accueilli 10 197 736 passagers en 2025, soit 10 % de plus qu'en 2024 ([Hespress](https://fr.hespress.com/460832-marrakech-menara-le-trafic-international-des-passagers-en-hausse-de-1009-en-2025.html), février 2026). Aux heures de pointe, la file de taxis peut être longue : mieux vaut savoir à l'avance comment vous rejoindrez votre logement.",
@@ -354,7 +354,7 @@ const POSTS: Post[] = [
       title: "Marrakech airport transfer: taxi, bus or private driver?",
       excerpt:
         "Taxi, bus or private transfer from Marrakech-Menara Airport: prices, the limits of each option, and the best choice for a family or a group.",
-      alt: "The pool at Villa Elk, 12 minutes from Marrakech airport",
+      alt: "A traveller pulling her suitcase outside an airport terminal",
       body: [
         "To leave Marrakech-Menara Airport you have four options: the petit taxi, the grand taxi, the bus and a private transfer booked in advance. The right choice depends mostly on two things: how much luggage you have and how many people are travelling with you.",
         "The airport is busy. According to Morocco's airports authority (ONDA), it handled 10,197,736 passengers in 2025, 10% more than in 2024 ([Hespress](https://fr.hespress.com/460832-marrakech-menara-le-trafic-international-des-passagers-en-hausse-de-1009-en-2025.html), February 2026). At peak times the taxi queue can be long, so it pays to know in advance how you will get to your accommodation.",
@@ -384,7 +384,7 @@ const POSTS: Post[] = [
       title: "Traslado aeropuerto Marrakech: ¿taxi, autobús o chófer privado?",
       excerpt:
         "Taxi, autobús o traslado privado desde el aeropuerto Marrakech-Menara: precios, límites de cada opción y la mejor solución para una familia o un grupo.",
-      alt: "La piscina de Villa Elk, a 12 minutos del aeropuerto de Marrakech",
+      alt: "Una viajera con su maleta a la salida de una terminal de aeropuerto",
       body: [
         "Para salir del aeropuerto Marrakech-Menara tiene cuatro opciones: el petit taxi, el grand taxi, el autobús y el traslado privado reservado con antelación. La elección depende sobre todo de dos cosas: cuánto equipaje lleva y cuántas personas viajan con usted.",
         "El aeropuerto tiene mucho tráfico. Según la Oficina Nacional de Aeropuertos de Marruecos (ONDA), recibió 10.197.736 pasajeros en 2025, un 10 % más que en 2024 ([Hespress](https://fr.hespress.com/460832-marrakech-menara-le-trafic-international-des-passagers-en-hausse-de-1009-en-2025.html), febrero de 2026). En horas punta la cola de taxis puede ser larga: conviene saber de antemano cómo llegará a su alojamiento.",
@@ -414,7 +414,7 @@ const POSTS: Post[] = [
       title: "النقل من مطار مراكش: طاكسي أم حافلة أم سائق خاص؟",
       excerpt:
         "طاكسي أو حافلة أو نقل خاص من مطار مراكش المنارة: الأسعار، وحدود كل وسيلة، والحل الأنسب للعائلات والمجموعات.",
-      alt: "مسبح فيلا إلك، على بعد 12 دقيقة من مطار مراكش",
+      alt: "مسافرة تجرّ حقيبتها عند مخرج محطة مطار",
       body: [
         "لمغادرة مطار مراكش المنارة أمامكم أربع وسائل: الطاكسي الصغير، والطاكسي الكبير، والحافلة، والنقل الخاص المحجوز مسبقاً. ويتوقف الاختيار أساساً على أمرين: كمية الأمتعة وعدد المسافرين معكم.",
         "المطار يعرف حركة كبيرة. فحسب المكتب الوطني للمطارات (ONDA)، استقبل 10 197 736 مسافراً سنة 2025، أي بزيادة 10% مقارنة بسنة 2024 ([هسبريس](https://fr.hespress.com/460832-marrakech-menara-le-trafic-international-des-passagers-en-hausse-de-1009-en-2025.html)، فبراير 2026). وفي أوقات الذروة قد يطول طابور الطاكسيات، لذلك من الأفضل أن تعرفوا مسبقاً كيف ستصلون إلى مكان إقامتكم.",
