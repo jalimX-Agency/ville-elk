@@ -3,7 +3,7 @@ import type { Dictionary } from "./types";
 export const en = {
   meta: {
     title: "Luxury Villa in Marrakech with Private Pool — Villa Elk",
-    description: "Rent Villa Elk, a private 4-suite villa at Golf Argan, Marrakech: private pool, hammam, cinema and rooftop for 10 guests, family or friends. From 3,700 MAD a night.",
+    description: "Private 4-suite villa at Golf Argan, Marrakech: private pool, hammam, cinema and rooftop for 10 guests. From 3,700 MAD a night.",
   },
   nav: {
     home: "Home",
@@ -141,7 +141,7 @@ export const en = {
   suites: {
     meta: {
       title: "The 4 suites of the villa — Villa Elk, Marrakech",
-      description: "Four suites with their own bathrooms, including a master suite of about 60 m² with a marble bathtub, dressing room and study. Private balconies, premium bedding.",
+      description: "Four suites with their own bathrooms, including a 60 m² master suite with a marble bathtub, dressing room and study. Private balconies.",
     },
     eyebrow: "The suites",
     title: "Four suites, each with its own bathroom",
@@ -174,7 +174,7 @@ export const en = {
       title: "Villa photos, pool and hammam — Villa Elk Marrakech",
       description: "The villa in pictures: pool, rooftop, suites, hammam, cinema and gym, at Golf Argan, Agdal, Marrakech.",
     },
-    intro: "Pool, hammam, cinema, suites and rooftop: tour Villa Elk level by level, from the basement to the roof.",
+    intro: "A private pool under a pergola, a hammam, gym and cinema downstairs, four suites, and a Moroccan rooftop in zellige with views of the Atlas: tour Villa Elk level by level. Every photo here was taken at the villa, at Golf Argan, Marrakech.",
     eyebrow: "Gallery",
     title: "The villa in pictures",
     categories: {
@@ -271,7 +271,7 @@ export const en = {
   },
   contact: {
     meta: {
-      title: "Contact — Villa Elk, Marrakech",
+      title: "Contact us — Villa Elk, luxury villa in Marrakech",
       description: "Write to Villa Elk on WhatsApp or by email. Golf Argan Resort, Agdal, Marrakech. We reply within 24 hours.",
     },
     addressTitle: "Address",
@@ -420,7 +420,7 @@ export const en = {
   },
   activities: {
     meta: {
-      title: "Things to do near Villa Elk — Golf, water parks and leisure in Marrakech",
+      title: "Things to do in Marrakech near Golf Argan — Villa Elk",
       description: "Golf courses, water parks, karting, padel, laser tag and places to eat: everything to do a few minutes from Villa Elk, at Golf Argan, Marrakech.",
     },
     eyebrow: "Things to do in Marrakech",
