@@ -233,7 +233,7 @@ const POSTS: Post[] = [
         "## Arrivée et départ",
         "Arrivée à partir de 15 h, départ avant 11 h. Notre équipe parle arabe, français et anglais.",
         "## Comment réserver",
-        "Choisissez vos dates sur la [page de réservation](page:booking) : le calendrier montre les nuits déjà prises. Nous répondons sous 24 heures avec le tarif et les disponibilités. Vous voulez voir les chambres avant ? Découvrez les [suites](page:suites).",
+        "Choisissez vos dates sur la [page de location de la villa pour 10 personnes](page:booking) : le calendrier montre les nuits déjà prises. Nous répondons sous 24 heures avec le tarif et les disponibilités. Vous voulez voir les chambres avant ? Découvrez les [suites](page:suites).",
       ],
     },
     en: {
@@ -259,7 +259,7 @@ const POSTS: Post[] = [
         "## Arrival and departure",
         "Check-in from 3 pm, check-out before 11 am. Our team speaks Arabic, French and English.",
         "## How to book",
-        "Pick your dates on the [booking page](page:booking): the calendar shows the nights already taken. We reply within 24 hours with the rate and availability. Want to see the rooms first? Discover the [suites](page:suites).",
+        "Pick your dates on the [villa booking page for 10 people](page:booking): the calendar shows the nights already taken. We reply within 24 hours with the rate and availability. Want to see the rooms first? Discover the [suites](page:suites).",
       ],
     },
     es: {
@@ -285,7 +285,7 @@ const POSTS: Post[] = [
         "## Llegada y salida",
         "Llegada a partir de las 15 h, salida antes de las 11 h. Nuestro equipo habla árabe, francés e inglés.",
         "## Cómo reservar",
-        "Elija sus fechas en la [página de reserva](page:booking): el calendario muestra las noches ya ocupadas. Respondemos en 24 horas con la tarifa y la disponibilidad. ¿Quiere ver las habitaciones antes? Descubra las [suites](page:suites).",
+        "Elija sus fechas en la [página de alquiler de la villa para 10 personas](page:booking): el calendario muestra las noches ya ocupadas. Respondemos en 24 horas con la tarifa y la disponibilidad. ¿Quiere ver las habitaciones antes? Descubra las [suites](page:suites).",
       ],
     },
     ar: {
@@ -311,7 +311,7 @@ const POSTS: Post[] = [
         "## الوصول والمغادرة",
         "الوصول ابتداءً من الساعة 15:00 والمغادرة قبل الساعة 11:00. ويتحدث فريقنا العربية والفرنسية والإنجليزية.",
         "## كيف تحجزون",
-        "اختاروا تواريخكم في [صفحة الحجز](page:booking): يبيّن التقويم الليالي المحجوزة. نردّ خلال 24 ساعة بالسعر والتوفر. هل تودون رؤية الغرف أولاً؟ اكتشفوا [الأجنحة](page:suites).",
+        "اختاروا تواريخكم في [صفحة حجز الفيلا لعشرة أشخاص](page:booking): يبيّن التقويم الليالي المحجوزة. نردّ خلال 24 ساعة بالسعر والتوفر. هل تودون رؤية الغرف أولاً؟ اكتشفوا [الأجنحة](page:suites).",
       ],
     },
   },

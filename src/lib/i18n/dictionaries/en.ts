@@ -197,13 +197,16 @@ export const en = {
   },
   reserve: {
     meta: {
-      title: "Book Villa Elk — Whole-villa rental in Marrakech",
-      description: "Request your dates at Villa Elk, a private villa of four suites at Golf Argan, Marrakech. The whole villa, up to 10 guests. We reply within 24 hours.",
+      title: "Villa rental in Marrakech for 10 people with pool — Villa Elk",
+      description: "Rent Villa Elk for 10 people in Marrakech: 4 suites, private pool, hammam and rooftop. From 3,700 MAD a night for the whole villa. Reply within 24 hours.",
     },
     eyebrow: "Booking",
-    title: "Book your villa in Marrakech",
-    intro: "Villa Elk is rented whole, to one group at a time. Pick your dates in the calendar and tell us how many guests: our team confirms availability within 24 hours.",
+    title: "Rent your villa in Marrakech for 10 people",
+    intro: "Villa Elk is rented whole, to one group at a time: 4 suites with their own bathrooms and a private pool, for up to 10 guests, family or friends. Pick your dates in the calendar: our team confirms availability within 24 hours.",
     asideTitle: "Worth knowing",
+    groupTitle: "A whole villa for 10, at a group price",
+    groupBody: "With 10 of you, a stay comes to about 400 MAD per person per night, tourist tax included: 3,700 MAD a night for the whole villa, plus 31 MAD per person. Each of the four suites has its own bathroom, and the villa is never shared with another group.",
+    groupLink: "The full maths for 10 people",
     asideLines: [
       "The whole villa, never shared",
       "Up to 10 guests",

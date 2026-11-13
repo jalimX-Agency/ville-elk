@@ -197,13 +197,16 @@ export const fr = {
   },
   reserve: {
     meta: {
-      title: "Réserver Villa Elk — Location de villa entière à Marrakech",
-      description: "Demandez vos dates pour Villa Elk, villa privée de quatre suites à Golf Argan, Marrakech. Location de la villa entière, jusqu'à 10 invités. Réponse sous 24h.",
+      title: "Location villa Marrakech 10 personnes avec piscine — Villa Elk",
+      description: "Louez Villa Elk pour 10 personnes à Marrakech : 4 suites, piscine privée, hammam et rooftop. Dès 3 700 DH la nuit pour la villa entière. Réponse sous 24 h.",
     },
     eyebrow: "Réservation",
-    title: "Réservez votre villa à Marrakech",
-    intro: "Villa Elk se loue entière, à un seul groupe à la fois. Choisissez vos dates dans le calendrier et indiquez le nombre d'invités : notre équipe vous confirme la disponibilité sous 24 heures.",
+    title: "Louez votre villa à Marrakech pour 10 personnes",
+    intro: "Villa Elk se loue entière, à un seul groupe à la fois : 4 suites avec salle de bain et une piscine privée, jusqu'à 10 invités, en famille ou entre amis. Choisissez vos dates dans le calendrier : notre équipe vous confirme la disponibilité sous 24 heures.",
     asideTitle: "Bon à savoir",
+    groupTitle: "Une villa entière pour 10, à prix de groupe",
+    groupBody: "À 10, le séjour revient à environ 400 DH par personne et par nuit, taxe de séjour comprise : 3 700 DH la nuit pour toute la villa, plus 31 DH par personne. Les quatre suites ont chacune leur salle de bain, et la villa n'est jamais partagée avec un autre groupe.",
+    groupLink: "Le calcul détaillé pour 10 personnes",
     asideLines: [
       "La villa entière, jamais partagée",
       "Jusqu'à 10 invités",

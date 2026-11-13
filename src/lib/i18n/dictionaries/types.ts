@@ -93,6 +93,9 @@ export interface Dictionary {
     title: string;
     intro: string;
     asideTitle: string;
+    groupTitle: string;
+    groupBody: string;
+    groupLink: string;
     asideLines: string[];
     form: {
       name: string;

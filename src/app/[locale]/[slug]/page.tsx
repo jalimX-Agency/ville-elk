@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/locales";
 import { getDictionary } from "@/lib/content/site";
-import { allPageParams, hrefFor, pageForSlug, type PageKey } from "@/lib/i18n/routes";
+import { allPageParams, hrefFor, pageForSlug, postHref, type PageKey } from "@/lib/i18n/routes";
 import { BookingForm } from "@/components/villa/BookingForm";
 import { SuitesList } from "@/components/villa/SuitesList";
 import { GalleryGrid } from "@/components/villa/GalleryGrid";
@@ -15,6 +15,7 @@ import { SITE, breadcrumbSchema, jsonLd, pageMetadata, villaSchema } from "@/lib
 import { ContactPage } from "@/components/villa/ContactPage";
 import { LegalPage } from "@/components/villa/LegalPage";
 import { BlogIndex } from "@/components/villa/BlogIndex";
+import { getPost } from "@/lib/content/blog";
 import { ConciergePage } from "@/components/villa/ConciergePage";
 import { ActivitiesPage } from "@/components/villa/ActivitiesPage";
 import { StayFacts } from "@/components/villa/StayFacts";
@@ -202,8 +203,13 @@ async function GalleryPage({ dict, locale }: { dict: Dictionary; locale: Locale 
   );
 }
 
+/** The article that works out the price for a group of ten, linked from the booking page. */
+const GROUP_ARTICLE = "louer-une-villa-a-marrakech-pour-10-personnes";
+
 async function BookingPage({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const CONTACT = await getContact();
+  // Linked only while it is published, so the booking page never points at a 404.
+  const groupArticle = await getPost(GROUP_ARTICLE);
   const copy = dict.reserve;
   const href = hrefFor("booking", locale);
 
@@ -242,6 +248,16 @@ async function BookingPage({ dict, locale }: { dict: Dictionary; locale: Locale 
                 </li>
               ))}
             </ul>
+
+            <div className="mt-10 border-t border-border pt-6">
+              <h2 className="heading-display text-2xl text-foreground">{copy.groupTitle}</h2>
+              <p className="body-copy mt-4">{copy.groupBody}</p>
+              {groupArticle && (
+                <Link href={postHref(groupArticle.slug, locale)} className="btn-quiet mt-4">
+                  {copy.groupLink}
+                </Link>
+              )}
+            </div>
 
             <div className="mt-10 border-t border-border pt-6">
               <p className="body-copy">{dict.contact.description}</p>
