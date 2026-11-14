@@ -318,7 +318,7 @@ const POSTS: Post[] = [
 
   {
     slug: "transfert-aeroport-marrakech-taxi-bus-ou-chauffeur",
-    image: "/images/blog/transfert-aeroport-marrakech.jpg",
+    image: "https://cdn.villaelk.com/blog/6cdb2d636c6af2656d1c5da9.jpg",
     date: "2026-11-13",
     fr: {
       title: "Transfert aéroport Marrakech : taxi, bus ou chauffeur privé ?",
